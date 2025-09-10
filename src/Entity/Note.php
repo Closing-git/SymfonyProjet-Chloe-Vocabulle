@@ -16,6 +16,9 @@ class Note
     #[ORM\Column(nullable: true)]
     private ?int $montantNote = null;
 
+    #[ORM\ManyToOne(inversedBy: 'note')]
+    private ?ListeVocabulaire $listeVocabulaire = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +32,18 @@ class Note
     public function setMontantNote(?int $montantNote): static
     {
         $this->montantNote = $montantNote;
+
+        return $this;
+    }
+
+    public function getListeVocabulaire(): ?ListeVocabulaire
+    {
+        return $this->listeVocabulaire;
+    }
+
+    public function setListeVocabulaire(?ListeVocabulaire $listeVocabulaire): static
+    {
+        $this->listeVocabulaire = $listeVocabulaire;
 
         return $this;
     }

@@ -20,6 +20,10 @@ class InfosJeu
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $dateDernierJeu = null;
 
+    #[ORM\ManyToOne(inversedBy: 'infosJeux')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ListeVocabulaire $listeVocabulaire = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +49,18 @@ class InfosJeu
     public function setDateDernierJeu(?\DateTime $dateDernierJeu): static
     {
         $this->dateDernierJeu = $dateDernierJeu;
+
+        return $this;
+    }
+
+    public function getListeVocabulaire(): ?ListeVocabulaire
+    {
+        return $this->listeVocabulaire;
+    }
+
+    public function setListeVocabulaire(?ListeVocabulaire $listeVocabulaire): static
+    {
+        $this->listeVocabulaire = $listeVocabulaire;
 
         return $this;
     }

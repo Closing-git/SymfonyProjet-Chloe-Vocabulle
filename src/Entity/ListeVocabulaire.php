@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ListeVocabulaireRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,6 +36,24 @@ class ListeVocabulaire
 
     #[ORM\Column(nullable: true)]
     private ?int $noteTotale = null;
+
+    /**
+     * @var Collection<int, InfosJeu>
+     */
+    #[ORM\OneToMany(targetEntity: InfosJeu::class, mappedBy: 'listeVocabulaire', orphanRemoval: true)]
+    private Collection $infosJeux;
+
+    /**
+     * @var Collection<int, Note>
+     */
+    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'listeVocabulaire')]
+    private Collection $note;
+
+    public function __construct()
+    {
+        $this->infosJeux = new ArrayCollection();
+        $this->note = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +140,66 @@ class ListeVocabulaire
     public function setNoteTotale(?int $noteTotale): static
     {
         $this->noteTotale = $noteTotale;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InfosJeu>
+     */
+    public function getInfosJeux(): Collection
+    {
+        return $this->infosJeux;
+    }
+
+    public function addInfosJeux(InfosJeu $infosJeux): static
+    {
+        if (!$this->infosJeux->contains($infosJeux)) {
+            $this->infosJeux->add($infosJeux);
+            $infosJeux->setListeVocabulaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInfosJeux(InfosJeu $infosJeux): static
+    {
+        if ($this->infosJeux->removeElement($infosJeux)) {
+            // set the owning side to null (unless already changed)
+            if ($infosJeux->getListeVocabulaire() === $this) {
+                $infosJeux->setListeVocabulaire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNote(): Collection
+    {
+        return $this->note;
+    }
+
+    public function addNote(Note $note): static
+    {
+        if (!$this->note->contains($note)) {
+            $this->note->add($note);
+            $note->setListeVocabulaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): static
+    {
+        if ($this->note->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getListeVocabulaire() === $this) {
+                $note->setListeVocabulaire(null);
+            }
+        }
 
         return $this;
     }
