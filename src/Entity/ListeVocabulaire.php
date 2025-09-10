@@ -49,10 +49,17 @@ class ListeVocabulaire
     #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'listeVocabulaire')]
     private Collection $note;
 
+    /**
+     * @var Collection<int, Langue>
+     */
+    #[ORM\ManyToMany(targetEntity: Langue::class, inversedBy: 'listesVocabulaire')]
+    private Collection $langues;
+
     public function __construct()
     {
         $this->infosJeux = new ArrayCollection();
         $this->note = new ArrayCollection();
+        $this->langues = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,6 +207,30 @@ class ListeVocabulaire
                 $note->setListeVocabulaire(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Langue>
+     */
+    public function getLangues(): Collection
+    {
+        return $this->langues;
+    }
+
+    public function addLangue(Langue $langue): static
+    {
+        if (!$this->langues->contains($langue)) {
+            $this->langues->add($langue);
+        }
+
+        return $this;
+    }
+
+    public function removeLangue(Langue $langue): static
+    {
+        $this->langues->removeElement($langue);
 
         return $this;
     }

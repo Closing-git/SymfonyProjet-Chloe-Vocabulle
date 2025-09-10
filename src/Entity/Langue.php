@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LangueRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,17 @@ class Langue
 
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $caracteresSpeciaux = null;
+
+    /**
+     * @var Collection<int, ListeVocabulaire>
+     */
+    #[ORM\ManyToMany(targetEntity: ListeVocabulaire::class, mappedBy: 'langues')]
+    private Collection $listesVocabulaire;
+
+    public function __construct()
+    {
+        $this->listesVocabulaire = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -60,6 +73,33 @@ class Langue
     public function setCaracteresSpeciaux(?array $caracteresSpeciaux): static
     {
         $this->caracteresSpeciaux = $caracteresSpeciaux;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ListeVocabulaire>
+     */
+    public function getListesVocabulaire(): Collection
+    {
+        return $this->listesVocabulaire;
+    }
+
+    public function addListesVocabulaire(ListeVocabulaire $listesVocabulaire): static
+    {
+        if (!$this->listesVocabulaire->contains($listesVocabulaire)) {
+            $this->listesVocabulaire->add($listesVocabulaire);
+            $listesVocabulaire->addLangue($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListesVocabulaire(ListeVocabulaire $listesVocabulaire): static
+    {
+        if ($this->listesVocabulaire->removeElement($listesVocabulaire)) {
+            $listesVocabulaire->removeLangue($this);
+        }
 
         return $this;
     }
