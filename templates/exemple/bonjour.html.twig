@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bonjour !{% endblock %}
+
+{% block body %}
+{% for i in 0..3 %}
+Bonjour tout va bien !
+{% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    alert('Bonjour !');
+</script>
+{% endblock %}
