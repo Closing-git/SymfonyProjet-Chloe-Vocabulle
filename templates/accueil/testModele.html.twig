@@ -10,12 +10,10 @@
 		<p>{{ liste.id }}
 			{{ liste.titre}}
 
-			De {{ liste.getLangues()[0].nom}}
+			De
+			{{ liste.getLangues()[0].nom}}
 			vers
-			{% if liste.getLangues().count() == 2 %}
-				{{ liste.getLangues()[1].nom}}
-			{% endif %}
-
+			{{ liste.getLangues()[1].nom}}
 		</p>
 	{% endfor %}
 {% endblock %}

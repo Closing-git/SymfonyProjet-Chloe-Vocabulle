@@ -37,9 +37,10 @@ class ListeVocabulaireFixtures extends Fixture implements DependentFixtureInterf
             //Ca créé une référence dans la mémoire, partagée par toutes les fixtures
             $this->addReference('listeVocabulaire' . $i, $liste);
             //On récupère la référence de langue (2 fois) et on l'ajoute à la liste
-            $liste->addLangue($this->getReference("langue" . rand(0, 9), Langue::class));
-            $liste->addLangue($this->getReference("langue" . rand(0, 9), Langue::class));
-
+            //Boucle while pour éviter d'avoir deux fois la même langue
+            while ($liste->getLangues()->count() !=2) {
+                $liste->addLangue($this->getReference("langue" . rand(0, 9), Langue::class));
+            }
             $manager->persist($liste);
         }
 
