@@ -137,6 +137,18 @@ class ListeVocabulaire
         return $this;
     }
 
+
+    //NOTE TOTALE CALCULÉE EN FONCTION DE TOUTES LES NOTES
+    public function getNoteTotale(): ?int
+    {
+        $notes = $this->getNotes();
+        $noteTotale = 0;
+        foreach ($notes as $note) {
+            $noteTotale += $note->getMontantNote();
+        }
+        return $noteTotale;
+    }
+
     /**
      * @return Collection<int, InfosJeu>
      */
