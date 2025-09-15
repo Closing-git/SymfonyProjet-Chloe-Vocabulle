@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250915081911 extends AbstractMigration
+final class Version20250915084031 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -22,7 +22,7 @@ final class Version20250915081911 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE infos_jeu (id INT AUTO_INCREMENT NOT NULL, liste_vocabulaire_id INT NOT NULL, best_scores_difficultes LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', date_dernier_jeu DATE DEFAULT NULL, INDEX IDX_92D584C4E279D0F6 (liste_vocabulaire_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE langue (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(255) NOT NULL, maj_importante TINYINT(1) NOT NULL, caracteres_speciaux LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE liste_vocabulaire (id INT AUTO_INCREMENT NOT NULL, titre VARCHAR(255) NOT NULL, nb_mots INT DEFAULT NULL, mots_langue1 LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', mots_langue2 LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', date_derniere_modif DATE NOT NULL, public_statut TINYINT(1) NOT NULL, note_totale INT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE liste_vocabulaire (id INT AUTO_INCREMENT NOT NULL, titre VARCHAR(255) NOT NULL, nb_mots INT DEFAULT NULL, mots_langue1 LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', mots_langue2 LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', date_derniere_modif DATE NOT NULL, public_statut TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE liste_vocabulaire_langue (liste_vocabulaire_id INT NOT NULL, langue_id INT NOT NULL, INDEX IDX_DEE5B98EE279D0F6 (liste_vocabulaire_id), INDEX IDX_DEE5B98E2AADBACD (langue_id), PRIMARY KEY(liste_vocabulaire_id, langue_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE note (id INT AUTO_INCREMENT NOT NULL, liste_vocabulaire_id INT DEFAULT NULL, montant_note INT DEFAULT NULL, INDEX IDX_CFBDFA14E279D0F6 (liste_vocabulaire_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE messenger_messages (id BIGINT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', available_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', delivered_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_75EA56E0FB7336F0 (queue_name), INDEX IDX_75EA56E0E3BD61CE (available_at), INDEX IDX_75EA56E016BA31DB (delivered_at), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

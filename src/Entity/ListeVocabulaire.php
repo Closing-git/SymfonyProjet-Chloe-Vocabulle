@@ -34,8 +34,6 @@ class ListeVocabulaire
     #[ORM\Column]
     private ?bool $publicStatut = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $noteTotale = null;
 
     /**
      * @var Collection<int, InfosJeu>
@@ -139,18 +137,6 @@ class ListeVocabulaire
         return $this;
     }
 
-    public function getNoteTotale(): ?int
-    {
-        return $this->noteTotale;
-    }
-
-    public function setNoteTotale(?int $noteTotale): static
-    {
-        $this->noteTotale = $noteTotale;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, InfosJeu>
      */
@@ -184,7 +170,7 @@ class ListeVocabulaire
     /**
      * @return Collection<int, Note>
      */
-    public function getNote(): Collection
+    public function getNotes(): Collection
     {
         return $this->note;
     }
