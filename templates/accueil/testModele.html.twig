@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Test Modèle
+{% endblock %}
+
+{% block body %}
+
+	<h2>Test Modèle</h2>
+	{% for liste in listesVocabulaire %}
+		<p>{{ liste.id }}
+			{{ liste.titre}}
+
+			De {{ liste.getLangues()[0].nom}}
+			vers
+			{% if liste.getLangues().count() == 2 %}
+				{{ liste.getLangues()[1].nom}}
+			{% endif %}
+
+		</p>
+	{% endfor %}
+{% endblock %}

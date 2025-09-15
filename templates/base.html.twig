@@ -20,16 +20,16 @@
 			<img src="{{ asset('images/profil.png') }}" alt="Profil">
 
 			<div class="profil-pannel">
-				{%if (IsUserLoggedIn())%}
+				{% if app.user is null %}
 					<img src="{{ asset('images/seConnecter.png') }}" alt="Se connecter image">
-					<p>Se connecter</p>
+					<span>Se connecter</span>
 					<img src="{{ asset('images/sEnregistrer.png') }}" alt="S'enregistrer image">
-					<p>S'enregistrer</p>
+					<span>S'enregistrer</span>
 
-					{%else%}
+					{% else %}
 					<img src="{{ asset('images/seDeconnecter.png') }}" alt="Se déconnecter image">
-					<p>Se déconnecter</p>
-					{%endif%}
+					<span>Se déconnecter</span>
+					{% endif %}
 				</div>
 
 			</header>

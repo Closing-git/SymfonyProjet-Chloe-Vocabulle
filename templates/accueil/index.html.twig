@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+
+	<h2>Accueil</h2>
+	<p>Bienvenue
+		{{ nom }}
+		!</p>
+    <p>Votre date de naissance est le {{ dateNaissance.format('d/m/Y') }}</p>
+    <p>Le produit {{ produit.nom }} coûte {{ produit.prix }} €</p>
+
+{% endblock %}
