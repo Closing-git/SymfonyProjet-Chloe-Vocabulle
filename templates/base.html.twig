@@ -1,17 +1,39 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> {% block stylesheets %}{% endblock %}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+	</head>
+	<body>
+		<header>
+			<img src="{{ asset('images/logo.png') }}" alt="Logo">
+			<img src="{{ asset('images/profil.png') }}" alt="Profil">
+
+			<div class="profil-pannel">
+				{%if (IsUserLoggedIn())%}
+					<img src="{{ asset('images/seConnecter.png') }}" alt="Se connecter image">
+					<p>Se connecter</p>
+					<img src="{{ asset('images/sEnregistrer.png') }}" alt="S'enregistrer image">
+					<p>S'enregistrer</p>
+
+					{%else%}
+					<img src="{{ asset('images/seDeconnecter.png') }}" alt="Se déconnecter image">
+					<p>Se déconnecter</p>
+					{%endif%}
+				</div>
+
+			</header>
+			{% block body %}{% endblock %}
+		</body>
+	</body>
 </html>
