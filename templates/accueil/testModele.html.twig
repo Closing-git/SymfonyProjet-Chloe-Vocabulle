@@ -7,13 +7,16 @@
 
 	<h2>Test Modèle</h2>
 	{% for liste in listesVocabulaire %}
-		<p>{{ liste.id }}
-			{{ liste.titre}}
-
+		<p>Liste n°
+			{{ liste.id }}
+			:
+			{{ liste.titre |upper}}
+		</p>
+		<p>
 			De
-			{{ liste.getLangues()[0].nom}}
+			{{ liste.langues[0].nom}}
 			vers
-			{{ liste.getLangues()[1].nom}}
+			{{ liste.langues[1].nom}}
 		</p>
 	{% endfor %}
 {% endblock %}

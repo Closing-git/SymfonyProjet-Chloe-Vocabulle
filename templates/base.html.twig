@@ -16,24 +16,25 @@
 	</head>
 	<body>
 		<header>
-			<img src="{{ asset('images/logo.png') }}" alt="Logo">
-			<img src="{{ asset('images/profil.png') }}" alt="Profil">
-
+			<div id="header-main">
+				<img id="logo" src="{{ asset('img/logo.png') }}" alt="Logo">
+				<div id="profil-circle"><img id="profil" src="{{ asset('img/profil.png') }}" alt="Profil"></div>
+			</div>
 			<div class="profil-pannel">
 				{% if app.user is null %}
-					<img src="{{ asset('images/seConnecter.png') }}" alt="Se connecter image">
+					<img src="{{ asset('img/seConnecter.png') }}" alt="Se connecter image">
 					<span>Se connecter</span>
-					<img src="{{ asset('images/sEnregistrer.png') }}" alt="S'enregistrer image">
+					<img src="{{ asset('img/sEnregistrer.png') }}" alt="S'enregistrer image">
 					<span>S'enregistrer</span>
 
-					{% else %}
-					<img src="{{ asset('images/seDeconnecter.png') }}" alt="Se déconnecter image">
+				{% else %}
+					<img src="{{ asset('img/seDeconnecter.png') }}" alt="Se déconnecter image">
 					<span>Se déconnecter</span>
-					{% endif %}
-				</div>
+				{% endif %}
+			</div>
 
-			</header>
-			{% block body %}{% endblock %}
-		</body>
+		</header>
+
+		{% block body %}{% endblock %}
 	</body>
-</html>
+</html></body></html>

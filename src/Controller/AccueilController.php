@@ -28,6 +28,7 @@ final class AccueilController extends AbstractController
         $rep=$manager->getRepository(ListeVocabulaire::class);
         //Récupère toutes les listes et stocke les dans $listesVocabulaire, ça renvoie une collection
         $listesVocabulaire=$rep->findAll();
+
         $vars=['listesVocabulaire'=>$listesVocabulaire];
 
 
