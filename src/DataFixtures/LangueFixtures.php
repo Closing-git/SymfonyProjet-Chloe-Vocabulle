@@ -23,6 +23,7 @@ class LangueFixtures extends Fixture
                 $arrayCaracSpeciaux[] = $faker->randomLetter();
             }
             $langue->setCaracteresSpeciaux($arrayCaracSpeciaux);
+            $this->addReference('langue'. $i, $langue);
             $manager->persist($langue);
         }
 
