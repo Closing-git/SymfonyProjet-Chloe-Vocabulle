@@ -194,6 +194,7 @@ class ListeVocabulaire
         if (!$this->note->contains($note)) {
             $this->note->add($note);
             $note->setListeVocabulaire($this);
+            $this->noteTotale = $this->noteTotale+$note->getMontantNote();
         }
 
         return $this;
