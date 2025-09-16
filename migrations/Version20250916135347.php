@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250916133157 extends AbstractMigration
+final class Version20250916135347 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -22,14 +22,16 @@ final class Version20250916133157 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE infos_jeu (id INT AUTO_INCREMENT NOT NULL, liste_vocabulaire_id INT NOT NULL, date_dernier_jeu DATE DEFAULT NULL, best_scores JSON NOT NULL COMMENT \'(DC2Type:json)\', INDEX IDX_92D584C4E279D0F6 (liste_vocabulaire_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE langue (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(255) NOT NULL, maj_importante TINYINT(1) NOT NULL, caracteres_speciaux JSON DEFAULT NULL COMMENT \'(DC2Type:json)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE liste_vocabulaire (id INT AUTO_INCREMENT NOT NULL, titre VARCHAR(255) NOT NULL, nb_mots INT DEFAULT NULL, mots_langue1 LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', mots_langue2 LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', date_derniere_modif DATE NOT NULL, public_statut TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE liste_vocabulaire (id INT AUTO_INCREMENT NOT NULL, titre VARCHAR(255) NOT NULL, date_derniere_modif DATE NOT NULL, public_statut TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE liste_vocabulaire_langue (liste_vocabulaire_id INT NOT NULL, langue_id INT NOT NULL, INDEX IDX_DEE5B98EE279D0F6 (liste_vocabulaire_id), INDEX IDX_DEE5B98E2AADBACD (langue_id), PRIMARY KEY(liste_vocabulaire_id, langue_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE note (id INT AUTO_INCREMENT NOT NULL, liste_vocabulaire_id INT DEFAULT NULL, montant_note INT DEFAULT NULL, INDEX IDX_CFBDFA14E279D0F6 (liste_vocabulaire_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE traduction (id INT AUTO_INCREMENT NOT NULL, liste_vocabulaire_id INT NOT NULL, mot_langue1 VARCHAR(255) NOT NULL, mot_langue2 VARCHAR(255) NOT NULL, INDEX IDX_CF8C03A8E279D0F6 (liste_vocabulaire_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE messenger_messages (id BIGINT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', available_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', delivered_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_75EA56E0FB7336F0 (queue_name), INDEX IDX_75EA56E0E3BD61CE (available_at), INDEX IDX_75EA56E016BA31DB (delivered_at), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE infos_jeu ADD CONSTRAINT FK_92D584C4E279D0F6 FOREIGN KEY (liste_vocabulaire_id) REFERENCES liste_vocabulaire (id)');
         $this->addSql('ALTER TABLE liste_vocabulaire_langue ADD CONSTRAINT FK_DEE5B98EE279D0F6 FOREIGN KEY (liste_vocabulaire_id) REFERENCES liste_vocabulaire (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE liste_vocabulaire_langue ADD CONSTRAINT FK_DEE5B98E2AADBACD FOREIGN KEY (langue_id) REFERENCES langue (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE note ADD CONSTRAINT FK_CFBDFA14E279D0F6 FOREIGN KEY (liste_vocabulaire_id) REFERENCES liste_vocabulaire (id)');
+        $this->addSql('ALTER TABLE traduction ADD CONSTRAINT FK_CF8C03A8E279D0F6 FOREIGN KEY (liste_vocabulaire_id) REFERENCES liste_vocabulaire (id)');
     }
 
     public function down(Schema $schema): void
@@ -39,11 +41,13 @@ final class Version20250916133157 extends AbstractMigration
         $this->addSql('ALTER TABLE liste_vocabulaire_langue DROP FOREIGN KEY FK_DEE5B98EE279D0F6');
         $this->addSql('ALTER TABLE liste_vocabulaire_langue DROP FOREIGN KEY FK_DEE5B98E2AADBACD');
         $this->addSql('ALTER TABLE note DROP FOREIGN KEY FK_CFBDFA14E279D0F6');
+        $this->addSql('ALTER TABLE traduction DROP FOREIGN KEY FK_CF8C03A8E279D0F6');
         $this->addSql('DROP TABLE infos_jeu');
         $this->addSql('DROP TABLE langue');
         $this->addSql('DROP TABLE liste_vocabulaire');
         $this->addSql('DROP TABLE liste_vocabulaire_langue');
         $this->addSql('DROP TABLE note');
+        $this->addSql('DROP TABLE traduction');
         $this->addSql('DROP TABLE messenger_messages');
     }
 }

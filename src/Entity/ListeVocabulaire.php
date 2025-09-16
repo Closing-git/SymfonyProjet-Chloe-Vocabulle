@@ -45,11 +45,18 @@ class ListeVocabulaire
     #[ORM\ManyToMany(targetEntity: Langue::class, inversedBy: 'listesVocabulaire')]
     private Collection $langues;
 
+    /**
+     * @var Collection<int, Traduction>
+     */
+    #[ORM\OneToMany(targetEntity: Traduction::class, mappedBy: 'listeVocabulaire', orphanRemoval: true)]
+    private Collection $traduction;
+
     public function __construct()
     {
         $this->infosJeux = new ArrayCollection();
         $this->note = new ArrayCollection();
         $this->langues = new ArrayCollection();
+        $this->traduction = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -186,6 +193,36 @@ class ListeVocabulaire
     public function removeLangue(Langue $langue): static
     {
         $this->langues->removeElement($langue);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Traduction>
+     */
+    public function getTraduction(): Collection
+    {
+        return $this->traduction;
+    }
+
+    public function addTraduction(Traduction $traduction): static
+    {
+        if (!$this->traduction->contains($traduction)) {
+            $this->traduction->add($traduction);
+            $traduction->setListeVocabulaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTraduction(Traduction $traduction): static
+    {
+        if ($this->traduction->removeElement($traduction)) {
+            // set the owning side to null (unless already changed)
+            if ($traduction->getListeVocabulaire() === $this) {
+                $traduction->setListeVocabulaire(null);
+            }
+        }
 
         return $this;
     }

@@ -19,6 +19,10 @@ class Traduction
     #[ORM\Column(length: 255)]
     private ?string $motLangue2 = null;
 
+    #[ORM\ManyToOne(inversedBy: 'traduction')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ListeVocabulaire $listeVocabulaire = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +48,18 @@ class Traduction
     public function setMotLangue2(string $motLangue2): static
     {
         $this->motLangue2 = $motLangue2;
+
+        return $this;
+    }
+
+    public function getListeVocabulaire(): ?ListeVocabulaire
+    {
+        return $this->listeVocabulaire;
+    }
+
+    public function setListeVocabulaire(?ListeVocabulaire $listeVocabulaire): static
+    {
+        $this->listeVocabulaire = $listeVocabulaire;
 
         return $this;
     }
