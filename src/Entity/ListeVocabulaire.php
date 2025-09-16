@@ -19,14 +19,6 @@ class ListeVocabulaire
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $nbMots = null;
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private ?array $motsLangue1 = null;
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private ?array $motsLangue2 = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $dateDerniereModif = null;
@@ -77,41 +69,6 @@ class ListeVocabulaire
         return $this;
     }
 
-    public function getNbMots(): ?int
-    {
-        return $this->nbMots;
-    }
-
-    public function setNbMots(?int $nbMots): static
-    {
-        $this->nbMots = $nbMots;
-
-        return $this;
-    }
-
-    public function getMotsLangue1(): ?array
-    {
-        return $this->motsLangue1;
-    }
-
-    public function setMotsLangue1(?array $motsLangue1): static
-    {
-        $this->motsLangue1 = $motsLangue1;
-
-        return $this;
-    }
-
-    public function getMotsLangue2(): ?array
-    {
-        return $this->motsLangue2;
-    }
-
-    public function setMotsLangue2(?array $motsLangue2): static
-    {
-        $this->motsLangue2 = $motsLangue2;
-
-        return $this;
-    }
 
     public function getDateDerniereModif(): ?\DateTime
     {

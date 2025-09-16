@@ -14,8 +14,6 @@ class InfosJeu
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private ?array $bestScoresDifficultes = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $dateDernierJeu = null;
@@ -24,21 +22,12 @@ class InfosJeu
     #[ORM\JoinColumn(nullable: false)]
     private ?ListeVocabulaire $listeVocabulaire = null;
 
+    #[ORM\Column]
+    private array $bestScores = [];
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getBestScoresDifficultes(): ?array
-    {
-        return $this->bestScoresDifficultes;
-    }
-
-    public function setBestScoresDifficultes(?array $bestScoresDifficultes): static
-    {
-        $this->bestScoresDifficultes = $bestScoresDifficultes;
-
-        return $this;
     }
 
     public function getDateDernierJeu(): ?\DateTime
@@ -61,6 +50,18 @@ class InfosJeu
     public function setListeVocabulaire(?ListeVocabulaire $listeVocabulaire): static
     {
         $this->listeVocabulaire = $listeVocabulaire;
+
+        return $this;
+    }
+
+    public function getBestScores(): array
+    {
+        return $this->bestScores;
+    }
+
+    public function setBestScores(array $bestScores): static
+    {
+        $this->bestScores = $bestScores;
 
         return $this;
     }

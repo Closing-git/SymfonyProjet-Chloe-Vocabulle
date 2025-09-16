@@ -21,15 +21,15 @@ class Langue
 
     #[ORM\Column]
     private ?bool $majImportante = null;
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private ?array $caracteresSpeciaux = null;
-
+    
     /**
      * @var Collection<int, ListeVocabulaire>
      */
     #[ORM\ManyToMany(targetEntity: ListeVocabulaire::class, mappedBy: 'langues')]
     private Collection $listesVocabulaire;
+
+    #[ORM\Column(nullable: true)]
+    private ?array $caracteresSpeciaux = null;
 
     public function __construct()
     {
@@ -65,18 +65,6 @@ class Langue
         return $this;
     }
 
-    public function getCaracteresSpeciaux(): ?array
-    {
-        return $this->caracteresSpeciaux;
-    }
-
-    public function setCaracteresSpeciaux(?array $caracteresSpeciaux): static
-    {
-        $this->caracteresSpeciaux = $caracteresSpeciaux;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, ListeVocabulaire>
      */
@@ -100,6 +88,18 @@ class Langue
         if ($this->listesVocabulaire->removeElement($listesVocabulaire)) {
             $listesVocabulaire->removeLangue($this);
         }
+
+        return $this;
+    }
+
+    public function getCaracteresSpeciaux(): ?array
+    {
+        return $this->caracteresSpeciaux;
+    }
+
+    public function setCaracteresSpeciaux(?array $caracteresSpeciaux): static
+    {
+        $this->caracteresSpeciaux = $caracteresSpeciaux;
 
         return $this;
     }

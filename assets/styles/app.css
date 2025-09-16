@@ -22,7 +22,7 @@
 body {
     height: 100vh;
     background-image: linear-gradient(180deg, rgba(126, 255, 141, 41%) 0%, rgba(102, 102, 102, 17%) 100%);
-    font-family: PaytoneOneRegular;
+    font-family: JaldiRegular;
 }
 
 #header-main {
@@ -55,6 +55,14 @@ body {
     height: fit-content;
     padding: 10px;
     box-shadow: 0 4 4 0 rgba(0, 0, 0, 0.25);
-    float: right;
+    margin: 10px;
+}
 
+#main-contener {
+    color: #FFFFFF;
+    padding: 20px;
+    margin: auto;
+    width: 80%;
+    border-radius: 20px;
+    background-image: linear-gradient(125.649deg, #124200 9%, #3F772B 100%);;
 }

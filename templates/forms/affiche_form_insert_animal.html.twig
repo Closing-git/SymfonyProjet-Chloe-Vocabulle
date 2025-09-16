@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FormsController!
+{% endblock %}
+
+{% block body %}
+	<h2>INSERER LANGUE</h2>
+
+    
+	{{ form_start(formLangue)}}
+	{{ form_widget(formLangue) }}
+	<input type="submit" value="Ajouter Langue">
+	{{ form_end(formLangue)}}
+{% endblock %}

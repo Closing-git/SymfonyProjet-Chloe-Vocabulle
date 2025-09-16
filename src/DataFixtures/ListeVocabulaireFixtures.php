@@ -19,16 +19,6 @@ class ListeVocabulaireFixtures extends Fixture implements DependentFixtureInterf
         for ($i = 0; $i < 10; $i++) {
             $liste = new ListeVocabulaire();
             $liste->setTitre($faker->word(5));
-            $mots1 = [];
-            $mots2 = [];
-            for ($i2 = 0; $i2 < $faker->numberBetween(5, 15); $i2++) {
-                $mots1[] = $faker->word();
-                $mots2[] = $faker->word();
-            }
-
-            $liste->setMotsLangue1($mots1);
-            $liste->setMotsLangue2($mots2);
-            $liste->setNbMots(count($liste->getMotsLangue1()));
             $liste->setDateDerniereModif($faker->dateTimeBetween('-1 year', 'now'));
             $liste->setPublicStatut($faker->boolean(50));
 

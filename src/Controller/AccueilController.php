@@ -14,7 +14,7 @@ final class AccueilController extends AbstractController
     #[Route('/accueil', name: 'app_accueil')]
     public function index(): Response
     {
-        $produit = ['nom'=>"pistache", "prix"=>2.5];
+        $produit = ['nom'=>"pistache", "prix"=>12.5];
         //On stocke les données dont on a besoin dans un array vars (remarque on peut avoir un array dans un array et on y accède dans le template
         //avec produit.nom par exemple)
         $vars = ['nom'=>'Chloe', 'dateNaissance'=>new \DateTime('2005-09-15'), 'produit'=>$produit];
