@@ -6,6 +6,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\ListeVocabulaire;
 use App\Entity\Langue;
+use App\Entity\Utilisateur;
 use Faker;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
@@ -28,8 +29,15 @@ class ListeVocabulaireFixtures extends Fixture implements DependentFixtureInterf
             $this->addReference('listeVocabulaire' . $i, $liste);
             //On récupère la référence de langue (2 fois) et on l'ajoute à la liste
             //Boucle while pour éviter d'avoir deux fois la même langue
-            while ($liste->getLangues()->count() !=2) {
+            while ($liste->getLangues()->count() != 2) {
                 $liste->addLangue($this->getReference("langue" . rand(0, 9), Langue::class));
+            }
+
+            $liste->setCreateur($this->getReference('user' . (rand(0, 4)), Utilisateur::class));
+            //Met la liste en favori pour entre 0 à 3 utilisateurs
+            for ($i2 = 0; $i2 < rand(0, 3); $i2++) {
+                $liste->addUtilisateursQuiFav($this->getReference('user' . rand(0, 4), Utilisateur::class)
+                );
             }
             $manager->persist($liste);
         }
@@ -41,6 +49,7 @@ class ListeVocabulaireFixtures extends Fixture implements DependentFixtureInterf
     {
         return [
             LangueFixtures::class,
+            UtilisateurFixtures::class,
 
         ];
     }

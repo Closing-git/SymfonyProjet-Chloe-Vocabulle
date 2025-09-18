@@ -25,7 +25,6 @@ class UtilisateurFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         
-        $faker = Faker\Factory::create('fr_FR');
 
         for ($i = 0; $i < 5; $i++) {
             $utilisateur = new Utilisateur;
@@ -35,6 +34,7 @@ class UtilisateurFixtures extends Fixture
             $utilisateur->setNom('nom' . $i);
             $utilisateur->setRoles(['ROLE_USER']);
 
+            $this->addReference('user' . $i, $utilisateur);
             $manager->persist($utilisateur);
         }
 

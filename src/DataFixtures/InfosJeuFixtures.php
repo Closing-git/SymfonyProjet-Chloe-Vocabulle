@@ -7,6 +7,7 @@ use Doctrine\Persistence\ObjectManager;
 use App\Entity\InfosJeu;
 use Faker;
 use App\Entity\ListeVocabulaire;
+Use App\Entity\Utilisateur;
 use App\DataFixtures\ListeVocabulaireFixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
@@ -25,6 +26,8 @@ class InfosJeuFixtures extends Fixture implements DependentFixtureInterface
 
             //On ajoute la liste de vocabulaire, en récupérant les références crées dans l'autre dossier
             $infosJeu->setListeVocabulaire($this->getReference("listeVocabulaire" . rand(0, 9), ListeVocabulaire::class));
+            $infosJeu->setUtilisateur($this->getReference('user'.(rand(0,4)), Utilisateur::class));
+            
             $manager->persist($infosJeu);
         }
 
@@ -35,6 +38,7 @@ class InfosJeuFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             ListeVocabulaireFixtures::class,
+            UtilisateurFixtures::class,
         ];
     }
 }
