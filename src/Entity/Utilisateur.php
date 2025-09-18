@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -37,8 +39,16 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTime $dateNaissance = null;
+    /**
+     * @var Collection<int, Note>
+     */
+    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'utilisateur', orphanRemoval: true)]
+    private Collection $notes;
+
+    public function __construct()
+    {
+        $this->notes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -133,14 +143,32 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDateNaissance(): ?\DateTime
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
     {
-        return $this->dateNaissance;
+        return $this->notes;
     }
 
-    public function setDateNaissance(?\DateTime $dateNaissance): static
+    public function addNote(Note $note): static
     {
-        $this->dateNaissance = $dateNaissance;
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): static
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getUtilisateur() === $this) {
+                $note->setUtilisateur(null);
+            }
+        }
 
         return $this;
     }

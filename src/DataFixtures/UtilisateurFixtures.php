@@ -34,7 +34,6 @@ class UtilisateurFixtures extends Fixture
             $utilisateur->setPassword($this->hasher->hashPassword($utilisateur, "mdp"));
             $utilisateur->setNom('nom' . $i);
             $utilisateur->setRoles(['ROLE_USER']);
-            $utilisateur->setDateNaissance($faker->dateTimeBetween());
 
             $manager->persist($utilisateur);
         }
@@ -46,7 +45,6 @@ class UtilisateurFixtures extends Fixture
             $utilisateur->setPassword($this->hasher->hashPassword($utilisateur, "mdp"));
             $utilisateur->setNom('admin' . $i);
             $utilisateur->setRoles(['ROLE_ADMIN']);
-            $utilisateur->setDateNaissance($faker->dateTimeBetween());
 
             $manager->persist($utilisateur);
         }
