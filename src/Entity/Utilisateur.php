@@ -45,9 +45,30 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'utilisateur', orphanRemoval: true)]
     private Collection $notes;
 
+    /**
+     * @var Collection<int, InfosJeu>
+     */
+    #[ORM\OneToMany(targetEntity: InfosJeu::class, mappedBy: 'utilisateur', orphanRemoval: true)]
+    private Collection $infosJeu;
+
+    /**
+     * @var Collection<int, ListeVocabulaire>
+     */
+    #[ORM\ManyToMany(targetEntity: ListeVocabulaire::class, inversedBy: 'utilisateursQuiFav')]
+    private Collection $favListes;
+
+    /**
+     * @var Collection<int, ListeVocabulaire>
+     */
+    #[ORM\OneToMany(targetEntity: ListeVocabulaire::class, mappedBy: 'createur', orphanRemoval: true)]
+    private Collection $createdListes;
+
     public function __construct()
     {
         $this->notes = new ArrayCollection();
+        $this->infosJeu = new ArrayCollection();
+        $this->favListes = new ArrayCollection();
+        $this->createdListes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -167,6 +188,90 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($note->getUtilisateur() === $this) {
                 $note->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InfosJeu>
+     */
+    public function getInfosJeu(): Collection
+    {
+        return $this->infosJeu;
+    }
+
+    public function addInfosJeu(InfosJeu $infosJeu): static
+    {
+        if (!$this->infosJeu->contains($infosJeu)) {
+            $this->infosJeu->add($infosJeu);
+            $infosJeu->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInfosJeu(InfosJeu $infosJeu): static
+    {
+        if ($this->infosJeu->removeElement($infosJeu)) {
+            // set the owning side to null (unless already changed)
+            if ($infosJeu->getUtilisateur() === $this) {
+                $infosJeu->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ListeVocabulaire>
+     */
+    public function getFavListes(): Collection
+    {
+        return $this->favListes;
+    }
+
+    public function addFavListe(ListeVocabulaire $favListe): static
+    {
+        if (!$this->favListes->contains($favListe)) {
+            $this->favListes->add($favListe);
+        }
+
+        return $this;
+    }
+
+    public function removeFavListe(ListeVocabulaire $favListe): static
+    {
+        $this->favListes->removeElement($favListe);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ListeVocabulaire>
+     */
+    public function getCreatedListes(): Collection
+    {
+        return $this->createdListes;
+    }
+
+    public function addCreatedListe(ListeVocabulaire $createdListe): static
+    {
+        if (!$this->createdListes->contains($createdListe)) {
+            $this->createdListes->add($createdListe);
+            $createdListe->setCreateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedListe(ListeVocabulaire $createdListe): static
+    {
+        if ($this->createdListes->removeElement($createdListe)) {
+            // set the owning side to null (unless already changed)
+            if ($createdListe->getCreateur() === $this) {
+                $createdListe->setCreateur(null);
             }
         }
 

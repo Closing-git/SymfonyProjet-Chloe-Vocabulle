@@ -51,12 +51,23 @@ class ListeVocabulaire
     #[ORM\OneToMany(targetEntity: Traduction::class, mappedBy: 'listeVocabulaire', orphanRemoval: true)]
     private Collection $traduction;
 
+    /**
+     * @var Collection<int, Utilisateur>
+     */
+    #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'favListes')]
+    private Collection $utilisateursQuiFav;
+
+    #[ORM\ManyToOne(inversedBy: 'createdListes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Utilisateur $createur = null;
+
     public function __construct()
     {
         $this->infosJeux = new ArrayCollection();
         $this->note = new ArrayCollection();
         $this->langues = new ArrayCollection();
         $this->traduction = new ArrayCollection();
+        $this->utilisateursQuiFav = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -223,6 +234,45 @@ class ListeVocabulaire
                 $traduction->setListeVocabulaire(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Utilisateur>
+     */
+    public function getUtilisateursQuiFav(): Collection
+    {
+        return $this->utilisateursQuiFav;
+    }
+
+    public function addUtilisateursQuiFav(Utilisateur $utilisateursQuiFav): static
+    {
+        if (!$this->utilisateursQuiFav->contains($utilisateursQuiFav)) {
+            $this->utilisateursQuiFav->add($utilisateursQuiFav);
+            $utilisateursQuiFav->addFavListe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUtilisateursQuiFav(Utilisateur $utilisateursQuiFav): static
+    {
+        if ($this->utilisateursQuiFav->removeElement($utilisateursQuiFav)) {
+            $utilisateursQuiFav->removeFavListe($this);
+        }
+
+        return $this;
+    }
+
+    public function getCreateur(): ?Utilisateur
+    {
+        return $this->createur;
+    }
+
+    public function setCreateur(?Utilisateur $createur): static
+    {
+        $this->createur = $createur;
 
         return $this;
     }
