@@ -6,6 +6,7 @@ use App\Entity\Utilisateur;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Faker;
 
 
 class UtilisateurFixtures extends Fixture
@@ -19,15 +20,33 @@ class UtilisateurFixtures extends Fixture
         $this->hasher = $hasher;
     }
 
-
+    
+    
     public function load(ObjectManager $manager): void
     {
+        
+        $faker = Faker\Factory::create('fr_FR');
 
         for ($i = 0; $i < 5; $i++) {
             $utilisateur = new Utilisateur;
             $utilisateur->setEmail("user" . $i . "@gmail.com");
             //Pour hasher le mot de passer, pour pas qu'il soit érit en clair dans la base de données
             $utilisateur->setPassword($this->hasher->hashPassword($utilisateur, "mdp"));
+            $utilisateur->setNom('nom' . $i);
+            $utilisateur->setRoles(['ROLE_USER']);
+            $utilisateur->setDateNaissance($faker->dateTimeBetween());
+
+            $manager->persist($utilisateur);
+        }
+
+        for ($i = 0; $i < 5; $i++) {
+            $utilisateur = new Utilisateur;
+            $utilisateur->setEmail("admin" . $i . "@gmail.com");
+            //Pour hasher le mot de passer, pour pas qu'il soit érit en clair dans la base de données
+            $utilisateur->setPassword($this->hasher->hashPassword($utilisateur, "mdp"));
+            $utilisateur->setNom('admin' . $i);
+            $utilisateur->setRoles(['ROLE_ADMIN']);
+            $utilisateur->setDateNaissance($faker->dateTimeBetween());
 
             $manager->persist($utilisateur);
         }
