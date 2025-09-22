@@ -13,48 +13,49 @@
 
 	<button>+</button>
 	<br><br>
-
-	{% for liste in listesVocabulaire %}
-		<div class="card">
-			<p>Titre de la liste :
-				{{liste.titre}}</p>
-			<span>Langues :
-			</span>
-			{% for langue in liste.getLangues() %}
-				<span>{{ langue.nom }}</span>
-			{% endfor %}
-			<p>Créateur :
-				{{ liste.getCreateur().getNom() }}</p>
-			<p>Statut :
-				{% if liste.publicStatut %}Public{% else %}Privé
-				{% endif %}
-			</p>
-			<span>Note :</span>
-			{% if liste.getNoteTotale() %}
-				{{liste.getNoteTotale()}}
-			{% else %}
-				<span>Pas encore de note
+	<div class='cards-contener'>
+		{% for liste in listesVocabulaire %}
+			<div class="card">
+				<p>Titre de la liste :
+					{{liste.titre}}</p>
+				<span>Langues :
 				</span>
-			{% endif %}
-
-			<p>Favori :
-				{% if app.user in (liste.getUtilisateursQuiFav()) %}
-					OUI
+				{% for langue in liste.getLangues() %}
+					<span>{{ langue.nom }}</span>
+				{% endfor %}
+				<p>Créateur :
+					{{ liste.getCreateur().getNom() }}</p>
+				<p>Statut :
+					{% if liste.publicStatut %}Public{% else %}Privé
+					{% endif %}
+				</p>
+				<span>Note :</span>
+				{% if liste.getNoteTotale() %}
+					{{liste.getNoteTotale()}}
 				{% else %}
-					NON
+					<span>Pas encore de note
+					</span>
 				{% endif %}
-			</p>
 
-			<p>Meilleur Score :
-				{{ liste.getBestScoreMostDifficult(app.user) }}
-			</p>
+				<p>Favori :
+					{% if app.user in (liste.getUtilisateursQuiFav()) %}
+						OUI
+					{% else %}
+						NON
+					{% endif %}
+				</p>
 
-			<button>Play</button>
-			<button>Modifier</button>
-			<button>Supprimer</button>
+				<p>Meilleur Score :
+					{{ liste.getBestScoreMostDifficult(app.user) }}
+				</p>
+
+				<button>Play</button>
+				<button>Modifier</button>
+				<button>Supprimer</button>
 
 
-			<br><br>
-		</div>
-	{% endfor %}
+				<br><br>
+			</div>
+		{% endfor %}
+	</div>
 {% endblock %}
