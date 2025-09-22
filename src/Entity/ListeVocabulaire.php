@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Utilisateur;
+use App\Entity\InfosJeu;
 
 #[ORM\Entity(repositoryClass: ListeVocabulaireRepository::class)]
 class ListeVocabulaire
@@ -153,6 +155,20 @@ class ListeVocabulaire
 
         return $this;
     }
+
+    public function getBestScoreMostDifficult(Utilisateur $utilisateur): string
+    {
+
+        $infosJeuArr = $this->getInfosJeux();
+        $bestScoreMostDifficult = 'Pas encore de meilleur score';
+        foreach ($infosJeuArr as $infos) {
+            if ($utilisateur == $infos->getUtilisateur()) {
+                $bestScoreMostDifficult = $infos->getBestScores()[2];
+            }
+        }
+        return $bestScoreMostDifficult;
+    }
+
 
     /**
      * @return Collection<int, Note>

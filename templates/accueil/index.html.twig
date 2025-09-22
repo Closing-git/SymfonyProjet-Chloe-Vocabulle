@@ -12,12 +12,49 @@
 	<span>Recherche par nom (Ajax)</span>
 
 	<button>+</button>
+	<br><br>
 
-	<div class="card">
-		{% for liste in listesVocabulaire %}
-			<p>{{liste.titre}}</p>
+	{% for liste in listesVocabulaire %}
+		<div class="card">
+			<p>Titre de la liste :
+				{{liste.titre}}</p>
+			<span>Langues :
+			</span>
+			{% for langue in liste.getLangues() %}
+				<span>{{ langue.nom }}</span>
+			{% endfor %}
+			<p>Créateur :
+				{{ liste.getCreateur().getNom() }}</p>
+			<p>Statut :
+				{% if liste.publicStatut %}Public{% else %}Privé
+				{% endif %}
+			</p>
+			<span>Note :</span>
+			{% if liste.getNoteTotale() %}
+				{{liste.getNoteTotale()}}
+			{% else %}
+				<span>Pas encore de note
+				</span>
+			{% endif %}
 
-		{% endfor %}
-	</div>
+			<p>Favori :
+				{% if app.user in (liste.getUtilisateursQuiFav()) %}
+					OUI
+				{% else %}
+					NON
+				{% endif %}
+			</p>
 
+			<p>Meilleur Score :
+				{{ liste.getBestScoreMostDifficult(app.user) }}
+			</p>
+
+			<button>Play</button>
+			<button>Modifier</button>
+			<button>Supprimer</button>
+
+
+			<br><br>
+		</div>
+	{% endfor %}
 {% endblock %}
