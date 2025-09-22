@@ -5,11 +5,19 @@
 
 {% block body %}
 
-	<h2>Accueil</h2>
-	<p>Bienvenue
-		{{ nom }}
-		!</p>
-    <p>Votre date de naissance est le {{ dateNaissance.format('d/m/Y') }}</p>
-    <p>Le produit {{ produit.nom }} coûte {{ produit.prix }} €</p>
+	<span>Tri par langues</span>
+	<span>Tri par autres</span>
+	<span>Tri Public/Privé</span>
+	<span>Tri Favori</span>
+	<span>Recherche par nom (Ajax)</span>
+
+	<button>+</button>
+
+	<div class="card">
+		{% for liste in listesVocabulaire %}
+			<p>{{liste.titre}}</p>
+
+		{% endfor %}
+	</div>
 
 {% endblock %}
