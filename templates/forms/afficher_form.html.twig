@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Afficher form
+{% endblock %}
+
+{% block body %}
+	{{ form_start (formLangue) }}
+	{{ form_widget (formLangue) }}
+    <input type="submit" value="Ajouter Langue">
+	{{ form_end (formLangue)}}
+{% endblock %}

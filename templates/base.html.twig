@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> {% block stylesheets %}{% endblock %}
+
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+	</head>
+	<body>
+		<header>
+			<div id="header-main">
+				<a href="{{ path('app_accueil') }}"><img id="logo" src="{{ asset('img/logo.png') }}" alt="Logo"></a>
+				<div id="profil-circle"><img id="profil" src="{{ asset('img/profil.png') }}" alt="Profil"></div>
+				{% if app.user %}
+					<p>{{ app.user.email }}</p>
+				{% endif %}
+			</div>
+			<div class="profil-pannel">
+				{% if app.user is null %}
+					<img src="{{ asset('img/seConnecter.png') }}" alt="Se connecter image">
+					<a href="{{ path('app_login') }}">
+						<span>Se connecter</span>
+					</a>
+					<img src="{{ asset('img/sEnregistrer.png') }}" alt="S'enregistrer image">
+					<a href="{{ path('app_register') }}"><span>S'enregistrer</span></a>
+
+
+				{% else %}
+					<img src="{{ asset('img/seDeconnecter.png') }}" alt="Se déconnecter image">
+					<a href="{{ path('app_logout') }}">
+						<span>Se déconnecter</span>
+					</a>
+				{% endif %}
+			</div>
+
+		</header>
+
+		<div id="main-contener"> {% block body %}{% endblock %}
+			</div>
+		</body>
+	</html>

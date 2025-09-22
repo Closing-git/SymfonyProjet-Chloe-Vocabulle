@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FormsController!
+{% endblock %}
+
+{% block body %}
+	<p>Langue ajoutée</p>
+
+	<h2>Toutes les langues :</h2>
+
+	{% for langue in langues %}
+		<p>
+			{{langue.nom}}
+		</p>
+	{% endfor %}
+
+{% endblock %}

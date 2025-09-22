@@ -1,0 +1,68 @@
+@font-face {
+    font-family: JaldiRegular;
+    src: url("../fonts/Jaldi-Regular.ttf");
+}
+
+@font-face {
+    font-family: JaldiBold;
+    src: url("../fonts/Jaldi-Bold.ttf");
+}
+
+@font-face {
+    font-family: PaytoneOneRegular;
+    src: url("../fonts/PaytoneOneRegular.ttf");
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    background-image: linear-gradient(180deg, rgba(126, 255, 141, 41%) 0%, rgba(102, 102, 102, 17%) 100%);
+    font-family: JaldiRegular;
+}
+
+#header-main {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#profil-circle {
+    width: 74px;
+    height: 74px;
+    border-radius: 50%;
+    background-color: #FFCD42;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4 4 0 rgba(0, 0, 0, 0.25);
+}
+
+#profil {
+    width: 32.27px;
+    height: 32.27px;
+}
+
+
+
+.profil-pannel {
+    background-color: #FFE089;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    box-shadow: 0 4 4 0 rgba(0, 0, 0, 0.25);
+    margin: 10px;
+}
+
+#main-contener {
+    color: #FFFFFF;
+    padding: 20px;
+    margin: auto;
+    width: 80%;
+    border-radius: 20px;
+    background-image: linear-gradient(125.649deg, #124200 9%, #3F772B 100%);;
+}
