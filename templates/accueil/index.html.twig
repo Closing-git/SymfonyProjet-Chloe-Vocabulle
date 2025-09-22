@@ -5,15 +5,27 @@
 
 {% block body %}
 
-	<span>Tri par langues</span>
-	<span>Tri par autres</span>
+	<select id='select_langue' data-route="{{ path ('app_accueil') }}">
+		<option value="">Tri par langue</option>
+		{% for langue in langues %}
+			<option value="{{langue.id}}">{{langue.nom}}</option>
+		{% endfor %}
+		<option value="all">Toutes les langues</option>
+
+
+	</select>
+	<span>Tri par ordre alphabétique</span>
 	<span>Tri Public/Privé</span>
+	<span>Créé par moi</span>
 	<span>Tri Favori</span>
+
 	<span>Recherche par nom (Ajax)</span>
 
-	<button>+</button>
+	<br>
+	<button>Ajouter une liste</button>
 	<br><br>
 	<div class='cards-contener'>
+		<button>A gauche</button>
 		{% for liste in listesVocabulaire %}
 			<div class="card">
 				<p>Titre de la liste :
@@ -49,13 +61,38 @@
 					{{ liste.getBestScoreMostDifficult(app.user) }}
 				</p>
 
-				<button>Play</button>
-				<button>Modifier</button>
-				<button>Supprimer</button>
+
+				{# Changer le path plus tard #}
+				<a href="{{path('app_afficher_forms', {id_liste:liste.id} )}}">
+					<button>Play</button>
+				</a>
+				<a href="{{path('app_afficher_forms', {id_liste:liste.id} )}}">
+					<button>Modifier</button>
+				</a>
+				<a href="{{path('app_afficher_forms', {id_liste:liste.id} )}}">
+					<button>Supprimer</button>
+				</a>
 
 
 				<br><br>
 			</div>
 		{% endfor %}
+		<button>A droite</button>
+
 	</div>
+	<br>
+	<button>Ajouter une liste</button>
+
+	<script>
+		const selectLangue = document.querySelector('#select_langue');
+selectLangue.addEventListener("change", (event) => {
+const idLangue = event.target.value;
+const route = selectLangue.dataset.route;
+console.log(route);
+
+window.location.href= route + '/?id_langue=' + idLangue;
+
+})
+	</script>
+
 {% endblock %}
