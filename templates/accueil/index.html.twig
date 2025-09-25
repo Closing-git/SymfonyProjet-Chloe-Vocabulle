@@ -7,15 +7,15 @@
 
 	<select id='select_langue' data-route="{{ path ('app_accueil') }}">
 		<option value="">Tri par langue</option>
+		<option value="all">Toutes les langues</option>
 		{% for langue in langues %}
 			<option value="{{langue.id}}">{{langue.nom}}</option>
 		{% endfor %}
-		<option value="all">Toutes les langues</option>
 
 
 	</select>
 	<span>Tri par ordre alphabétique</span>
-	<span>Tri Public/Privé</span>
+
 	<span>Créé par moi</span>
 	<span>Tri Favori</span>
 
@@ -84,15 +84,15 @@
 	<button>Ajouter une liste</button>
 
 	<script>
-		const selectLangue = document.querySelector('#select_langue');
+		// Tri par langues
+const selectLangue = document.querySelector('#select_langue');
 selectLangue.addEventListener("change", (event) => {
 const idLangue = event.target.value;
 const route = selectLangue.dataset.route;
-console.log(route);
 
-window.location.href= route + '/?id_langue=' + idLangue;
-
+window.location.href = route + '/?id_langue=' + idLangue;
 })
 	</script>
+
 
 {% endblock %}
