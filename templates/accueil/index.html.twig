@@ -5,21 +5,15 @@
 
 {% block body %}
 
-	<select id='select_langue' data-route="{{ path ('app_accueil') }}">
-		<option value="">Tri par langue</option>
-		<option value="all">Toutes les langues</option>
-		{% for langue in langues %}
-			<option value="{{langue.id}}">{{langue.nom}}</option>
-		{% endfor %}
+	{{ form_start(form, {'attr': {'id': 'recherche-form'}}) }}
+	{{ form_row(form.langue) }}
+	{{ form_row(form.ordre) }}
+	{{ form_row(form.statut) }}
+	{{ form_row(form.ownCreator) }}
+	{{ form_row(form.fav) }}
+	{{ form_row(form.title) }}
 
-
-	</select>
-	<span>Tri par ordre alphabétique</span>
-
-	<span>Créé par moi</span>
-	<span>Tri Favori</span>
-
-	<span>Recherche par nom (Ajax)</span>
+	{{ form_end(form) }}
 
 	<br>
 	<button>Ajouter une liste</button>
@@ -82,17 +76,6 @@
 	</div>
 	<br>
 	<button>Ajouter une liste</button>
-
-	<script>
-		// Tri par langues
-const selectLangue = document.querySelector('#select_langue');
-selectLangue.addEventListener("change", (event) => {
-const idLangue = event.target.value;
-const route = selectLangue.dataset.route;
-
-window.location.href = route + '/?id_langue=' + idLangue;
-})
-	</script>
 
 
 {% endblock %}
