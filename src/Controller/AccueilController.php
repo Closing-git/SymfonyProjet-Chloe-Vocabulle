@@ -20,8 +20,12 @@ final class AccueilController extends AbstractController
         $form = $this->createForm(SearchFiltersListesVocabulaireType::class);
         $form->handleRequest($req);
         $listesVocabulaire = $manager->getRepository(ListeVocabulaire::class)->findAll();
-        
-        $vars = ['listesVocabulaire' => $listesVocabulaire, 'form' =>$form];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            dd($form->getData());
+        }
+
+        $vars = ['listesVocabulaire' => $listesVocabulaire, 'form' => $form];
         //On envoie le array vars au template en l'ajoutant aux paramètres de render
         return $this->render('accueil/index.html.twig', $vars);
     }

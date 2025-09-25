@@ -12,6 +12,7 @@
 	{{ form_row(form.ownCreator) }}
 	{{ form_row(form.fav) }}
 	{{ form_row(form.title) }}
+	<button type="submit">Rechercher</button>
 
 	{{ form_end(form) }}
 
@@ -77,5 +78,15 @@
 	<br>
 	<button>Ajouter une liste</button>
 
+	<script>
 
-{% endblock %}
+		const formRecherche = document.querySelector("#recherche-form");
+const formData = new FormData(formRecherche);
+formRecherche.addEventListener('input', function (event) {
+dd(formData);
+}
+
+
+</script>
+
+	{% endblock %}
