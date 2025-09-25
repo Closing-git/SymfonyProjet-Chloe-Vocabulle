@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\ListeVocabulaireRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\InfosJeu;
+use App\Entity\Utilisateur;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Utilisateur;
-use App\Entity\InfosJeu;
+use Doctrine\Common\Collections\Collection;
+use App\Repository\ListeVocabulaireRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ListeVocabulaireRepository::class)]
 class ListeVocabulaire
@@ -18,6 +19,8 @@ class ListeVocabulaire
     #[ORM\Column]
     private ?int $id = null;
 
+
+    #[Groups(['liste-detail'])]
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
@@ -26,6 +29,7 @@ class ListeVocabulaire
     private ?\DateTime $dateDerniereModif = null;
 
     #[ORM\Column]
+    #[Groups(['liste-detail'])]
     private ?bool $publicStatut = null;
 
 
@@ -33,6 +37,7 @@ class ListeVocabulaire
      * @var Collection<int, InfosJeu>
      */
     #[ORM\OneToMany(targetEntity: InfosJeu::class, mappedBy: 'listeVocabulaire', orphanRemoval: true)]
+    #[Groups(['liste-detail'])]
     private Collection $infosJeux;
 
     /**
@@ -45,6 +50,7 @@ class ListeVocabulaire
      * @var Collection<int, Langue>
      */
     #[ORM\ManyToMany(targetEntity: Langue::class, inversedBy: 'listesVocabulaire')]
+    #[Groups(['liste-detail'])]
     private Collection $langues;
 
     /**
@@ -57,10 +63,12 @@ class ListeVocabulaire
      * @var Collection<int, Utilisateur>
      */
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'favListes')]
+    #[Groups(['liste-detail'])]
     private Collection $utilisateursQuiFav;
 
     #[ORM\ManyToOne(inversedBy: 'createdListes')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['liste-detail'])]
     private ?Utilisateur $createur = null;
 
     public function __construct()

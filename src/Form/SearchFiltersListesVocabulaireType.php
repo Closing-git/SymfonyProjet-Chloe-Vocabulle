@@ -56,7 +56,7 @@ class SearchFiltersListesVocabulaireType extends AbstractType
                 'required' => false,
                 'label' => 'Montrer uniquement les favoris',
             ])
-            ->add('title', TypeTextType::class, [
+            ->add('titre', TypeTextType::class, [
                 'required' => false,
                 'label' => 'Rechercher par titre',
             ])
