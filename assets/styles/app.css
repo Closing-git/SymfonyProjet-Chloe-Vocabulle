@@ -64,5 +64,18 @@ body {
     margin: auto;
     width: 80%;
     border-radius: 20px;
-    background-image: linear-gradient(125.649deg, #124200 9%, #3F772B 100%);;
+    background-image: linear-gradient(125.649deg, #124200 9%, #3F772B 100%);
+
 }
+
+.card {
+    padding: 10px;
+    width: 168px;
+    height: fit-content;
+    background-color: #3C6D2A;
+    border-radius: 20px;
+    margin: 20px;
+    box-shadow: 0 4 4 0 rgba(0, 0, 0, 0.25);
+
+}
+

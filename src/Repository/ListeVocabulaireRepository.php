@@ -16,6 +16,32 @@ class ListeVocabulaireRepository extends ServiceEntityRepository
         parent::__construct($registry, ListeVocabulaire::class);
     }
 
+
+    public function searchListes($filtres)
+    {
+        $em = $this->getEntityManager();
+
+        
+        
+
+        $query = $em->createQuery (
+            "SELECT liste FROM App\Entity\ListeVocabulaire liste
+                -- INNER JOIN liste.langues langue
+                -- WHERE langue = :langue
+                -- AND
+                -- WHERE statut = :statut
+                "
+        );
+        
+        // $query->setParameter(":langue", $filtres['langue']);
+        // $query->setParameter(":statut", $filtres['statut']);
+        
+        $res = $query->getResult();
+        return $res;
+    }
+
+
+
     //    /**
     //     * @return ListeVocabulaire[] Returns an array of ListeVocabulaire objects
     //     */

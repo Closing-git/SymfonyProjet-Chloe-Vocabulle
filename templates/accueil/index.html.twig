@@ -5,11 +5,114 @@
 
 {% block body %}
 
-	<h2>Accueil</h2>
-	<p>Bienvenue
-		{{ nom }}
-		!</p>
-    <p>Votre date de naissance est le {{ dateNaissance.format('d/m/Y') }}</p>
-    <p>Le produit {{ produit.nom }} coûte {{ produit.prix }} €</p>
+	{{ form_start(form, {'attr': {'id': 'recherche-form',
+								'data-route': path('app_recherche') }}) }}
+	{{ form_row(form.langue) }}
+	{{ form_row(form.ordre) }}
+	{{ form_row(form.statut) }}
+	{{ form_row(form.ownCreator) }}
+	{{ form_row(form.fav) }}
+	{{ form_row(form.titre) }}
+
+	{{ form_end(form) }}
+
+	<br>
+	<button>Ajouter une liste</button>
+	<br><br>
+	<div class='cards-contener'>
+		<button>A gauche</button>
+		{% for liste in listesVocabulaire %}
+			<div class="card">
+				<p>Titre de la liste :
+					{{liste.titre}}</p>
+				<span>Langues :
+				</span>
+				{% for langue in liste.getLangues() %}
+					<span>{{ langue.nom }}</span>
+				{% endfor %}
+				<p>Créateur :
+					{{ liste.getCreateur().getNom() }}</p>
+				<p>Statut :
+					{% if liste.publicStatut %}Public{% else %}Privé
+					{% endif %}
+				</p>
+				<span>Note :</span>
+				{% if liste.getNoteTotale() %}
+					{{liste.getNoteTotale()}}
+				{% else %}
+					<span>Pas encore de note
+					</span>
+				{% endif %}
+
+				<p>Favori :
+					{% if app.user in (liste.getUtilisateursQuiFav()) %}
+						OUI
+					{% else %}
+						NON
+					{% endif %}
+				</p>
+
+				<p>Meilleur Score :
+					{{ liste.getBestScoreMostDifficult(app.user) }}
+				</p>
+
+
+				{# Changer le path plus tard #}
+				<a href="{{path('app_afficher_forms', {id_liste:liste.id} )}}">
+					<button>Play</button>
+				</a>
+				<a href="{{path('app_afficher_forms', {id_liste:liste.id} )}}">
+					<button>Modifier</button>
+				</a>
+				<a href="{{path('app_afficher_forms', {id_liste:liste.id} )}}">
+					<button>Supprimer</button>
+				</a>
+
+
+				<br><br>
+			</div>
+		{% endfor %}
+		<button>A droite</button>
+
+	</div>
+	<br>
+	<button>Ajouter une liste</button>
+
+	<script>
+		// ajax
+const formRecherche = document.querySelector("#recherche-form");
+const divResultat = document.querySelector(".cards-contener");
+
+
+formRecherche.addEventListener("submit", function (event) {
+event.preventDefault();
+});
+
+formRecherche.addEventListener('change', function (event) {
+
+const formData = new FormData(formRecherche);
+console.log(formRecherche.dataset.route);
+
+axios.post(formRecherche.dataset.route, formData, {
+headers: {
+'Content-Type': 'multipart/form-data'
+}
+
+}).then(function (donnees) {
+divResultat.textContent = "";
+console.log(donnees);
+divCard = document.createElement("div");
+donnees.data.forEach(function(donnee) {
+	divResultat.appendChild(divCard);
+	pTitre=document.createElement("p");
+	divCard.appendChild(pTitre)
+	pTitre.textContent = donnee.titre
+} )
+
+
+});
+
+});
+	</script>
 
 {% endblock %}

@@ -53,6 +53,7 @@ class Langue
         return $this;
     }
 
+
     public function isMajImportante(): ?bool
     {
         return $this->majImportante;
