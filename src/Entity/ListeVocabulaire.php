@@ -145,6 +145,7 @@ class ListeVocabulaire
     /**
      * @return Collection<int, InfosJeu>
      */
+    #[Groups(['liste-detail'])]
     public function getInfosJeux(): Collection
     {
         return $this->infosJeux;
@@ -171,7 +172,7 @@ class ListeVocabulaire
 
         return $this;
     }
-
+    #[Groups(['liste-detail'])]
     public function getBestScoreMostDifficult(Utilisateur $utilisateur): string
     {
 
@@ -273,6 +274,7 @@ class ListeVocabulaire
     /**
      * @return Collection<int, Utilisateur>
      */
+    #[Groups(['liste-detail'])]
     public function getUtilisateursQuiFav(): Collection
     {
         return $this->utilisateursQuiFav;

@@ -164,18 +164,22 @@ divCard.appendChild(divPasDeNote);
 
 const userId = document.querySelector('#userId').value;
 // Favori
+const favIds = (donnee.utilisateursQuiFav || []).map(utilisateurQuiFav => String(utilisateurQuiFav.id));
+const estFavori = favIds.includes(userId);
 const pFavori = document.createElement("p");
 pFavori.classList.add("favori-liste");
 pFavori.textContent = "Favori : " + (
-donnee.utilisateursQuiFav.includes(userId) ? "OUI" : "NON"
+estFavori ? "OUI" : "NON"
 );
 divCard.appendChild(pFavori);
 
 // Meilleur score
-const pScore = document.createElement("p");
-pScore.classList.add("meilleur-score");
-pScore.textContent = "Meilleur Score : " + donnee.bestScoreMostDifficult;
-divCard.appendChild(pScore);
+// * ! POUR L'INSTANT NE FONCTIONNE PAS
+
+// const pScore = document.createElement("p");
+// pScore.classList.add("meilleur-score");
+// pScore.textContent = "Meilleur Score : " + donnee.getBestScoreMostDifficult(userId);
+// divCard.appendChild(pScore);
 
 // Boutons (modifier les URLs si nécessaire)
 const playButton = document.createElement("a");

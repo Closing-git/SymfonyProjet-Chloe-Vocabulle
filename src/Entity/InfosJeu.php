@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\InfosJeuRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\InfosJeuRepository;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: InfosJeuRepository::class)]
 class InfosJeu
@@ -12,6 +13,7 @@ class InfosJeu
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['liste-detail'])]
     private ?int $id = null;
 
 
@@ -23,12 +25,14 @@ class InfosJeu
     private ?ListeVocabulaire $listeVocabulaire = null;
 
     #[ORM\Column]
+    #[Groups(['liste-detail'])]
     private array $bestScores = [];
 
     #[ORM\ManyToOne(inversedBy: 'infosJeu')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $utilisateur = null;
 
+    #[Groups(['liste-detail'])]
     public function getId(): ?int
     {
         return $this->id;
@@ -58,6 +62,7 @@ class InfosJeu
         return $this;
     }
 
+    #[Groups(['liste-detail'])]
     public function getBestScores(): array
     {
         return $this->bestScores;

@@ -20,6 +20,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['liste-detail'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
@@ -57,6 +58,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, ListeVocabulaire>
      */
     #[ORM\ManyToMany(targetEntity: ListeVocabulaire::class, inversedBy: 'utilisateursQuiFav')]
+    #[Groups(['liste-detail'])]
     private Collection $favListes;
 
     /**
@@ -229,6 +231,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, ListeVocabulaire>
      */
+    #[Groups(['liste-detail'])]
     public function getFavListes(): Collection
     {
         return $this->favListes;
