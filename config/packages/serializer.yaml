@@ -1,0 +1,5 @@
+framework:
+    serializer:
+        default_context:
+            groups: ['liste-detail']
+        circular_reference_handler: 'App\Serializer\CircularReferenceHandler'

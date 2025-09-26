@@ -21,21 +21,26 @@ class ListeVocabulaireRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
 
-        
-        
 
-        $query = $em->createQuery (
-            "SELECT liste FROM App\Entity\ListeVocabulaire liste
-                -- INNER JOIN liste.langues langue
+
+
+        $query = $em->createQuery(
+            "SELECT liste, langues, createur, note
+        FROM App\Entity\ListeVocabulaire liste
+        LEFT JOIN liste.note note
+        LEFT JOIN liste.langues langues
+        LEFT JOIN liste.createur createur
+
+                -- INNER JOIN liste.utilisateurs_qui_fav utilisateur
                 -- WHERE langue = :langue
                 -- AND
                 -- WHERE statut = :statut
                 "
         );
-        
+
         // $query->setParameter(":langue", $filtres['langue']);
         // $query->setParameter(":statut", $filtres['statut']);
-        
+
         $res = $query->getResult();
         return $res;
     }

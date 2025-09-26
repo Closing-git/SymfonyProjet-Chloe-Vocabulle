@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\LangueRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\LangueRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: LangueRepository::class)]
 class Langue
@@ -16,12 +17,14 @@ class Langue
     #[ORM\Column]
     private ?int $id = null;
 
+
     #[ORM\Column(length: 255)]
+    #[Groups(['liste-detail'])]
     private ?string $nom = null;
 
     #[ORM\Column]
     private ?bool $majImportante = null;
-    
+
     /**
      * @var Collection<int, ListeVocabulaire>
      */

@@ -32,7 +32,9 @@
 						<span>Se connecter</span>
 					</a>
 					<img src="{{ asset('img/sEnregistrer.png') }}" alt="S'enregistrer image">
-					<a href="{{ path('app_register') }}"><span>S'enregistrer</span></a>
+					<a href="{{ path('app_register') }}">
+						<span>S'enregistrer</span>
+					</a>
 
 
 				{% else %}
@@ -44,6 +46,10 @@
 			</div>
 
 		</header>
+		{# Pour pouvoir récupérer l'id de l'utilisateur connecté dans JS #}	
+		{% if app.user %}
+		<input id="userId" value="{{ app.user.id }}" style="display:none">
+		{% endif %}
 
 		<div id="main-contener"> {% block body %}{% endblock %}
 			</div>

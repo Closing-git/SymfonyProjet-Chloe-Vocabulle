@@ -20,12 +20,13 @@ class ListeVocabulaire
     private ?int $id = null;
 
 
-    #[Groups(['liste-detail'])]
     #[ORM\Column(length: 255)]
+    #[Groups(['liste-detail'])]
     private ?string $titre = null;
 
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['liste-detail'])]
     private ?\DateTime $dateDerniereModif = null;
 
     #[ORM\Column]
@@ -44,6 +45,7 @@ class ListeVocabulaire
      * @var Collection<int, Note>
      */
     #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'listeVocabulaire')]
+    #[Groups(['liste-detail'])]
     private Collection $note;
 
     /**
@@ -124,14 +126,20 @@ class ListeVocabulaire
 
 
     //NOTE TOTALE CALCULÉE EN FONCTION DE TOUTES LES NOTES
+    #[Groups(['liste-detail'])]
     public function getNoteTotale(): ?int
     {
-        $notes = $this->getNotes();
-        $noteTotale = 0;
-        foreach ($notes as $note) {
-            $noteTotale += $note->getMontantNote();
+        if ($this->getNotes()->isEmpty()) {
+            return null;
+        } else {
+            $notes = $this->getNotes();
+            $noteTotale = 0;
+            foreach ($notes as $note) {
+                $noteTotale += $note->getMontantNote();
+            }
+            $noteTotale = $noteTotale / count($notes);
+            return $noteTotale;
         }
-        return $noteTotale;
     }
 
     /**

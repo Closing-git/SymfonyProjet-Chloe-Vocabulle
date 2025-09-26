@@ -23,28 +23,30 @@
 		<button>A gauche</button>
 		{% for liste in listesVocabulaire %}
 			<div class="card">
-				<p>Titre de la liste :
+				<p class="titre-liste">Titre de la liste :
 					{{liste.titre}}</p>
-				<span>Langues :
+				<span class="langues-liste">Langues :
 				</span>
 				{% for langue in liste.getLangues() %}
-					<span>{{ langue.nom }}</span>
+					<span class="langue">{{ langue.nom }}</span>
 				{% endfor %}
-				<p>Créateur :
+				<p class="createur-liste">Créateur :
 					{{ liste.getCreateur().getNom() }}</p>
-				<p>Statut :
+				<p class="statut-liste">Statut :
 					{% if liste.publicStatut %}Public{% else %}Privé
 					{% endif %}
 				</p>
-				<span>Note :</span>
+				<span class="note-liste">Note :</span>
 				{% if liste.getNoteTotale() %}
 					{{liste.getNoteTotale()}}
 				{% else %}
-					<span>Pas encore de note
-					</span>
+					<div class="pas-de-note">
+						<span>Pas encore de note
+						</span>
+					</div>
 				{% endif %}
 
-				<p>Favori :
+				<p class="favori-liste">Favori :
 					{% if app.user in (liste.getUtilisateursQuiFav()) %}
 						OUI
 					{% else %}
@@ -52,20 +54,20 @@
 					{% endif %}
 				</p>
 
-				<p>Meilleur Score :
+				<p class="meilleur-score">Meilleur Score :
 					{{ liste.getBestScoreMostDifficult(app.user) }}
 				</p>
 
 
 				{# Changer le path plus tard #}
 				<a href="{{path('app_afficher_forms', {id_liste:liste.id} )}}">
-					<button>Play</button>
+					<button class="play-button">Play</button>
 				</a>
 				<a href="{{path('app_afficher_forms', {id_liste:liste.id} )}}">
-					<button>Modifier</button>
+					<button class="modifier-button">Modifier</button>
 				</a>
 				<a href="{{path('app_afficher_forms', {id_liste:liste.id} )}}">
-					<button>Supprimer</button>
+					<button class="supprimer-button">Supprimer</button>
 				</a>
 
 
@@ -98,16 +100,113 @@ headers: {
 'Content-Type': 'multipart/form-data'
 }
 
-}).then(function (donnees) {
+}).then(function (donnees) { // Vider la div de son contenu :
 divResultat.textContent = "";
-console.log(donnees);
-divCard = document.createElement("div");
-donnees.data.forEach(function(donnee) {
-	divResultat.appendChild(divCard);
-	pTitre=document.createElement("p");
-	divCard.appendChild(pTitre)
-	pTitre.textContent = donnee.titre
-} )
+
+donnees.data.forEach(function (donnee) {
+
+const divCard = document.createElement("div");
+divCard.classList.add("card");
+
+// Titre de la liste
+const pTitre = document.createElement("p");
+pTitre.classList.add("titre-liste");
+pTitre.textContent = "Titre de la liste : " + donnee.titre;
+divCard.appendChild(pTitre);
+
+// Langues
+const spanLangues = document.createElement("span");
+spanLangues.classList.add("langues-liste");
+spanLangues.textContent = "Langues : ";
+divCard.appendChild(spanLangues);
+
+donnee.langues.forEach(function (langue) {
+const spanLangue = document.createElement("span");
+spanLangue.classList.add("langue");
+spanLangue.textContent = langue.nom;
+divCard.appendChild(spanLangue);
+});
+
+// Créateur
+const pCreateur = document.createElement("p");
+pCreateur.classList.add("createur-liste");
+pCreateur.textContent = "Créateur : " + donnee.createur.nom;
+divCard.appendChild(pCreateur);
+
+// Statut
+const pStatut = document.createElement("p");
+pStatut.classList.add("statut-liste");
+pStatut.textContent = "Statut : " + (
+donnee.publicStatut ? "Public" : "Privé"
+);
+divCard.appendChild(pStatut);
+
+// Note
+const spanNote = document.createElement("span");
+spanNote.classList.add("note-liste");
+spanNote.textContent = "Note : ";
+divCard.appendChild(spanNote);
+
+
+if (donnee.noteTotale) {
+const noteText = document.createTextNode(donnee.noteTotale);
+divCard.appendChild(noteText);
+} else {
+const divPasDeNote = document.createElement("div");
+divPasDeNote.classList.add("pas-de-note");
+
+const spanPasDeNote = document.createElement("span");
+spanPasDeNote.textContent = "Pas encore de note";
+divPasDeNote.appendChild(spanPasDeNote);
+
+divCard.appendChild(divPasDeNote);
+}
+
+const userId = document.querySelector('#userId').value;
+// Favori
+const pFavori = document.createElement("p");
+pFavori.classList.add("favori-liste");
+pFavori.textContent = "Favori : " + (
+donnee.utilisateursQuiFav.includes(userId) ? "OUI" : "NON"
+);
+divCard.appendChild(pFavori);
+
+// Meilleur score
+const pScore = document.createElement("p");
+pScore.classList.add("meilleur-score");
+pScore.textContent = "Meilleur Score : " + donnee.bestScoreMostDifficult;
+divCard.appendChild(pScore);
+
+// Boutons (modifier les URLs si nécessaire)
+const playButton = document.createElement("a");
+playButton.href = `/formulaire/${
+donnee.id
+}`;
+playButton.innerHTML = `<button class="play-button">Play</button>`;
+divCard.appendChild(playButton);
+
+const modifierButton = document.createElement("a");
+modifierButton.href = `/formulaire/${
+donnee.id
+}`;
+modifierButton.innerHTML = `<button class="modifier-button">Modifier</button>`;
+divCard.appendChild(modifierButton);
+
+const supprimerButton = document.createElement("a");
+supprimerButton.href = `/formulaire/${
+donnee.id
+}`;
+supprimerButton.innerHTML = `<button class="supprimer-button">Supprimer</button>`;
+divCard.appendChild(supprimerButton);
+
+// Saut de ligne
+divCard.appendChild(document.createElement("br"));
+divCard.appendChild(document.createElement("br"));
+
+// Ajouter la carte au résultat
+divResultat.appendChild(divCard);
+
+})
 
 
 });
