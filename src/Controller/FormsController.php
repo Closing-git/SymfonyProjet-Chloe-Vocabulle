@@ -12,13 +12,13 @@ use Doctrine\ORM\EntityManagerInterface;
 
 final class FormsController extends AbstractController
 {
-    #[Route('/afficher/form', name: 'app_afficher_forms')]
+    #[Route('modifier/liste', name: 'app_modifier_liste')]
     public function afficherform(): Response
     {
         $formLangue = $this->createForm(LangueType::class);
         $vars = ['formLangue' => $formLangue];
 
-        return $this->render('forms/afficher_form.html.twig', $vars);
+        return $this->render('forms/modifier_liste.html.twig', $vars);
     }
 
 
