@@ -34,6 +34,10 @@ class InfosJeu
     #[Groups(['liste-detail'])]
     private ?Utilisateur $utilisateur = null;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['liste-detail'])]
+    private ?int $bestScoreMostDifficult = null;
+
     #[Groups(['liste-detail'])]
     public function getId(): ?int
     {
@@ -44,6 +48,7 @@ class InfosJeu
     {
         return $this->dateDernierJeu;
     }
+
 
     public function setDateDernierJeu(?\DateTime $dateDernierJeu): static
     {
@@ -69,11 +74,24 @@ class InfosJeu
     {
         return $this->bestScores;
     }
-
     public function setBestScores(array $bestScores): static
     {
         $this->bestScores = $bestScores;
+        $this->bestScoreMostDifficult = $bestScores[2];
+        
+        return $this;
+    }
+    
+    #[Groups(['liste-detail'])]
+    public function getBestScoreMostDifficult(): int
+    {
+        return $this->bestScores[2];
+    }
 
+    public function setBestScoreMostDifficult(int $bestScoreMostDifficult): static
+    {
+        $this->bestScoreMostDifficult = $bestScoreMostDifficult;
+        
         return $this;
     }
 

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250926085154 extends AbstractMigration
+final class Version20250929122632 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,7 +20,7 @@ final class Version20250926085154 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE infos_jeu (id INT AUTO_INCREMENT NOT NULL, liste_vocabulaire_id INT NOT NULL, utilisateur_id INT NOT NULL, date_dernier_jeu DATE DEFAULT NULL, best_scores JSON NOT NULL COMMENT \'(DC2Type:json)\', INDEX IDX_92D584C4E279D0F6 (liste_vocabulaire_id), INDEX IDX_92D584C4FB88E14F (utilisateur_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE infos_jeu (id INT AUTO_INCREMENT NOT NULL, liste_vocabulaire_id INT NOT NULL, utilisateur_id INT NOT NULL, date_dernier_jeu DATE DEFAULT NULL, best_scores JSON NOT NULL COMMENT \'(DC2Type:json)\', best_score_most_difficult INT DEFAULT NULL, INDEX IDX_92D584C4E279D0F6 (liste_vocabulaire_id), INDEX IDX_92D584C4FB88E14F (utilisateur_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE langue (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(255) NOT NULL, maj_importante TINYINT(1) NOT NULL, caracteres_speciaux JSON DEFAULT NULL COMMENT \'(DC2Type:json)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE liste_vocabulaire (id INT AUTO_INCREMENT NOT NULL, createur_id INT NOT NULL, titre VARCHAR(255) NOT NULL, date_derniere_modif DATE NOT NULL, public_statut TINYINT(1) NOT NULL, INDEX IDX_C264029173A201E5 (createur_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE liste_vocabulaire_langue (liste_vocabulaire_id INT NOT NULL, langue_id INT NOT NULL, INDEX IDX_DEE5B98EE279D0F6 (liste_vocabulaire_id), INDEX IDX_DEE5B98E2AADBACD (langue_id), PRIMARY KEY(liste_vocabulaire_id, langue_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

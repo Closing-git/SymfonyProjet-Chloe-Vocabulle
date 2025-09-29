@@ -6,6 +6,7 @@ use App\Entity\Utilisateur;
 use App\Entity\ListeVocabulaire;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use PhpParser\Node\Stmt\ElseIf_;
 
 /**
  * @extends ServiceEntityRepository<ListeVocabulaire>
@@ -57,14 +58,48 @@ class ListeVocabulaireRepository extends ServiceEntityRepository
 
         //Filtrer par titre : barre de recherche
         if ($filtres['titre']) {
-            $query->andWhere("liste.titre LIKE '%". $filtres['titre'] . "%'");
+            $query->andWhere("liste.titre LIKE '%" . $filtres['titre'] . "%'");
         }
 
 
+        if ($filtres['ordre'] == 'alpha') {
+            $query->orderBy("liste.titre", "ASC");
+        } elseif ($filtres['ordre'] == 'antiAlpha') {
+            $query->orderBy("liste.titre", "DESC");
+        } elseif ($filtres['ordre'] == 'olderFirst') {
+            $query->orderBy("liste.dateDerniereModif", "DESC");
+        } elseif ($filtres['ordre'] == 'newerFirst') {
+            $query->orderBy("liste.dateDerniereModif", "ASC");
+        }elseif ($filtres['ordre'] == 'bestNoteFirst') {
+                //AVG : fait la moyenne de la colonne de la table
+                //COALESCE : remplace null par un nb (ici 0), si la colonne est NULL
+                //AS HIDDEN : donne un alias à avgNote mais la 'cache' pour pas que Doctrine ne le renvoie
+                $query
+                    ->addSelect('(SELECT COALESCE(AVG(no.montantNote), 0) 
+                                FROM App\Entity\Note no 
+                                WHERE no.listeVocabulaire = liste) AS HIDDEN avgNote')
+                    ->orderBy('avgNote', 'DESC');
+        }
+        elseif ($filtres['ordre'] == 'bestScoreFirst'){
+            $query->addSelect('(SELECT COALESCE(info.bestScoreMostDifficult,0)
+            FROM App\Entity\InfosJeu info
+            WHERE info.utilisateur = :user3 
+            AND info.listeVocabulaire = liste) AS HIDDEN bestScoreMostDifficult')
+            ->setParameter('user3', $user)
+            ->orderBy('bestScoreMostDifficult', 'DESC');
+        }
+        elseif ($filtres['ordre'] == 'worseScoreFirst'){
+            $query->addSelect('(SELECT COALESCE(info.bestScoreMostDifficult,0)
+            FROM App\Entity\InfosJeu info
+            WHERE info.utilisateur = :user3 
+            AND info.listeVocabulaire = liste) AS HIDDEN bestScoreMostDifficult')
+            ->setParameter('user3', $user)
+            ->orderBy('bestScoreMostDifficult', 'ASC');
+        }
 
         $res = $query->getQuery()->getResult();
         return $res;
-    }
+    }}
 
 
 
@@ -92,4 +127,4 @@ class ListeVocabulaireRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-}
+
