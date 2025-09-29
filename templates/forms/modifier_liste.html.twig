@@ -4,8 +4,18 @@
 {% endblock %}
 
 {% block body %}
-	{{ form_start (formLangue) }}
-	{{ form_widget (formLangue) }}
-    <input type="submit" value="Ajouter Langue">
-	{{ form_end (formLangue)}}
+	{{ form_start (formListe) }}
+	{{ form_row (formListe.titre) }}
+	{{ form_row (formListe.publicStatut) }}
+	{{ form_row (formListe.langue1) }}
+	{{ form_row (formListe.langue2) }}
+	<input type="submit" value="Modifier la liste de vocabulaire">
+	{{ form_end (formListe)}}
+
+{# Affichage du message de confirmation : #}
+	{% for message in app.flashes('success') %}
+		<div class="confirm-message">
+			{{ message }}
+		</div>
+	{% endfor %}
 {% endblock %}
