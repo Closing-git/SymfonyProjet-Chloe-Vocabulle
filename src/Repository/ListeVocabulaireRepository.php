@@ -20,7 +20,6 @@ class ListeVocabulaireRepository extends ServiceEntityRepository
 
     public function searchListes(array $filtres, Utilisateur $user)
     {
-        $em = $this->getEntityManager();
 
         $query = $this->createQueryBuilder('liste')
             ->leftJoin('liste.note', 'note')->addSelect('note')
@@ -56,15 +55,10 @@ class ListeVocabulaireRepository extends ServiceEntityRepository
                 ->setParameter('user2', $user);
         }
 
-
-        //EQUIVALENT
-        // $query = $em->createQuery(
-        //     "SELECT liste, langues, createur, note, infosJeux
-        // FROM App\Entity\ListeVocabulaire liste
-        // LEFT JOIN liste.note note
-        // LEFT JOIN liste.langues langues
-        // LEFT JOIN liste.createur createur
-        // LEFT JOIN liste.infosJeux infosJeux);
+        //Filtrer par titre : barre de recherche
+        if ($filtres['titre']) {
+            $query->andWhere("liste.titre LIKE '%". $filtres['titre'] . "%'");
+        }
 
 
 

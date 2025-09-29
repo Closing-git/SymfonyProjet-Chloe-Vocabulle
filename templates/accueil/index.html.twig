@@ -83,16 +83,18 @@
 	<script>
 		// ajax
 
-//Pas de const ou de let, pour éviter les redéclaration quand on arrive sur l'accueil via une autre page (ou via le logo)
+// Pas de const ou de let, pour éviter les redéclaration quand on arrive sur l'accueil via une autre page (ou via le logo)
 formRecherche = document.querySelector("#recherche-form");
 divResultat = document.querySelector(".cards-contener");
-
 
 formRecherche.addEventListener("submit", function (event) {
 event.preventDefault();
 });
 
-formRecherche.addEventListener('change', function (event) {
+//Boucle for pour avoir un eventListener sur keydown et sur change
+"keydown change".split(" ").forEach(function (e) {
+formRecherche.addEventListener(e, function (event) {
+
 
 const formData = new FormData(formRecherche);
 console.log(formRecherche.dataset.route);
@@ -124,7 +126,7 @@ divCard.appendChild(spanLangues);
 
 donnee.langues.forEach(function (langue, i) {
 const spanLangue = document.createElement("span");
-spanLangue.classList.add("langue"  + i);
+spanLangue.classList.add("langue" + i);
 spanLangue.textContent = langue.nom;
 divCard.appendChild(spanLangue);
 i++;
@@ -175,9 +177,6 @@ pFavori.textContent = "Favori : " + (
 estFavori ? "OUI" : "NON"
 );
 divCard.appendChild(pFavori);
-
-// Meilleur score
-// * ! POUR L'INSTANT NE FONCTIONNE PAS
 
 // Meilleur score (calculé depuis les données JSON)
 const infoJeuUser = (donnee.infosJeux || []).find(
@@ -233,9 +232,8 @@ divResultat.appendChild(divCard);
 
 })
 
-
 });
-
+})
 });
 
 	</script>
