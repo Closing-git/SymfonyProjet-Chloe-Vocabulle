@@ -122,11 +122,12 @@ spanLangues.classList.add("langues-liste");
 spanLangues.textContent = "Langues : ";
 divCard.appendChild(spanLangues);
 
-donnee.langues.forEach(function (langue) {
+donnee.langues.forEach(function (langue, i) {
 const spanLangue = document.createElement("span");
-spanLangue.classList.add("langue");
+spanLangue.classList.add("langue"  + i);
 spanLangue.textContent = langue.nom;
 divCard.appendChild(spanLangue);
+i++;
 });
 
 // Créateur

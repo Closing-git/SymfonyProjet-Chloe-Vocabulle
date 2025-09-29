@@ -36,9 +36,9 @@ class ListeVocabulaireRepository extends ServiceEntityRepository
                 ->setParameter('user', $user);
         }
 
-        //Filtrer par langue
+        //Filtrer par langue (Doit utiliser MEMBER OF parce que c'est une relation many to many et qu'on veut avoir accès aux deux langues)
         if ($filtres['langue']) {
-            $query->andWhere('langues = :langue')
+            $query->andWhere(':langue MEMBER OF liste.langues')
                 ->setParameter('langue', $filtres['langue']);
         }
 
