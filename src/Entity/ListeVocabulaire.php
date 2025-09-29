@@ -17,6 +17,7 @@ class ListeVocabulaire
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['liste-detail'])]
     private ?int $id = null;
 
 
