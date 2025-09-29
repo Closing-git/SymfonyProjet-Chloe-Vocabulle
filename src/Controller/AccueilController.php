@@ -41,7 +41,7 @@ final class AccueilController extends AbstractController
         if ($form->isSubmitted()) {
             // dd($form->getData());
             $rep = $doctrine->getRepository(ListeVocabulaire::class);
-            $resultats = $rep->searchListes($form->getData());
+            $resultats = $rep->searchListes($form->getData(), $this->getUser());
             
             $response = $serializer->serialize ($resultats, 'json',['groups' => 'liste-detail']) ;
             return new Response ($response);

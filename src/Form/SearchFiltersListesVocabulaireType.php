@@ -44,8 +44,9 @@ class SearchFiltersListesVocabulaireType extends AbstractType
                 'label' => 'Public/Privé',
                 'placeholder' => 'Tous',
                 'choices' => [
-                    'Privé' => false,
-                    'Public' => true,
+                    'Tous'=> '',
+                    'Privé' => 'prive',
+                    'Public' => "public",
                 ]
             ])
             ->add('ownCreator', CheckboxType::class, [

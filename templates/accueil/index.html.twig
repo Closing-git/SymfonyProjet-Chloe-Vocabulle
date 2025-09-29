@@ -82,8 +82,10 @@
 
 	<script>
 		// ajax
-const formRecherche = document.querySelector("#recherche-form");
-const divResultat = document.querySelector(".cards-contener");
+
+//Pas de const ou de let, pour éviter les redéclaration quand on arrive sur l'accueil via une autre page (ou via le logo)
+formRecherche = document.querySelector("#recherche-form");
+divResultat = document.querySelector(".cards-contener");
 
 
 formRecherche.addEventListener("submit", function (event) {
@@ -234,6 +236,7 @@ divResultat.appendChild(divCard);
 });
 
 });
+
 	</script>
 
 {% endblock %}
