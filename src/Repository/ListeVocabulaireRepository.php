@@ -25,11 +25,12 @@ class ListeVocabulaireRepository extends ServiceEntityRepository
 
 
         $query = $em->createQuery(
-            "SELECT liste, langues, createur, note
+            "SELECT liste, langues, createur, note, infosJeux
         FROM App\Entity\ListeVocabulaire liste
         LEFT JOIN liste.note note
         LEFT JOIN liste.langues langues
         LEFT JOIN liste.createur createur
+        LEFT JOIN liste.infosJeux infosJeux
 
                 -- INNER JOIN liste.utilisateurs_qui_fav utilisateur
                 -- WHERE langue = :langue

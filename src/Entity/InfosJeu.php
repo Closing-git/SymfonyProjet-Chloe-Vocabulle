@@ -22,6 +22,7 @@ class InfosJeu
 
     #[ORM\ManyToOne(inversedBy: 'infosJeux')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['liste-detail'])]
     private ?ListeVocabulaire $listeVocabulaire = null;
 
     #[ORM\Column]
@@ -30,6 +31,7 @@ class InfosJeu
 
     #[ORM\ManyToOne(inversedBy: 'infosJeu')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['liste-detail'])]
     private ?Utilisateur $utilisateur = null;
 
     #[Groups(['liste-detail'])]

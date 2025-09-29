@@ -176,10 +176,28 @@ divCard.appendChild(pFavori);
 // Meilleur score
 // * ! POUR L'INSTANT NE FONCTIONNE PAS
 
-// const pScore = document.createElement("p");
-// pScore.classList.add("meilleur-score");
-// pScore.textContent = "Meilleur Score : " + donnee.getBestScoreMostDifficult(userId);
-// divCard.appendChild(pScore);
+// Meilleur score (calculé depuis les données JSON)
+const infoJeuUser = (donnee.infosJeux || []).find(
+// Trouve l'infoJeu là où l'id du user correspond à l'id de l'utilisateur connecté, soit depuis infosJeux, soit (si pas encore de meilleur score) depuis un tableau vide []
+(info) => String(info.utilisateur ?. id) === String(userId)
+);
+
+let bestScoreMostDifficult;
+if (infoJeuUser == null) { // Pas d'infoJeu pour cet utilisateur
+bestScoreMostDifficult = "Pas encore de meilleur score";
+} else if (infoJeuUser.bestScores == null) { // Le tableau des scores n'existe pas
+bestScoreMostDifficult = "Pas encore de meilleur score";
+} else if (infoJeuUser.bestScores[2] == null) { // Le score de la difficulté la plus élévée ([2]) n'existe pas
+bestScoreMostDifficult = "Pas encore de meilleur score";
+} else { // Sinon récupère le meilleur score
+bestScoreMostDifficult = infoJeuUser.bestScores[2];
+}
+
+const pScore = document.createElement("p");
+pScore.classList.add("meilleur-score");
+pScore.textContent = "Meilleur Score : " + bestScoreMostDifficult;
+divCard.appendChild(pScore);
+
 
 // Boutons (modifier les URLs si nécessaire)
 const playButton = document.createElement("a");
