@@ -67,9 +67,9 @@ class ListeVocabulaireRepository extends ServiceEntityRepository
         } elseif ($filtres['ordre'] == 'antiAlpha') {
             $query->orderBy("liste.titre", "DESC");
         } elseif ($filtres['ordre'] == 'olderFirst') {
-            $query->orderBy("liste.dateDerniereModif", "DESC");
-        } elseif ($filtres['ordre'] == 'newerFirst') {
             $query->orderBy("liste.dateDerniereModif", "ASC");
+        } elseif ($filtres['ordre'] == 'newerFirst') {
+            $query->orderBy("liste.dateDerniereModif", "DESC");
         }elseif ($filtres['ordre'] == 'bestNoteFirst') {
                 //AVG : fait la moyenne de la colonne de la table
                 //COALESCE : remplace null par un nb (ici 0), si la colonne est NULL

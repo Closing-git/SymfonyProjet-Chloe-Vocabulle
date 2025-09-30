@@ -61,9 +61,9 @@ final class FormsController extends AbstractController
 
             $em->flush();
 
-            $this->addFlash('success', 'La liste de vocabulaire a été mise à jour.');
+            $this->addFlash('success', 'La liste de vocabulaire ' . $liste->getTitre() . ' a été mise à jour.');
             // Redirection après succès 
-            return $this->redirectToRoute('app_modifier_liste', ['id_liste' => $liste->getId()]);
+            return $this->redirectToRoute('app_accueil');
         }
         return $this->render('forms/modifier_liste.html.twig', $vars);
     }
@@ -114,6 +114,7 @@ final class FormsController extends AbstractController
                 $liste->addLangue($langue2);
                 $em->persist($liste);
                 $em->flush();
+                $this->addFlash('success', sprintf("La liste " . $liste->getTitre() . " a été créée avec succès."));
                 //Renvoie vers la page qui affiche les langues (bien mettre la route et pas le html)
                 return $this->redirectToRoute('app_accueil');
 

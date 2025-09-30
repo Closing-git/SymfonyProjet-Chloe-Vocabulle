@@ -52,6 +52,13 @@
 			<input id="userId" value="{{ app.user.id }}" style="display:none">
 		{% endif %}
 
+		{# Message flash de succès #}
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
+
 		<div id="main-contener"> {% block body %}{% endblock %}
 			</div>
 		</body>

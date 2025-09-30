@@ -5,7 +5,6 @@
 
 {% block body %}
 
-
 	{{ form_start(form, {'attr': {'id': 'recherche-form',
 								'data-route': path('app_recherche') }}) }}
 	{{ form_row(form.langue) }}
@@ -19,7 +18,8 @@
 
 	<br>
 	<a href="{{path('app_ajouter_liste')}}">
-	<button>Ajouter une liste</button></a>
+		<button>Ajouter une liste</button>
+	</a>
 	<br><br>
 	<div class='cards-contener'>
 		<button>A gauche</button>
@@ -88,7 +88,6 @@
 	</div>
 	<br>
 	<button>Ajouter une liste</button>
-
 
 
 {% endblock %}
