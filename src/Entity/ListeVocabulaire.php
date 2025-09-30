@@ -38,7 +38,7 @@ class ListeVocabulaire
     /**
      * @var Collection<int, InfosJeu>
      */
-    #[ORM\OneToMany(targetEntity: InfosJeu::class, mappedBy: 'listeVocabulaire', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: InfosJeu::class, mappedBy: 'listeVocabulaire', orphanRemoval: true, cascade : ['remove'])]
     #[Groups(['liste-detail'])]
     private Collection $infosJeux;
 
@@ -59,7 +59,7 @@ class ListeVocabulaire
     /**
      * @var Collection<int, Traduction>
      */
-    #[ORM\OneToMany(targetEntity: Traduction::class, mappedBy: 'listeVocabulaire', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Traduction::class, mappedBy: 'listeVocabulaire', orphanRemoval: true, cascade : ['remove'])]
     private Collection $traduction;
 
     /**

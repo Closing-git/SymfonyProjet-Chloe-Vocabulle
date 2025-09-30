@@ -60,22 +60,3 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
-
-
-
-
-// BOUTON SUPPRIMER // CONFIRMATION SUPPRIMER
-deleteButtonHtml = document.querySelector(".supprimer-button");
-confirmDeleteDiv = document.querySelector(".confirm_delete");
-cancelDeleteButton = document.querySelector(".cancel_delete");
-
-deleteButtonHtml.addEventListener("click", function (event) {
-    confirmDeleteDiv.classList.remove("hidden");
-    confirmDeleteDiv.classList.add("show");
-})
-
-cancelDeleteButton.addEventListener("click", function (event) {
-    confirmDeleteDiv.classList.remove("show");
-    confirmDeleteDiv.classList.add("hidden");
-})
