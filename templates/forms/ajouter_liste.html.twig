@@ -4,9 +4,10 @@
 {% endblock %}
 
 {% block body %}
+	<a href="{{path('app_accueil')}}">
+		<button>Retour</button>
+		</a>
 	<h2>Ajouter une liste</h2>
-
-
 	{{ form_start(formListe)}}
 	{{ form_row (formListe.titre) }}
 	{{ form_row (formListe.publicStatut) }}
