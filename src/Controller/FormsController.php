@@ -73,12 +73,13 @@ final class FormsController extends AbstractController
     //DELETE
     #[Route("/supprimer/liste/{id_liste}", name: 'app_supprimer_liste')]
     public function listeDelete(ManagerRegistry $doctrine, int $id_liste)
-    {
+    {   
         $listeToDelete = new ListeVocabulaire();
         $em = $doctrine->getManager();
         $listeToDelete = $em->getRepository(ListeVocabulaire::class)->find($id_liste);
         $em->remove($listeToDelete);
         $em->flush();
+        $this->addFlash('success', sprintf("La liste " . $listeToDelete->getTitre() . " a été supprimée."));
         return $this->redirectToRoute("app_accueil");
     }
 
@@ -98,8 +99,8 @@ final class FormsController extends AbstractController
         $liste->setCreateur($this->getUser());
         //Req est la requête envoyée (Post ou Get) 
         $formListe->handleRequest($req);
-        
-        
+
+
         //Vérifie que ça n'est pas deux fois la même langue
         $langue1 = $formListe->get('langue1')->getData();
         $langue2 = $formListe->get('langue2')->getData();
@@ -110,15 +111,14 @@ final class FormsController extends AbstractController
         }
         //Le formulaire est rempli (valide) et envoyé
         if ($formListe->isSubmitted() && $formListe->isValid()) {
-                $liste->addLangue($langue1);
-                $liste->addLangue($langue2);
-                $em->persist($liste);
-                $em->flush();
-                $this->addFlash('success', sprintf("La liste " . $liste->getTitre() . " a été créée avec succès."));
-                //Renvoie vers la page qui affiche les langues (bien mettre la route et pas le html)
-                return $this->redirectToRoute('app_accueil');
-
-                }
+            $liste->addLangue($langue1);
+            $liste->addLangue($langue2);
+            $em->persist($liste);
+            $em->flush();
+            $this->addFlash('success', sprintf("La liste " . $liste->getTitre() . " a été créée avec succès."));
+            //Renvoie vers la page qui affiche les langues (bien mettre la route et pas le html)
+            return $this->redirectToRoute('app_accueil');
+        }
 
         //Sinon on reste sur la même page, en rafaichissant pour obtenir les erreurs potentielles
         else {
@@ -127,5 +127,4 @@ final class FormsController extends AbstractController
             return $this->render('forms/ajouter_liste.html.twig', $vars);
         }
     }
-
 }
