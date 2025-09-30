@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Constraints\Date;
+use DateTime;
 
 final class FormsController extends AbstractController
 {
@@ -69,7 +71,7 @@ final class FormsController extends AbstractController
 
 
     //DELETE
-    #[Route ("/supprimer/liste/{id_liste}", name: 'app_supprimer_liste')]
+    #[Route("/supprimer/liste/{id_liste}", name: 'app_supprimer_liste')]
     public function listeDelete(ManagerRegistry $doctrine, int $id_liste)
     {
         $listeToDelete = new ListeVocabulaire();
@@ -79,6 +81,52 @@ final class FormsController extends AbstractController
         $em->flush();
         return $this->redirectToRoute("app_accueil");
     }
+
+
+
+
+    //AJOUTER UNE LISTE
+    #[Route('/ajouterListe', name: 'app_ajouter_liste')]
+    public function ajouterListe(Request $req, EntityManagerInterface $em): Response
+    {
+        $liste = new ListeVocabulaire();
+
+
+        $formListe = $this->createForm(ListeType::class, $liste);
+
+        $liste->setDateDerniereModif(new DateTime());
+        $liste->setCreateur($this->getUser());
+        //Req est la requête envoyée (Post ou Get) 
+        $formListe->handleRequest($req);
+        
+        
+        //Vérifie que ça n'est pas deux fois la même langue
+        $langue1 = $formListe->get('langue1')->getData();
+        $langue2 = $formListe->get('langue2')->getData();
+        if ($langue1 && $langue2 && $langue1->getId() === $langue2->getId()) {
+            $formListe->get('langue2')->addError(
+                new FormError('Les deux langues ne peuvent pas être les mêmes.')
+            );
+        }
+        //Le formulaire est rempli (valide) et envoyé
+        if ($formListe->isSubmitted() && $formListe->isValid()) {
+                $liste->addLangue($langue1);
+                $liste->addLangue($langue2);
+                $em->persist($liste);
+                $em->flush();
+                //Renvoie vers la page qui affiche les langues (bien mettre la route et pas le html)
+                return $this->redirectToRoute('app_accueil');
+
+                }
+
+        //Sinon on reste sur la même page, en rafaichissant pour obtenir les erreurs potentielles
+        else {
+
+            $vars = ['formListe' => $formListe];
+            return $this->render('forms/ajouter_liste.html.twig', $vars);
+        }
+    }
+
 
 
 

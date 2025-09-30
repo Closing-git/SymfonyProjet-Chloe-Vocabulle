@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une liste de vocabulaire
+{% endblock %}
+
+{% block body %}
+	<h2>Ajouter une liste</h2>
+
+
+	{{ form_start(formListe)}}
+	{{ form_row (formListe.titre) }}
+	{{ form_row (formListe.publicStatut) }}
+	{{ form_row (formListe.langue1) }}
+	{{ form_row (formListe.langue2) }}
+	<input type="submit" value="Ajouter la liste">
+	{{ form_end(formListe)}}
+{% endblock %}
