@@ -79,3 +79,21 @@ body {
 
 }
 
+.hidden {
+    display: none;
+}
+
+.show {
+    position: absolute;
+    top: 50%;
+    /* Déplace le coin supérieur gauche à 50% du haut */
+    left: 50%;
+    /* Déplace le coin supérieur gauche à 50% de la gauche */
+    transform: translate(-50%, -50%);
+    /* Décale le div de la moitié de sa propre taille */
+    width: 200px;
+    height: 100px;
+    background-color: rgb(243, 8, 8);
+    text-align: center;
+
+}

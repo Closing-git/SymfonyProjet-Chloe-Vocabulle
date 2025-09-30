@@ -5,6 +5,7 @@
 
 {% block body %}
 
+
 	{{ form_start(form, {'attr': {'id': 'recherche-form',
 								'data-route': path('app_recherche') }}) }}
 	{{ form_row(form.langue) }}
@@ -66,10 +67,17 @@
 				<a href="{{path('app_modifier_liste', {id_liste:liste.id} )}}">
 					<button class="modifier-button">Modifier</button>
 				</a>
-				<a href="{{path('app_supprimer_liste', {id_liste:liste.id} )}}">
-					<button class="supprimer-button">Supprimer</button>
-				</a>
+				<button class="supprimer-button">Supprimer</button>
 
+				<div class='confirm_delete hidden'>
+					<p>Êtes-vous sûr-e de vouloir supprimer la liste :
+						{{liste.titre}}
+						?</p>
+					<button class='cancel_delete'>Annuler</button>
+					<a href="{{path('app_supprimer_liste', {id_liste:liste.id} )}}">
+						<button class="supprimer-button">Supprimer</button>
+					</a>
+				</div>
 
 				<br><br>
 			</div>
@@ -81,8 +89,9 @@
 	<button>Ajouter une liste</button>
 
 	<script>
-		// ajax
 
+
+		// FORMULAIRE DE RECHERCHE
 // Pas de const ou de let, pour éviter les redéclaration quand on arrive sur l'accueil via une autre page (ou via le logo)
 formRecherche = document.querySelector("#recherche-form");
 divResultat = document.querySelector(".cards-contener");
@@ -91,24 +100,22 @@ formRecherche.addEventListener("submit", function (event) {
 event.preventDefault();
 });
 
-//Boucle for pour avoir un eventListener sur keydown et sur change
+// Boucle for pour avoir un eventListener sur keydown et sur change
 "keyup change".split(" ").forEach(function (e) {
 formRecherche.addEventListener(e, function (event) {
 
-
 const formData = new FormData(formRecherche);
 console.log(formRecherche.dataset.route);
-
 axios.post(formRecherche.dataset.route, formData, {
 headers: {
 'Content-Type': 'multipart/form-data'
 }
 
+
 }).then(function (donnees) { // Vider la div de son contenu :
 divResultat.textContent = "";
 
 donnees.data.forEach(function (donnee) {
-
 const divCard = document.createElement("div");
 divCard.classList.add("card");
 
@@ -217,9 +224,6 @@ modifierButton.innerHTML = `<button class="modifier-button">Modifier</button>`;
 divCard.appendChild(modifierButton);
 
 const supprimerButton = document.createElement("a");
-supprimerButton.href = `/supprimer/liste/${
-donnee.id
-}`;
 supprimerButton.innerHTML = `<button class="supprimer-button">Supprimer</button>`;
 divCard.appendChild(supprimerButton);
 
@@ -227,15 +231,46 @@ divCard.appendChild(supprimerButton);
 divCard.appendChild(document.createElement("br"));
 divCard.appendChild(document.createElement("br"));
 
+
+// Div Confirm Delete
+const containerDeleteDiv = document.createElement('div');
+const pDeleteConfirm = document.createElement('p');
+containerDeleteDiv.className = 'confirm_delete hidden';
+pDeleteConfirm.textContent = `Êtes-vous sûr-e de vouloir supprimer la liste : ${
+donnee.titre
+} ?`;
+containerDeleteDiv.appendChild(pDeleteConfirm);
+
+const cancelBtn = document.createElement('button');
+cancelBtn.className = 'cancel_delete';
+cancelBtn.type = 'button';
+cancelBtn.textContent = 'Annuler';
+containerDeleteDiv.appendChild(cancelBtn);
+
+const linkDelete = document.createElement('a');
+// Si tu préfères via la route Symfony, remplace par l’URL générée côté Twig:
+// link.href = "{{ path('app_supprimer_liste', { id_liste: 'REPLACE_ME' }) }}".replace('REPLACE_ME', listeId);
+linkDelete.href = `/supprimer/liste/${
+donnee.id
+}`;
+
+const deleteConfirmBtn = document.createElement('button');
+deleteConfirmBtn.className = 'supprimer-button';
+deleteConfirmBtn.type = 'button';
+deleteConfirmBtn.textContent = 'Supprimer';
+
+linkDelete.appendChild(deleteConfirmBtn);
+containerDeleteDiv.appendChild(linkDelete);
+divCard.appendChild(containerDeleteDiv);
+
+
 // Ajouter la carte au résultat
 divResultat.appendChild(divCard);
-
 })
-
 });
 })
 });
-
 	</script>
+
 
 {% endblock %}

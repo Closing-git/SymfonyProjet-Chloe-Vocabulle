@@ -18,6 +18,7 @@
 	</head>
 	<body>
 		<header>
+
 			<div id="header-main">
 				<a href="{{ path('app_accueil') }}"><img id="logo" src="{{ asset('img/logo.png') }}" alt="Logo"></a>
 				<div id="profil-circle"><img id="profil" src="{{ asset('img/profil.png') }}" alt="Profil"></div>
@@ -46,9 +47,9 @@
 			</div>
 
 		</header>
-		{# Pour pouvoir récupérer l'id de l'utilisateur connecté dans JS #}	
+		{# Pour pouvoir récupérer l'id de l'utilisateur connecté dans JS #}
 		{% if app.user %}
-		<input id="userId" value="{{ app.user.id }}" style="display:none">
+			<input id="userId" value="{{ app.user.id }}" style="display:none">
 		{% endif %}
 
 		<div id="main-contener"> {% block body %}{% endblock %}
