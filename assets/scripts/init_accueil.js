@@ -65,6 +65,14 @@ function buildCards(donnees, divResultat) {
         pFavori.textContent = "Favori : " + (estFavori ? "OUI" : "NON");
         divCard.appendChild(pFavori);
 
+        //Bouton pour FAV 
+        const favBtn = document.createElement('button');
+        favBtn.className = 'fav-toggle';
+        favBtn.textContent = estFavori ? 'Retirer des favoris' : 'Ajouter aux favoris';
+        favBtn.dataset.id = String(donnee.id);
+        divCard.appendChild(favBtn);
+
+        
         // Meilleur score
         const infoJeuUser = (donnee.infosJeux || []).find(
             (info) => String(info.utilisateur?.id) === String(userId)
@@ -133,7 +141,7 @@ function buildCards(donnees, divResultat) {
 function initAccueil() {
     // Évite la double initialisation (vu qu'on lance un eventlistener sur turbo:load et DOMContentLoaded)
     const root = document.querySelector('#recherche-form');
-    if (!root) return; 
+    if (!root) return;
     //On donne un dataset initialized de 1 à root pour dire qu'il a déjà été initialisé
     //Si il est égal à 1, on ne fait rien
     if (root.dataset.initialized === '1') return;

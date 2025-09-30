@@ -26,8 +26,9 @@ final class AccueilController extends AbstractController
 
 
         $vars = [
-            'listesVocabulaire' => $listesVocabulaire, 
-            'form' => $form];
+            'listesVocabulaire' => $listesVocabulaire,
+            'form' => $form
+        ];
         //On envoie le array vars au template en l'ajoutant aux paramètres de render
         return $this->render('accueil/index.html.twig', $vars);
     }
@@ -37,20 +38,44 @@ final class AccueilController extends AbstractController
     {
         $form = $this->createForm(SearchFiltersListesVocabulaireType::class);
         $form->handleRequest($req);
-        
+
         if ($form->isSubmitted()) {
             // dd($form->getData());
             $rep = $doctrine->getRepository(ListeVocabulaire::class);
             $resultats = $rep->searchListes($form->getData(), $this->getUser());
-            
-            $response = $serializer->serialize ($resultats, 'json',['groups' => 'liste-detail']) ;
-            return new Response ($response);
+
+            $response = $serializer->serialize($resultats, 'json', ['groups' => 'liste-detail']);
+            return new Response($response);
+        } else {
+            return new Response(['error' => 'not submit']);
         }
-        else {
-            return new Response (['error' => 'not submit']);
+    }
 
+    #[Route('/liste/{id}/fav-toggle', name: 'app_fav_toggle', methods: ['POST'])]
+    public function toggleFav(ListeVocabulaire $liste, Request $request, EntityManagerInterface $em): Response
+    {
+        //Récupère le user
+        $user = $this->getUser();
+
+        // CSRF Token : On en a besoin pour éviter qu'un tier utilise POST pour changer massivement la base de données
+        $token = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('fav_toggle_' . $liste->getId(), $token)) {
+            $this->addFlash('error', 'Action non autorisée.');
+            return $this->redirectToRoute('app_accueil');
         }
 
+        //On récupère tous les utilisateurs qui fav
+        $favUsers = $liste->getUtilisateursQuiFav();
+        //On remove ou add en fonction des cas
+        if ($favUsers->contains($user)) {
+            $liste->removeUtilisateursQuiFav($user);
+            $this->addFlash('success', sprintf($liste->getTitre() . ' retirée de vos favoris.'));
+        } else {
+            $liste->addUtilisateursQuiFav($user);
+            $this->addFlash('success', sprintf($liste->getTitre() . ' ajoutée à vos favoris.'));
+        }
 
+        $em->flush();
+        return $this->redirectToRoute('app_accueil');
     }
 }

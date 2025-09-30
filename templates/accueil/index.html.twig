@@ -47,7 +47,18 @@
 						</span>
 					</div>
 				{% endif %}
-
+				<form
+					method="post" action="{{ path('app_fav_toggle', { id: liste.id }) }}">
+					{# TOKEN pour se protéger #}
+					<input type="hidden" name="_token" value="{{ csrf_token('fav_toggle_' ~ liste.id) }}">
+					<button type="submit" class="fav-toggle">
+						{% if app.user in liste.getUtilisateursQuiFav() %}
+							Retirer des favoris
+						{% else %}
+							Ajouter aux favoris
+						{% endif %}
+					</button>
+				</form>
 				<p class="favori-liste">Favori :
 					{% if app.user in (liste.getUtilisateursQuiFav()) %}
 						OUI

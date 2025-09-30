@@ -7,6 +7,6 @@ import './bootstrap.js';
  */
 import './styles/app.css';
 import './scripts/confirm_delete.js';
-import './scripts/init_accueil.js'
+import './scripts/init_accueil.js';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
