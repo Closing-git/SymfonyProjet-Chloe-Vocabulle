@@ -82,8 +82,11 @@ body {
 .hidden {
     display: none;
 }
+.show{
+    display:block;
+}
 
-.show {
+.show-delete {
     position: absolute;
     top: 50%;
     /* Déplace le coin supérieur gauche à 50% du haut */

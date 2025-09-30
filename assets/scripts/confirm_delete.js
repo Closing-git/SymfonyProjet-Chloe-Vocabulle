@@ -16,7 +16,7 @@ function DeleteConfirm() {
             if (!confirmBlock) return;
 
             confirmBlock.classList.remove('hidden');
-            confirmBlock.classList.add('show');
+            confirmBlock.classList.add('show-delete');
             return; // ne pas poursuivre
         }
 
@@ -26,18 +26,18 @@ function DeleteConfirm() {
             e.preventDefault();
             const confirmBlock = cancelBtn.closest('.confirm_delete');
             if (!confirmBlock) return;
-            confirmBlock.classList.remove('show');
+            confirmBlock.classList.remove('show-delete');
             confirmBlock.classList.add('hidden');
             return;
         }
 
         // 3) Clic en dehors du bloc ouvert -> fermer
-        const anyOpen = container.querySelector('.confirm_delete.show');
+        const anyOpen = container.querySelector('.confirm_delete.show-delete');
         if (anyOpen) {
             const clickedInside = anyOpen.contains(target);
             const clickedTrigger = !!target.closest('.supprimer-button');
             if (!clickedInside && !clickedTrigger) {
-                anyOpen.classList.remove('show');
+                anyOpen.classList.remove('show-delete');
                 anyOpen.classList.add('hidden');
             }
         }
@@ -46,9 +46,9 @@ function DeleteConfirm() {
     // 4) Echap -> fermer le bloc ouvert
     document.addEventListener('keydown', (e) => {
         if (e.key !== 'Escape') return;
-        const open = container.querySelector('.confirm_delete.show');
+        const open = container.querySelector('.confirm_delete.show-delete');
         if (!open) return;
-        open.classList.remove('show');
+        open.classList.remove('show-delete');
         open.classList.add('hidden');
     });
 }
