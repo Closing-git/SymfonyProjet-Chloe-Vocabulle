@@ -1,4 +1,4 @@
-function initAccueilDeleteConfirm() {
+function DeleteConfirm() {
     const container = document.querySelector('.cards-contener');
     if (!container) return;
 
@@ -53,9 +53,10 @@ function initAccueilDeleteConfirm() {
     });
 }
 
-// Appeler une seule fois au chargement
+//Turbo:load => Pour quand on vient de login (parce que symfony utilise turbo qui ne charge que le body et pas toute la page)
+document.addEventListener('turbo:load', DeleteConfirm);
 document.addEventListener('DOMContentLoaded', () => {
-    initAccueilDeleteConfirm();
+    DeleteConfirm();
 });
 
 
