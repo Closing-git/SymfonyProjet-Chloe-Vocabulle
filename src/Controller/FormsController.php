@@ -8,6 +8,7 @@ use App\Form\LangueType;
 use App\Entity\ListeVocabulaire;
 use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class FormsController extends AbstractController
 {
     #[Route('modifier/liste/{id_liste}', name: 'app_modifier_liste')]
-    public function afficherform(EntityManagerInterface $em, int $id_liste, Request $request): Response
+    public function modifierListe(EntityManagerInterface $em, int $id_liste, Request $request): Response
     {
         $liste = new ListeVocabulaire();
 
@@ -67,8 +68,22 @@ final class FormsController extends AbstractController
 
 
 
+    //DELETE
+    #[Route ("/supprimer/liste/{id_liste}", name: 'app_supprimer_liste')]
+    public function listeDelete(ManagerRegistry $doctrine, int $id_liste)
+    {
+        $listeToDelete = new ListeVocabulaire();
+        $em = $doctrine->getManager();
+        $listeToDelete = $em->getRepository(ListeVocabulaire::class)->find($id_liste);
+        $em->remove($listeToDelete);
+        $em->flush();
+        return $this->redirectToRoute("app_accueil");
+    }
 
 
+
+
+    //EXEMPLES : EXERCICES
     #[Route('form/insert/langue', name: 'app_forms_insert_langue')]
     public function insertLangue(Request $req, EntityManagerInterface $em): Response
     {

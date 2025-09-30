@@ -45,7 +45,7 @@ class ListeVocabulaire
     /**
      * @var Collection<int, Note>
      */
-    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'listeVocabulaire')]
+    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'listeVocabulaire', orphanRemoval: true, cascade : ['remove'])]
     #[Groups(['liste-detail'])]
     private Collection $note;
 
