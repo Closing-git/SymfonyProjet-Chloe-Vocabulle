@@ -1,3 +1,4 @@
+
 function traduction_add() {
     const traductions = document.getElementById('traductions');
     const addBtn = document.getElementById('btn-add-traduction');
@@ -19,16 +20,22 @@ function traduction_add() {
         div_traduction.innerHTML = prototype.replace(/__name__/g, index);
         //Prend le premier enfant du div_traduction pour y ajouter le formulaire traduction créé
         const item = div_traduction.firstElementChild || div_traduction;
+        item.classList.add("traduction-item");
         traductions.appendChild(item);
 
-        const btn_validate = document.createElement("button");
-        btn_validate.type = 'button';
-        btn_validate.className = "btn-validate-traduction";
-        btn_validate.textContent = "Valider";
-        item.appendChild(btn_validate);
+        // Ajoutez le bouton de suppression
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'btn-remove-traduction';
+        removeBtn.textContent = 'Supprimer';
+        item.appendChild(removeBtn);
+        removeBtn.onclick = function () {
+            div_traduction.remove();
+        };
 
         //Fonction pour supprimer les trads déjà présentes (voir ci-desous)
         attachRemove(item);
+
     });
 
     // Supprimer les traductions déjà présentes
@@ -46,7 +53,13 @@ function traduction_add() {
 
 
 //Turbo:load => Pour quand on vient de login (parce que symfony utilise turbo qui ne charge que le body et pas toute la page)
-document.addEventListener('turbo:load', traduction_add);
-document.addEventListener('DOMContentLoaded', () => {
-    traduction_add();
+document.addEventListener('turbo:load', function () {
+    if (document.getElementById('btn-add-traduction')) {
+        traduction_add();
+    }
+});
+document.addEventListener('DOMContentLoaded', function () {
+    if (document.getElementById('btn-add-traduction')) {
+        traduction_add();
+    }
 });
