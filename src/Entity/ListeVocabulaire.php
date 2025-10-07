@@ -59,7 +59,8 @@ class ListeVocabulaire
     /**
      * @var Collection<int, Traduction>
      */
-    #[ORM\OneToMany(targetEntity: Traduction::class, mappedBy: 'listeVocabulaire', orphanRemoval: true, cascade : ['remove'])]
+    //On ajoute casace: 'persist' pour que quand on persiste une liste, on persiste également les Traductions ajoutées
+    #[ORM\OneToMany(targetEntity: Traduction::class, mappedBy: 'listeVocabulaire', orphanRemoval: true, cascade : ['persist', 'remove'])]
     private Collection $traduction;
 
     /**

@@ -6,12 +6,23 @@
 {% block body %}
 	<a href="{{path('app_accueil')}}">
 		<button>Retour</button>
-		</a>
-		{{ form_start (formListe) }}
-		{{ form_row (formListe.titre) }}
-		{{ form_row (formListe.publicStatut) }}
-		{{ form_row (formListe.langue1) }}
-		{{ form_row (formListe.langue2) }}
-		<input type="submit" value="Modifier la liste de vocabulaire">
-		{{ form_end (formListe)}}
-	{% endblock %}
+	</a>
+	{{ form_start (formListe) }}
+	{{ form_row (formListe.titre) }}
+	{{ form_row (formListe.publicStatut) }}
+	{{ form_row (formListe.langue1) }}
+	{{ form_row (formListe.langue2) }}
+	<div
+		{# formListe.traduction.vars.prototype => Permet de relier le formulaire des traductions #} {# escape('html_attr') => Permet de protéger les caractères spéciaux présent dans form.Liste.traduction.vars.prototype qui doit être du HTML (Sinon les balises se ferment) #} id="traductions" data-index="{{ formListe.traduction|length }}" data-prototype="{{ form_widget(formListe.traduction.vars.prototype)|escape('html_attr') }}">
+		{# Afficher les traduction déjà existantes#}
+		{% for formTrad in formListe.traduction %}
+			<div class="traduction-item">
+				{{ form_row(formTrad.motLangue1) }}
+				{{ form_row(formTrad.motLangue2) }}
+				<button type="button" class="btn-remove-traduction">Supprimer</button>
+			</div>
+		{% endfor %}
+	</div>
+	<input type="submit" value="Modifier la liste de vocabulaire">
+	{{ form_end (formListe)}}
+{% endblock %}

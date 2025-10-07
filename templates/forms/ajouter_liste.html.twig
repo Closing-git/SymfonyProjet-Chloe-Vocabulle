@@ -6,13 +6,25 @@
 {% block body %}
 	<a href="{{path('app_accueil')}}">
 		<button>Retour</button>
-		</a>
+	</a>
 	<h2>Ajouter une liste</h2>
-	{{ form_start(formListe)}}
+	{{ form_start(formListe, {'attr': {'data-turbo': 'false'}})}}
 	{{ form_row (formListe.titre) }}
 	{{ form_row (formListe.publicStatut) }}
 	{{ form_row (formListe.langue1) }}
 	{{ form_row (formListe.langue2) }}
+	<div id="traductions" {# Length permet de donner un index différent à chaque trad #} data-index="{{ formListe.traduction|length }}" {# formListe.traduction.vars.prototype => Permet de relier le formulaire des traductions #} {# escape('html_attr') => Permet de protéger les caractères spéciaux présent dans form.Liste.traduction.vars.prototype qui doit être du HTML (Sinon les balises se ferment) #} data-prototype="{{ form_widget(formListe.traduction.vars.prototype)|escape('html_attr') }}">
+		{% for traductionField in formListe.traduction %}
+			<div class="traduction-item">
+				{{ form_row(traductionField.motLangue1) }}
+				{{ form_row(traductionField.motLangue2) }}
+				<button type="button" class="btn-remove-traduction">Supprimer</button>
+			</div>
+		{% endfor %}
+	</div>
+
+	<button type="button" id="btn-add-traduction">Ajouter une traduction</button>
+
 	<input type="submit" value="Ajouter la liste">
 	{{ form_end(formListe)}}
 {% endblock %}

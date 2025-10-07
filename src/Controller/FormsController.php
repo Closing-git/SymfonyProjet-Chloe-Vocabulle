@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Langue;
 use App\Form\ListeType;
 use App\Form\LangueType;
+use App\Entity\Traduction;
+use App\Form\TraductionType;
 use App\Entity\ListeVocabulaire;
 use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,9 +15,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Validator\Constraints\Date;
-use DateTime;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class FormsController extends AbstractController
 {
@@ -73,7 +75,7 @@ final class FormsController extends AbstractController
     //DELETE
     #[Route("/supprimer/liste/{id_liste}", name: 'app_supprimer_liste')]
     public function listeDelete(ManagerRegistry $doctrine, int $id_liste)
-    {   
+    {
         $listeToDelete = new ListeVocabulaire();
         $em = $doctrine->getManager();
         $listeToDelete = $em->getRepository(ListeVocabulaire::class)->find($id_liste);
@@ -91,15 +93,12 @@ final class FormsController extends AbstractController
     public function ajouterListe(Request $req, EntityManagerInterface $em): Response
     {
         $liste = new ListeVocabulaire();
-
-
         $formListe = $this->createForm(ListeType::class, $liste);
 
         $liste->setDateDerniereModif(new DateTime());
         $liste->setCreateur($this->getUser());
         //Req est la requête envoyée (Post ou Get) 
         $formListe->handleRequest($req);
-
 
         //Vérifie que ça n'est pas deux fois la même langue
         $langue1 = $formListe->get('langue1')->getData();
@@ -111,10 +110,13 @@ final class FormsController extends AbstractController
         }
         //Le formulaire est rempli (valide) et envoyé
         if ($formListe->isSubmitted() && $formListe->isValid()) {
+
             $liste->addLangue($langue1);
             $liste->addLangue($langue2);
+            //On persiste liste et on flush d'abord pour avoir un id sur liste pour que Traduction puisse être relié à liste correctement
             $em->persist($liste);
             $em->flush();
+
             $this->addFlash('success', sprintf("La liste " . $liste->getTitre() . " a été créée avec succès."));
             //Renvoie vers la page qui affiche les langues (bien mettre la route et pas le html)
             return $this->redirectToRoute('app_accueil');
