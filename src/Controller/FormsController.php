@@ -93,7 +93,11 @@ final class FormsController extends AbstractController
     public function ajouterListe(Request $req, EntityManagerInterface $em): Response
     {
         $liste = new ListeVocabulaire();
+        $traduction = new Traduction();
+        $liste->addTraduction($traduction);
         $formListe = $this->createForm(ListeType::class, $liste);
+        
+
 
         $liste->setDateDerniereModif(new DateTime());
         $liste->setCreateur($this->getUser());
@@ -108,6 +112,7 @@ final class FormsController extends AbstractController
                 new FormError('Les deux langues ne peuvent pas être les mêmes.')
             );
         }
+
         //Le formulaire est rempli (valide) et envoyé
         if ($formListe->isSubmitted() && $formListe->isValid()) {
 

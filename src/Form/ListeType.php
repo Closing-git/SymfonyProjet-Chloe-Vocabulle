@@ -24,7 +24,7 @@ class ListeType extends AbstractType
             ->add('publicStatut')
             //Relié à TraductionType
             ->add('traduction', CollectionType::class, [
-                'entry_type'=> TraductionType::class,
+                'entry_type' => TraductionType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 //Si on ne met pas by_reference, symfony enlève les traductions de la liste, sans modifier les traductions
@@ -32,8 +32,7 @@ class ListeType extends AbstractType
                 'by_reference' => false,
                 //Pour gérer le front :
                 'prototype' => true,
-                'label'=>false,
-                
+                'label' => false,
 
             ])
 

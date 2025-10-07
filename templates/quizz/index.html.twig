@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quizz
+{% endblock %}
+
+{% block body %}
+	<a href="{{path('app_accueil')}}">
+		<button>Retour</button>
+	</a>
+	<h2>{{liste.titre}}</h2>
+	<p>Nombre de mots :
+		{{liste.traduction.count()}}</p>
+	<p>Meilleur score :
+		{{liste.getBestScoreMostDifficult(app.user)}}</p>
+	<p>Créé par :
+		{{liste.createur.nom}}</p>
+
+	<p>{{liste.getLangues()[0].nom}}</p>
+	<button>Switch</button>
+	<p>{{liste.getLangues()[1].nom}}</p>
+
+	<p>Tu devras entrer tes réponses en
+		{{liste.getLangues()[1].nom}}.</p>
+	{% if liste.getLangues()[1].majImportante == true %}
+		<p>Attention, les majuscules sont importantes dans vos réponses.</p>
+	{% endif %}
+	{{ form_start(formQuizz)}}
+	{{ form_row (formQuizz.difficulte) }}
+	{{ form_end(formQuizz)}}
+	<button>Jouer</button>
+
+{% endblock %}

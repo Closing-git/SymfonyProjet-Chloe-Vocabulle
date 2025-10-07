@@ -89,7 +89,7 @@ function buildCards(donnees, divResultat) {
 
         // Boutons
         const playLink = document.createElement("a");
-        playLink.href = `/formulaire/${donnee.id}`;
+        playLink.href = `/quizzOptions/${donnee.id}`;
         playLink.innerHTML = `<button class="play-button">Play</button>`;
         divCard.appendChild(playLink);
 
