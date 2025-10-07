@@ -26,8 +26,10 @@
 	{% endif %}
 	{{ form_start(formQuizz)}}
 	{{ form_row (formQuizz.difficulte) }}
+	{# Champ caché pour la langue cible #}
+	<input type="hidden" name="langue_cible" value="{{ liste.getLangues()[1].nom }}">
 
-		<button type="submit">Jouer</button>
+	<button type="submit">Jouer</button>
 
 	{{ form_end(formQuizz)}}
 

@@ -22,9 +22,11 @@ final class QuizzController extends AbstractController
 
         if ($formQuizz->isSubmitted() && $formQuizz->isValid()) {
             $difficulte = $formQuizz->get('difficulte')->getData();
+            $langueCible = $request->request->get('langue_cible');
             return $this->redirectToRoute('app_quizz', [
                 'id_liste' => $id_liste,
-                'difficulte' => $difficulte
+                'difficulte' => $difficulte,
+                'langue_cible' => $langueCible,
             ]);
         }
         $vars = ['liste' => $liste, 'formQuizz' => $formQuizz];
@@ -36,20 +38,21 @@ final class QuizzController extends AbstractController
     }
 
     #[Route('quizz/{id_liste}', name: 'app_quizz')]
-    public function quizz(Request $request, int $id_liste): Response
+    public function quizz(Request $request, int $id_liste, EntityManagerInterface $em): Response
     {
-        $difficulte= $request->query->get('difficulte');
-        
-        if ($difficulte == "difficile"){
-            $p="Ca va être difficile";
+        $liste = $em->getRepository(ListeVocabulaire::class)->find($id_liste);
+        $langueCible = $request->query->get('langue_cible');
+        $difficulte = $request->query->get('difficulte');
+
+
+        if ($difficulte == "difficile") {
+            $p = "Ca va être difficile";
+        } elseif ($difficulte == "moyen") {
+            $p = "Ca va être moyen";
+        } else {
+            $p = "Ca va être facile";
         }
-        elseif ($difficulte== "moyen"){
-            $p="Ca va être moyen";
-        }
-        else {
-            $p="Ca va être facile";
-        }
-        $vars = ["p"=>$p];
+        $vars = ["p" => $p, "liste" => $liste, "langue_cible" => $langueCible];
         return $this->render('quizz/quizz_questions.html.twig', $vars);
     }
 }

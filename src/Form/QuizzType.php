@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class QuizzType extends AbstractType
 {
@@ -20,6 +21,7 @@ class QuizzType extends AbstractType
                 ],
                 'label'=> 'Difficulté : '
             ])
+            ->add('langue_cible', HiddenType::class); 
         ;
     }
 
