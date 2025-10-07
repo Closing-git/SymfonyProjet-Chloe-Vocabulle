@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Quizz
+{% block title %}Quizz Options
 {% endblock %}
 
 {% block body %}
@@ -26,7 +26,9 @@
 	{% endif %}
 	{{ form_start(formQuizz)}}
 	{{ form_row (formQuizz.difficulte) }}
+
+		<button type="submit">Jouer</button>
+
 	{{ form_end(formQuizz)}}
-	<button>Jouer</button>
 
 {% endblock %}
