@@ -43,7 +43,11 @@ final class QuizzController extends AbstractController
         $liste = $em->getRepository(ListeVocabulaire::class)->find($id_liste);
         $langueCible = $request->query->get('langue_cible');
         $difficulte = $request->query->get('difficulte');
-
+        if ($liste->getLangues()[1]->getNom() == $langueCible) {
+            $majStatut = $liste->getLangues()[1]->isMajImportante();
+        } else {
+            $majStatut = $liste->getLangues()[0]->isMajImportante();
+        }
 
         if ($difficulte == "difficile") {
             $p = "Ca va être difficile";
@@ -52,7 +56,11 @@ final class QuizzController extends AbstractController
         } else {
             $p = "Ca va être facile";
         }
-        $vars = ["p" => $p, "liste" => $liste, "langue_cible" => $langueCible];
+
+        $i_question = 1;
+
+
+        $vars = ["p" => $p, "liste" => $liste, "langue_cible" => $langueCible, "majStatut" => $majStatut, "i_question" => $i_question];
         return $this->render('quizz/quizz_questions.html.twig', $vars);
     }
 }

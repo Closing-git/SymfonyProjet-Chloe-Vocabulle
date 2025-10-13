@@ -4,10 +4,16 @@
 {% endblock %}
 
 {% block body %}
-<p>{{p}}</p>
-<p>Titre de la liste :
-{{liste.titre}}</p>
-<p>Langue cible :
-{{langue_cible}}</p>
+	<p></p>
+	{{p}}</p>
 
+    <p>Question {{i_question}} sur {{liste.traduction.count()}}</p> 
+<p>Titre de la liste :
+	{{liste.titre}}</p>
+<p>Langue cible :
+	{{langue_cible}}</p>
+
+{% if majStatut == true %}
+    <p>Attention, les majuscules sont importantes dans vos réponses.</p>
+{% endif %}
 {% endblock %}
