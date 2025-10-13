@@ -15,11 +15,11 @@
 	<p>Créé par :
 		{{liste.createur.nom}}</p>
 
-	<p>{{liste.getLangues()[0].nom}}</p>
-	<button>Switch</button>
-	<p>{{liste.getLangues()[1].nom}}</p>
+	<p id="langue1">{{liste.getLangues()[0].nom}}</p>
+	<button id="switch_button">Switch</button>
+	<p id="langue2">{{liste.getLangues()[1].nom}}</p>
 
-	<p>Tu devras entrer tes réponses en
+	<p id="reponse_en">Tu devras entrer tes réponses en
 		{{liste.getLangues()[1].nom}}.</p>
 	{% if liste.getLangues()[1].majImportante == true %}
 		<p>Attention, les majuscules sont importantes dans vos réponses.</p>
@@ -27,10 +27,22 @@
 	{{ form_start(formQuizz)}}
 	{{ form_row (formQuizz.difficulte) }}
 	{# Champ caché pour la langue cible #}
-	<input type="hidden" name="langue_cible" value="{{ liste.getLangues()[1].nom }}">
+	<input type="hidden" id="langue_cible" name="langue_cible" value="{{ liste.getLangues()[1].nom }}">
 
 	<button type="submit">Jouer</button>
 
 	{{ form_end(formQuizz)}}
+{% block javascripts %}
+    {{ parent() }} {# Conserve les scripts du template parent #}
+    <script>
+        // Définir les variables globales
+		// |e('js') permet d'échapper les caractères spéciaux et donc d'éviter les erreurs dans mon code JS (de plus, c'est plus sécurisé)
+        window.langue1 = "{{ liste.getLangues()[0].nom|e('js') }}";
+        window.langue2 = "{{ liste.getLangues()[1].nom|e('js') }}";
+    </script>
+    <script src="{{ asset('js/switch_button.js') }}" defer></script>
 
 {% endblock %}
+{% endblock %}
+
+

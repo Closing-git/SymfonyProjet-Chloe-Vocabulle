@@ -9,6 +9,8 @@ import './styles/app.css';
 import './scripts/confirm_delete.js';
 import './scripts/init_accueil.js';
 import './scripts/user_UI.js';
-import './scripts/traductions_add.js'
+import './scripts/traductions_add.js';
+import './scripts/switch_button.js';
+
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
