@@ -20,6 +20,10 @@ final class AccueilController extends AbstractController
     #[Route('/accueil', name: 'app_accueil')]
     public function index(EntityManagerInterface $manager, ManagerRegistry $doctrine, SerializerInterface $serializer, Request $req): Response
     {
+        $session = $req->getSession();
+        $session->remove('questions');
+        $session->remove('current_question');
+        $session->remove('score');
         $form = $this->createForm(SearchFiltersListesVocabulaireType::class);
         $form->handleRequest($req);
         $listesVocabulaire = $manager->getRepository(ListeVocabulaire::class)->findAll();
