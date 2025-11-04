@@ -4,16 +4,27 @@
 {% endblock %}
 
 {% block body %}
-	<p></p>
-	{{p}}</p>
+	<p>Difficulté :
+		{{p_difficulte}}</p>
+	<p>Score :{{score}}</p>
+	<p>Question
+		{{i_question + 1}}
+		sur
+		{{liste.traduction.count()}}</p>
+	<p>Titre de la liste :
+		{{liste.titre}}</p>
+	<p>Langue cible :
+		{{langue_cible}}</p>
+	{% if majStatut == true %}
+		<p>Attention, les majuscules sont importantes dans vos réponses.</p>
+	{% endif %}
 
-    <p>Question {{i_question}} sur {{liste.traduction.count()}}</p> 
-<p>Titre de la liste :
-	{{liste.titre}}</p>
-<p>Langue cible :
-	{{langue_cible}}</p>
-
-{% if majStatut == true %}
-    <p>Attention, les majuscules sont importantes dans vos réponses.</p>
-{% endif %}
+	<p>Mot à traduire :
+		{{a_traduire}}</p>
+	{{form_start(Reponseform)}}
+	{{form_widget(Reponseform)}}
+	<button type="submit">
+		Valider
+	</button>
+	{{form_end(Reponseform)}}
 {% endblock %}
