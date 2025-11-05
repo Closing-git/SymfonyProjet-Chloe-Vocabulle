@@ -62,11 +62,14 @@ final class QuizzController extends AbstractController
         $questions = $session->get('questions', []);
         $i_question = $session->get('current_question', 0);
         $score = $session->get('score', 0);
+        $scoreEnPourcentage = $session->get('scoreEnPourcentage', 0);
+
         if ($questions == []) {
             $questions = $traductions;
             $session->set('questions', $questions);
             $session->set('current_question', 0);
             $session->set('score', 0);
+            $session->set('scoreEnPourcentage', 0);
         }
 
         $currentQuestion = $questions[$i_question] ?? null;
@@ -79,10 +82,11 @@ final class QuizzController extends AbstractController
             //Quand le quizz est fini (toutes les questions répondues)
             if ($i_question >= count($questions)) {
                 //Supprimer les données de la session, mais stocker le score final
-                $score_final = $session->get('score');
+                $score_final = $session->get('scoreEnPourcentage');
                 $session->remove('questions');
                 $session->remove('current_question');
                 $session->remove('score');
+                $session->remove('scoreEnPourcentage');
                 $infosJeu = $em->getRepository(InfosJeu::class)->findOneBy(['listeVocabulaire' => $liste, 'utilisateur' => $this->getUser()]);
                 // Si aucunes infosJeu, créer un objet InfosJeu
                 if (!$infosJeu) {
@@ -94,17 +98,24 @@ final class QuizzController extends AbstractController
                 }
                 $infosJeu->setDateDernierJeu(new \DateTime());
 
+                $bestScores = $infosJeu->getBestScores();
                 if ($difficulte == "difficile") {
+                    $previousBestScore = $bestScores[2];
                     $p_difficulte = "Difficile";
-
-                    $previousBestScore = $infosJeu->getBestScoreMostDifficult();
                     if ($score_final > $previousBestScore) {
-                        $infosJeu->setBestScoreMostDifficult($score_final);
+                        $bestScores[2] = $score_final;
                     }
-                    $em->flush();
                 } else {
                     $p_difficulte = "Moyen";
+                    $previousBestScore = $bestScores[1];
+                    if ($score_final > $previousBestScore) {
+                        $bestScores[1] = $score_final;
+                    }
                 }
+
+                $infosJeu->setBestScores($bestScores);
+                $em->flush();
+
 
                 return $this->render('quizz/quizz_resultat.html.twig', [
                     'score_final' => $score_final,
@@ -141,14 +152,18 @@ final class QuizzController extends AbstractController
                 if ($majStatut == true) {
                     if ($reponse == $bonneReponse) {
                         $score++;
+                        $scoreEnPourcentage = round(($score / count($questions)) * 100);
                         $session->set('score', $score);
+                        $session->set('scoreEnPourcentage', $scoreEnPourcentage);
                     }
                 }
                 //Sinon on met tout en minuscule
                 else {
                     if (strtolower($reponse) == strtolower($bonneReponse)) {
                         $score++;
+                        $scoreEnPourcentage = round(($score / count($questions)) * 100);
                         $session->set('score', $score);
+                        $session->set('scoreEnPourcentage', $scoreEnPourcentage);
                     }
                 }
                 $i_question++;
@@ -166,7 +181,7 @@ final class QuizzController extends AbstractController
                 'Reponseform' => $Reponseform->createView(),
                 'question' => $currentQuestion,
                 'i_question' => $i_question,
-                'score' => $score,
+                'scoreEnPourcentage' => $scoreEnPourcentage,
                 'a_traduire' => $a_traduire,
                 'p_difficulte' => $p_difficulte,
                 'liste' => $liste,
@@ -180,7 +195,7 @@ final class QuizzController extends AbstractController
         }
 
 
-        $vars = ["Reponseform" => $Reponseform, "score" => $score, "p_difficulte" => $p_difficulte, "liste" => $liste, "langue_cible" => $langueCible, "majStatut" => $majStatut, "i_question" => $i_question];
+        $vars = ["Reponseform" => $Reponseform, "scoreEnPourcentage" => $scoreEnPourcentage, "p_difficulte" => $p_difficulte, "liste" => $liste, "langue_cible" => $langueCible, "majStatut" => $majStatut, "i_question" => $i_question];
         return $this->render('quizz/quizz_questions.html.twig', $vars);
     }
 }
