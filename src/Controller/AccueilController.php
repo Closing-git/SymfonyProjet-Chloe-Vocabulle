@@ -20,6 +20,7 @@ final class AccueilController extends AbstractController
     #[Route('/accueil', name: 'app_accueil')]
     public function index(EntityManagerInterface $manager, ManagerRegistry $doctrine, SerializerInterface $serializer, Request $req): Response
     {
+        //Reset des infos de la session (si on vient d'un quizz non fini)
         $session = $req->getSession();
         $session->remove('questions');
         $session->remove('current_question');
