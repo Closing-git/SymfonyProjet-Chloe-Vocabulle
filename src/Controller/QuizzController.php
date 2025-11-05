@@ -73,11 +73,7 @@ final class QuizzController extends AbstractController
 
         //Quizz en fonction de chaque difficulté :
         //DIFFICILE
-        if ($difficulte == "difficile") {
-            $p_difficulte = "Difficile";
-
-            $Reponseform = $this->createForm(ReponseType::class);
-            $Reponseform->handleRequest($request);
+        if ($difficulte == "difficile" || $difficulte == "moyen") {
 
             //Quand le quizz est fini (toutes les questions répondues)
             if ($i_question >= count($questions)) {
@@ -86,7 +82,11 @@ final class QuizzController extends AbstractController
                 $session->remove('questions');
                 $session->remove('current_question');
                 $session->remove('score');
-
+                if ($difficulte == "difficile") {
+                    $p_difficulte = "Difficile";
+                } else {
+                    $p_difficulte = "Moyen";
+                }
                 return $this->render('quizz/quizz_resultat.html.twig', [
                     'score_final' => $score_final,
                     'liste' => $liste,
@@ -102,86 +102,21 @@ final class QuizzController extends AbstractController
                 $a_traduire = $currentQuestion->getMotLangue1();
                 $bonneReponse = $currentQuestion->getMotLangue2();
             }
-
-
-            if ($Reponseform->isSubmitted() && $Reponseform->isValid()) {
-                $reponse = $Reponseform->get('reponse')->getData();
-
-                //Si la maj est importante, tous les caractères doivent être respectés
-                if ($majStatut == true) {
-                    if ($reponse == $bonneReponse) {
-                        $score++;
-                        $session->set('score', $score);
-                    }
-                }
-                //Sinon on met tout en minuscule
-                else {
-                    if (strtolower($reponse) == strtolower($bonneReponse)) {
-                        $score++;
-                        $session->set('score', $score);
-                    }
-                }
-                $i_question++;
-                $session->set('current_question', $i_question);
-
-                return $this->redirectToRoute('app_quizz', [
-                    'id_liste' => $id_liste,
-                    'langue_cible' => $langueCible,
-                    'difficulte' => $difficulte,
-                ]);
-            }
-
-
-            return $this->render('quizz/quizz_questions.html.twig', [
-                'Reponseform' => $Reponseform->createView(),
-                'question' => $currentQuestion,
-                'i_question' => $i_question,
-                'score' => $score,
-                'a_traduire' => $a_traduire,
-                'p_difficulte' => $p_difficulte,
-                'liste' => $liste,
-                'langue_cible' => $langueCible,
-                'majStatut' => $majStatut,
-            ]);
-
-            //MOYEN
-        } elseif ($difficulte == "moyen") {
-            $p_difficulte = "Moyen";
-
-
-            //Quand le quizz est fini (toutes les questions répondues)
-            if ($i_question >= count($questions)) {
-                //Supprimer les données de la session, mais stocker le score final
-                $score_final = $session->get('score');
-                $session->remove('questions');
-                $session->remove('current_question');
-                $session->remove('score');
-
-                return $this->render('quizz/quizz_resultat.html.twig', [
-                    'score_final' => $score_final,
-                    'liste' => $liste,
-                    'p_difficulte' => $p_difficulte,
-                ]);
-            }
-            //En fonction de la langue cible, afficher le bon mot à traduire, récupérer la première lettre de la bonne réponse et la bonne réponse
-            if ($liste->getLangues()[1]->getNom() == $langueCible) {
-                $a_traduire = $currentQuestion->getMotLangue2();
-                $bonneReponse = $currentQuestion->getMotLangue1();
+            if ($difficulte == "difficile") {
+                $p_difficulte = "Difficile";
+                $Reponseform = $this->createForm(ReponseType::class);
+                $Reponseform->handleRequest($request);
             } else {
-                $a_traduire = $currentQuestion->getMotLangue1();
-                $bonneReponse = $currentQuestion->getMotLangue2();
+                $p_difficulte = "Moyen";
+                $premiereLettre = $bonneReponse[0];
+                //Création du form avec définition des options (première lettre en attribut)
+                $Reponseform = $this->createForm(ReponseMoyenType::class, null, ['premiere_lettre' => $premiereLettre]);
+                $Reponseform->handleRequest($request);
             }
-
-            $premiereLettre = $bonneReponse[0];
-            //Création du form avec définition des options (première lettre en attribut)
-            $Reponseform = $this->createForm(ReponseMoyenType::class, null, ['premiere_lettre' => $premiereLettre]);
-            $Reponseform->handleRequest($request);
 
 
             if ($Reponseform->isSubmitted() && $Reponseform->isValid()) {
                 $reponse = $Reponseform->get('reponse')->getData();
-
-
 
                 //Si la maj est importante, tous les caractères doivent être respectés
                 if ($majStatut == true) {

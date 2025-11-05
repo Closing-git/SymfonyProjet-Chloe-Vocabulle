@@ -13,9 +13,11 @@ class ReponseType extends AbstractType
     {
             $builder
             ->add('reponse', TextType::class, [
-                'label' => 'Traduction :',
+                'label' => 'Votre réponse :',
+                'required'=>false,
                 'attr' => [
                     'autocomplete' => 'off',
+                    'autofocus' => true,
                 ]
                 ]);
     }

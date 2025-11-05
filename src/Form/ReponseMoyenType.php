@@ -13,11 +13,13 @@ class ReponseMoyenType extends AbstractType
     {
         $builder
             ->add('reponse', TextType::class, [
-                'label' => 'Traduction :',
+                'label' => 'Votre réponse :',
+                'required' => false,
                 'attr' => [
                     'autocomplete' => 'off',
                     //Si la première lettre est vide, on met '' en placeholder
-                    'placeholder' => $options['premiere_lettre'] ?? ''
+                    'placeholder' => $options['premiere_lettre'] ?? '',
+                    'autofocus' => true,
                 ]
             ]);;
     }
