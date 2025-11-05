@@ -77,21 +77,23 @@ class InfosJeu
     public function setBestScores(array $bestScores): static
     {
         $this->bestScores = $bestScores;
-        $this->bestScoreMostDifficult = $bestScores[2];
-        
+        if (isset($bestScores[2])) {
+            $this->bestScoreMostDifficult = $bestScores[2];
+        }
+
         return $this;
     }
-    
+
     #[Groups(['liste-detail'])]
-    public function getBestScoreMostDifficult(): int
+    public function getBestScoreMostDifficult(): ?int
     {
-        return $this->bestScores[2];
+        return $this->bestScores[2] ?? null;
     }
 
     public function setBestScoreMostDifficult(int $bestScoreMostDifficult): static
     {
+        $this->bestScores[2] = $bestScoreMostDifficult;
         $this->bestScoreMostDifficult = $bestScoreMostDifficult;
-        
         return $this;
     }
 

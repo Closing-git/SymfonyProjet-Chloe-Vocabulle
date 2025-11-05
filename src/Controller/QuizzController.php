@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\QuizzType;
+use App\Entity\InfosJeu;
 use App\Form\ReponseType;
 use App\Form\ReponseMoyenType;
 use Doctrine\ORM\EntityManager;
@@ -82,11 +83,29 @@ final class QuizzController extends AbstractController
                 $session->remove('questions');
                 $session->remove('current_question');
                 $session->remove('score');
+                $infosJeu = $em->getRepository(InfosJeu::class)->findOneBy(['listeVocabulaire' => $liste, 'utilisateur' => $this->getUser()]);
+                // Si aucunes infosJeu, créer un objet InfosJeu
+                if (!$infosJeu) {
+                    $infosJeu = new InfosJeu();
+                    $infosJeu->setListeVocabulaire($liste);
+                    $infosJeu->setUtilisateur($this->getUser());
+                    $infosJeu->setBestScores([0, 0, 0]); // Initialiser avec des scores à 0
+                    $em->persist($infosJeu);
+                }
+                $infosJeu->setDateDernierJeu(new \DateTime());
+
                 if ($difficulte == "difficile") {
                     $p_difficulte = "Difficile";
+
+                    $previousBestScore = $infosJeu->getBestScoreMostDifficult();
+                    if ($score_final > $previousBestScore) {
+                        $infosJeu->setBestScoreMostDifficult($score_final);
+                    }
+                    $em->flush();
                 } else {
                     $p_difficulte = "Moyen";
                 }
+
                 return $this->render('quizz/quizz_resultat.html.twig', [
                     'score_final' => $score_final,
                     'liste' => $liste,
