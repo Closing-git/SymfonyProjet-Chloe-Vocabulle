@@ -25,6 +25,12 @@ final class AccueilController extends AbstractController
         $session->remove('questions');
         $session->remove('current_question');
         $session->remove('score');
+        $session->remove('scoreEnPourcentage');
+        $session->remove('erreurs');
+        $session->remove('bonnesReponses');
+        $session->remove('questionsApresErreur');
+        $session->remove('a_traduireApresErreur');
+        
         $form = $this->createForm(SearchFiltersListesVocabulaireType::class);
         $form->handleRequest($req);
         $listesVocabulaire = $manager->getRepository(ListeVocabulaire::class)->findAll();

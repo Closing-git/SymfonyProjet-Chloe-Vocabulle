@@ -46,6 +46,7 @@ final class QuizzController extends AbstractController
         $liste = $em->getRepository(ListeVocabulaire::class)->find($id_liste);
         $langueCible = $request->query->get('langue_cible');
         $difficulte = $request->query->get('difficulte');
+
         //Récupérer les mots et les mélanger
         $traductions = $liste->getTraduction()->toArray();
         shuffle($traductions);
@@ -81,13 +82,23 @@ final class QuizzController extends AbstractController
 
             //Quand le quizz est fini (toutes les questions répondues)
             if ($i_question >= count($questions)) {
-                //Supprimer les données de la session, mais stocker le score final
+                //Supprimer les données de la session, mais stocker le score final et les erreurs + bonnes réponses
+                $erreurs = $session->get('erreurs', []);
+                $bonnesReponses = $session->get('bonnesReponses', []);
                 $score_final = $session->get('scoreEnPourcentage');
+                $questionsApresErreur = $session->get('questionsApresErreur', []);
+                $a_traduireApresErreur = $session->get('a_traduireApresErreur', []);
+                //Supprimer les infos de la session
+                $session->remove('erreurs');
+                $session->remove('bonnesReponses');
+                $session->remove('questionsApresErreur');
                 $session->remove('questions');
                 $session->remove('current_question');
                 $session->remove('score');
                 $session->remove('scoreEnPourcentage');
+                $session->remove('a_traduireApresErreur');
                 $infosJeu = $em->getRepository(InfosJeu::class)->findOneBy(['listeVocabulaire' => $liste, 'utilisateur' => $this->getUser()]);
+
                 // Si aucunes infosJeu, créer un objet InfosJeu
                 if (!$infosJeu) {
                     $infosJeu = new InfosJeu();
@@ -98,6 +109,7 @@ final class QuizzController extends AbstractController
                 }
                 $infosJeu->setDateDernierJeu(new \DateTime());
 
+                //Gérer meilleurs scores
                 $bestScores = $infosJeu->getBestScores();
                 if ($difficulte == "difficile") {
                     $previousBestScore = $bestScores[2];
@@ -119,8 +131,13 @@ final class QuizzController extends AbstractController
 
                 return $this->render('quizz/quizz_resultat.html.twig', [
                     'score_final' => $score_final,
+                    'id_liste' => $id_liste,
                     'liste' => $liste,
                     'p_difficulte' => $p_difficulte,
+                    'erreurs' => $erreurs,
+                    'bonnesReponses' => $bonnesReponses,
+                    'questionsApresErreur' => $questionsApresErreur,
+                    'a_traduireApresErreur' => $a_traduireApresErreur
                 ]);
             }
 
@@ -147,6 +164,7 @@ final class QuizzController extends AbstractController
 
             if ($Reponseform->isSubmitted() && $Reponseform->isValid()) {
                 $reponse = $Reponseform->get('reponse')->getData();
+                //Vérification bonne ou mauvaise réponse 
 
                 //Si la maj est importante, tous les caractères doivent être respectés
                 if ($majStatut == true) {
@@ -155,15 +173,47 @@ final class QuizzController extends AbstractController
                         $scoreEnPourcentage = round(($score / count($questions)) * 100);
                         $session->set('score', $score);
                         $session->set('scoreEnPourcentage', $scoreEnPourcentage);
+                    } else {
+                        //Récupérer les erreurs déjà existantes (si unset, créer un tableau vide)
+                        $erreurs = $session->get('erreurs', []);
+                        $bonnesReponses = $session->get('bonnesReponses', []);
+                        $questionsApresErreur = $session->get('questionsApresErreur', []);
+                        $a_traduireApresErreur = $session->get('a_traduireApresErreur', []);
+
+                        $erreurs[] = $reponse;
+                        $bonnesReponses[] = $bonneReponse;
+                        $questionsApresErreur[] = $currentQuestion;
+                        $a_traduireApresErreur[] = $a_traduire;
+
+                        $session->set('erreurs', $erreurs);
+                        $session->set('bonnesReponses', $bonnesReponses);
+                        $session->set('questionsApresErreur', $questionsApresErreur);
+                        $session->set('a_traduireApresErreur', $a_traduireApresErreur);
                     }
                 }
-                //Sinon on met tout en minuscule
+                //Sinon on met tout en minuscule et on compare
                 else {
                     if (strtolower($reponse) == strtolower($bonneReponse)) {
                         $score++;
                         $scoreEnPourcentage = round(($score / count($questions)) * 100);
                         $session->set('score', $score);
                         $session->set('scoreEnPourcentage', $scoreEnPourcentage);
+                    } else {
+                        //Récupérer les erreurs déjà existantes (si unset, créer un tableau vide)
+                        $erreurs = $session->get('erreurs', []);
+                        $bonnesReponses = $session->get('bonnesReponses', []);
+                        $questionsApresErreur = $session->get('questionsApresErreur', []);
+                        $a_traduireApresErreur = $session->get('a_traduireApresErreur', []);
+
+                        $erreurs[] = $reponse;
+                        $bonnesReponses[] = $bonneReponse;
+                        $questionsApresErreur[] = $currentQuestion;
+                        $a_traduireApresErreur[] = $a_traduire;
+
+                        $session->set('erreurs', $erreurs);
+                        $session->set('bonnesReponses', $bonnesReponses);
+                        $session->set('questionsApresErreur', $questionsApresErreur);
+                        $session->set('a_traduireApresErreur', $a_traduireApresErreur);
                     }
                 }
                 $i_question++;
@@ -187,6 +237,7 @@ final class QuizzController extends AbstractController
                 'liste' => $liste,
                 'langue_cible' => $langueCible,
                 'majStatut' => $majStatut,
+                'id_liste' => $id_liste,
             ]);
         } else {
             $Reponseform = $this->createForm(ReponseType::class);

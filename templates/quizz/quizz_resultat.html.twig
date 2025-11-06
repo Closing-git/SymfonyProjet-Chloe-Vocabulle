@@ -5,12 +5,38 @@
 
 {% block body %}
 	<a href="{{path('app_accueil')}}">
-		<button>Retour à l'accueil</button>
+		<button>X</button>
 	</a>
-	<p>Score :{{score_final}} %
-		en difficulté :
+	<p>Score :{{score_final}}
+		%
+														en difficulté :
 		{{p_difficulte}}</p>
 	<p>Titre de la liste :
 		{{liste.titre}}</p>
 
+	{% if erreurs is empty %}
+		<p>Bravo ! Vous n'avez fait aucune erreur</p>
+	{% else %}
+		<h2>Tes erreurs</h2>
+		{% for erreur in erreurs %}
+			<span>
+			La question : {{a_traduireApresErreur[loop.index0]}}
+				La bonne réponse :
+				{{bonnesReponses[loop.index0]}}</span>
+			Votre réponse :
+			{{erreur}}
+			<br>
+		{% endfor %}
+	{% endif %}
+
+
+	<a href="">
+		<button>Refaire seulement les erreurs</button>
+	</a>
+	<a href="{{path('app_quizzoptions', {id_liste:liste.id} )}}">
+		<button>Retour aux options</button>
+	</a>
+	<a href="{{path('app_accueil')}}">
+		<button>Retour aux listes</button>
+	</a>
 {% endblock %}
