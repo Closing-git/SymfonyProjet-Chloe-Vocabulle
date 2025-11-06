@@ -9,7 +9,7 @@
 	</a>
 	<p>Score :{{score_final}}
 		%
-														en difficulté :
+																en difficulté :
 		{{p_difficulte}}</p>
 	<p>Titre de la liste :
 		{{liste.titre}}</p>
@@ -20,7 +20,8 @@
 		<h2>Tes erreurs</h2>
 		{% for erreur in erreurs %}
 			<span>
-			La question : {{a_traduireApresErreur[loop.index0]}}
+				La question :
+				{{a_traduireApresErreur[loop.index0]}}
 				La bonne réponse :
 				{{bonnesReponses[loop.index0]}}</span>
 			Votre réponse :
@@ -28,6 +29,19 @@
 			<br>
 		{% endfor %}
 	{% endif %}
+
+	{% if userNote is empty %}
+		<p>Notez cette liste :
+		</p>
+		<span>1 2 3 4 5</span>
+	{% else %}
+		<p>Note :
+		</p>
+		<span>{{userNote}}</span>
+	{% endif %}
+	<p>Favori :
+	</p>
+	<span>oui</span>
 
 
 	<a href="">

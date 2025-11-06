@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Note;
 use App\Form\QuizzType;
 use App\Entity\InfosJeu;
 use App\Form\ReponseType;
@@ -97,6 +98,7 @@ final class QuizzController extends AbstractController
                 $session->remove('score');
                 $session->remove('scoreEnPourcentage');
                 $session->remove('a_traduireApresErreur');
+
                 $infosJeu = $em->getRepository(InfosJeu::class)->findOneBy(['listeVocabulaire' => $liste, 'utilisateur' => $this->getUser()]);
 
                 // Si aucunes infosJeu, créer un objet InfosJeu
@@ -124,7 +126,19 @@ final class QuizzController extends AbstractController
                         $bestScores[1] = $score_final;
                     }
                 }
+                $note = $em->getRepository(Note::class)->findOneBy([
+                    'utilisateur' => $this->getUser(),
+                    'listeVocabulaire' => $liste
+                ]);
 
+                if ($note) {
+                    $userNote=$note->getMontantNote();}
+
+                    else{
+                        $userNote=null;
+
+                    }
+                
                 $infosJeu->setBestScores($bestScores);
                 $em->flush();
 
@@ -137,7 +151,10 @@ final class QuizzController extends AbstractController
                     'erreurs' => $erreurs,
                     'bonnesReponses' => $bonnesReponses,
                     'questionsApresErreur' => $questionsApresErreur,
-                    'a_traduireApresErreur' => $a_traduireApresErreur
+                    'a_traduireApresErreur' => $a_traduireApresErreur,
+                    // userNote ? => userNote existe ou pas ? 
+                    // Si oui => userNote->getMontantNote() sinon null
+                    'userNote' => $userNote
                 ]);
             }
 
