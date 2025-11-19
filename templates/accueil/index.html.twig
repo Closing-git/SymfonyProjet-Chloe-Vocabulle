@@ -31,94 +31,153 @@
 				</div>
 			</div>
 			<div id="recherche-titre">{{ form_row(form.titre) }}</div>
-			{{ form_end(form) }}
-			<div class="cards-contener">
-				<div class='circle-plus-button'>
-					<img src="{{asset('img/fleche-precedent.png')}}">
-				</div>
-				{% for liste in listesVocabulaire %}
-					<div class="card">
-						<div class='en-tete-card'>
+			<div class='cards-and-plus-button'>
+				{{ form_end(form) }}
+				<div class="cards-contener">
 
-							<span class="langue">{{ liste.getLangues()[0].nom }}</span>
-							{% if liste.publicStatut %}
-								<div class="createur-liste">
-									<img src="{{asset('img/public-statut.png')}}">
-									<p>{{ liste.getCreateur().getNom() }}</p>
-								</div>
-							{% endif %}
-							<span class="langue">{{ liste.getLangues()[1].nom }}</span>
-						</div>
-						<div class="titre-liste-contener">
-							<p class="titre-liste shadow">
-								{{liste.titre}}</p>
-						</div>
-						<span class="note-liste">Note :</span>
-						{% if liste.getNoteTotale() %}
-							{{liste.getNoteTotale()}}
-						{% else %}
-							<div class="pas-de-note">
-								<span>Pas encore de note
-								</span>
-							</div>
-						{% endif %}
-						<form
-							method="post" action="{{ path('app_fav_toggle', { id: liste.id }) }}">
-							{# TOKEN pour se protéger #}
-							<input type="hidden" name="_token" value="{{ csrf_token('fav_toggle_' ~ liste.id) }}">
-							<button type="submit" class="fav-toggle">
-								{% if app.user in liste.getUtilisateursQuiFav() %}
-									Retirer des favoris
-								{% else %}
-									Ajouter aux favoris
+					{% for liste in listesVocabulaire %}
+						<div class="card shadow-box">
+							<div class='en-tete-card'>
+
+								<span class="langue">{{ liste.getLangues()[0].nom }}</span>
+								{% if liste.publicStatut %}
+									<div class="createur-liste">
+										<img src="{{asset('img/public-statut.png')}}">
+										<p>{{ liste.getCreateur().getNom() }}</p>
+									</div>
 								{% endif %}
-							</button>
-						</form>
-						<p class="favori-liste">Favori :
-							{% if app.user in (liste.getUtilisateursQuiFav()) %}
-								OUI
-							{% else %}
-								NON
-							{% endif %}
-						</p>
+								<span class="langue">{{ liste.getLangues()[1].nom }}</span>
+							</div>
+							<div class="titre-liste-contener">
+								<p class="titre-liste shadow">
+									{{liste.titre}}</p>
 
-						<p class="meilleur-score">Meilleur Score :
-							{{ liste.getBestScoreMostDifficult(app.user) }}
-						</p>
+								<div class='note-liste'>
+									{% if liste.getNoteTotale() %}
+										{% if liste.getNoteTotale() == 0 %}
+											{% for i in range(1, 5) %}
+												<img src="{{asset('img/star-empty-icon.png')}}">
+											{% endfor %}
+
+										{% elseif liste.getNoteTotale() == 1 %}
+
+											<img src="{{asset('img/star-full-icon.png')}}">
 
 
-						{# Changer le path plus tard #}
-						<a href="{{path('app_quizzoptions', {id_liste:liste.id} )}}">
-							<button class="play-button">Play</button>
-						</a>
-						<a href="{{path('app_modifier_liste', {id_liste:liste.id} )}}">
-							<button class="modifier-button">Modifier</button>
-						</a>
-						<button class="supprimer-button">Supprimer</button>
+											{% for i in range(1, 4) %}
+												<img src="{{asset('img/star-empty-icon.png')}}">
+											{% endfor %}
 
-						<div class='confirm_delete hidden'>
-							<p>Êtes-vous sûr-e de vouloir supprimer la liste :
-								{{liste.titre}}
-								?</p>
-							<button class='cancel_delete'>Annuler</button>
-							<a href="{{path('app_supprimer_liste', {id_liste:liste.id} )}}">
-								<button class="supprimer-button">Supprimer</button>
-							</a>
-						</div>
+										{% elseif liste.getNoteTotale() == 2 %}
+											{% for i in range(1, 2) %}
+												<img src="{{asset('img/star-full-icon.png')}}">
+											{% endfor %}
 
-						<br><br>
+											{% for i in range(1, 3) %}
+												<img src="{{asset('img/star-empty-icon.png')}}">
+											{% endfor %}
+
+										{% elseif liste.getNoteTotale() == 3 %}
+											{% for i in range(1, 3) %}
+												<img src="{{asset('img/star-full-icon.png')}}">
+											{% endfor %}
+
+											{% for i in range(1, 2) %}
+												<img src="{{asset('img/star-empty-icon.png')}}">
+											{% endfor %}
+
+										{% elseif liste.getNoteTotale() == 4 %}
+											{% for i in range(1, 4) %}
+												<img src="{{asset('img/star-full-icon.png')}}">
+											{% endfor %}
+
+											<img src="{{asset('img/star-empty-icon.png')}}">
+
+										{% elseif liste.getNoteTotale() == 5 %}
+											{% for i in range(1, 5) %}
+												<img src="{{asset('img/star-full-icon.png')}}">
+											{% endfor %}
+
+										{% endif %}
+
+									{% else %}
+
+										<span>Pas encore de note
+										</span>
+
+									{% endif %}
+								</div>
+							</div>
+
+							<form
+								method="post" action="{{ path('app_fav_toggle', { id: liste.id }) }}">
+								{# TOKEN pour se protéger #}
+								<input type="hidden" name="_token" value="{{ csrf_token('fav_toggle_' ~ liste.id) }}">
+
+								{% if app.user in liste.getUtilisateursQuiFav() %}
+									<img class="heart-icon" title="Cliquez pour enlever des favoris" src="{{asset('img/heart-icon.png')}}">
+								{% else %}
+									<img class="heart-icon" title="Cliquez pour mettre en favori" src="{{asset('img/heart-empty-icon.png')}}">
+								{% endif %}
+
+							</form>
+
+							<p class="meilleur-score">
+								{% if liste.getBestScoreMostDifficult(app.user) == 'Pas encore de meilleur score'%}
+									Pas encore de score
+								{% else %}
+									Best :
+									{{ liste.getBestScoreMostDifficult(app.user) }}
+									%
+								{% endif %}
+							</p>
+
+							<div
+								class="footer-card">
+								{# Changer le path plus tard #}
+								<a href="{{path('app_quizzoptions', {id_liste:liste.id} )}}">
+									<div class="play-icon">
+										<img class="play-img" src="{{asset('img/play-icon.png')}}">
+									</div>
+								</a>
+
+								<div class='edit-and-delete'>
+									<a href="{{path('app_modifier_liste', {id_liste:liste.id} )}}">
+										<div class="edit-delete-icon">
+											<img src="{{asset('img/edit-pen-icon.png')}}">
+										</div>
+									</a>
+									<a href="{{path('app_supprimer_liste', {id_liste:liste.id} )}}">
+										<div class="edit-delete-icon">
+											<img src="{{asset('img/recycle-bin-icon.png')}}">
+										</div>
+									</div>
+
+
+									<div class='confirm_delete hidden'>
+										<p>Êtes-vous sûr-e de vouloir supprimer la liste :
+											{{liste.titre}}
+											?</p>
+										<button class='cancel_delete'>Annuler</button>
+										<a href="{{path('app_supprimer_liste', {id_liste:liste.id} )}}">
+											<button class="supprimer-button">Supprimer</button>
+										</a>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
 					</div>
-				{% endfor %}
-				<div class='circle-plus-button'>
-					<img src="{{asset('img/fleche-suivant.png')}}">
+					<div>
+						<a href="{{path('app_ajouter_liste')}}">
+							<div class="circle-plus-button button-plus-bottom">
+								<img src="{{asset('img/plus-icon.png')}}">
+							</div>
+						</a>
+					</div>
 				</div>
+
 
 			</div>
-			<br>
-			<a href="{{path('app_ajouter_liste')}}">
-				<button>Ajouter une liste</button>
-			</a>
-		</div>
 
-	</div>
-{% endblock %}
+		</div>
+	{% endblock %}
