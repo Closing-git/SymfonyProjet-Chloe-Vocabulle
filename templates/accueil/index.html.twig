@@ -13,40 +13,46 @@
 					{{ form_row(form.langue) }}
 					{{ form_row(form.ordre) }}
 					{{ form_row(form.statut) }}
-					<div class="checkbox-input"><p>Créer par moi
-					</p>
-					{{ form_row(form.ownCreator) }}
+					<div class="checkbox-input">
+						<p>Créer par moi
+						</p>
+						{{ form_row(form.ownCreator) }}
 					</div>
-					<div class="checkbox-input"><p>Favori
-					</p>
-					{{ form_row(form.fav) }}
+					<div class="checkbox-input">
+						<p>Favori
+						</p>
+						{{ form_row(form.fav) }}
 					</div>
 				</div>
 				<div class='circle-plus-button'>
-				<a href="{{path('app_ajouter_liste')}}">
-					<img src="{{asset('img/plus-icon.png')}}">
-				</a>
+					<a href="{{path('app_ajouter_liste')}}">
+						<img src="{{asset('img/plus-icon.png')}}">
+					</a>
 				</div>
 			</div>
 			<div id="recherche-titre">{{ form_row(form.titre) }}</div>
 			{{ form_end(form) }}
 			<div class="cards-contener">
-				<button>A gauche</button>
+				<div class='circle-plus-button'>
+					<img src="{{asset('img/fleche-precedent.png')}}">
+				</div>
 				{% for liste in listesVocabulaire %}
 					<div class="card">
-						<p class="titre-liste">Titre de la liste :
-							{{liste.titre}}</p>
-						<span class="langues-liste">Langues :
-						</span>
-						{% for langue in liste.getLangues() %}
-							<span class="langue">{{ langue.nom }}</span>
-						{% endfor %}
-						<p class="createur-liste">Créateur :
-							{{ liste.getCreateur().getNom() }}</p>
-						<p class="statut-liste">Statut :
-							{% if liste.publicStatut %}Public{% else %}Privé
+						<div class='en-tete-card'>
+
+							<span class="langue">{{ liste.getLangues()[0].nom }}</span>
+							{% if liste.publicStatut %}
+								<div class="createur-liste">
+									<img src="{{asset('img/public-statut.png')}}">
+									<p>{{ liste.getCreateur().getNom() }}</p>
+								</div>
 							{% endif %}
-						</p>
+							<span class="langue">{{ liste.getLangues()[1].nom }}</span>
+						</div>
+						<div class="titre-liste-contener">
+							<p class="titre-liste shadow">
+								{{liste.titre}}</p>
+						</div>
 						<span class="note-liste">Note :</span>
 						{% if liste.getNoteTotale() %}
 							{{liste.getNoteTotale()}}
@@ -103,7 +109,9 @@
 						<br><br>
 					</div>
 				{% endfor %}
-				<button>A droite</button>
+				<div class='circle-plus-button'>
+					<img src="{{asset('img/fleche-suivant.png')}}">
+				</div>
 
 			</div>
 			<br>

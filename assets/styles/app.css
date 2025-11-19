@@ -276,8 +276,8 @@ header {
 
 
 .cards-contener-main {
-    width: 70%;
-    height: 80%;
+    width: 60%;
+    height: 90%;
     border-radius: 20px;
     color: #FFFFFF;
     padding: 20px;
@@ -374,14 +374,63 @@ header {
 
 .card {
     padding: 10px;
-    width: 168px;
-    height: fit-content;
+    width: 10rem;
+    height: 13rem;
+    margin: 1rem;
     background-color: #3C6D2A;
     border-radius: 20px;
-    margin: 20px;
     box-shadow: 0 4 4 0 rgba(0, 0, 0, 0.25);
 
+
 }
+
+.en-tete-card {
+    display: flex;
+    justify-content: space-between;
+}
+
+.en-tete-card img {
+    width: 2rem;
+}
+
+.langue {
+    text-transform: uppercase;
+    font-size: 1.3rem;
+}
+
+.createur-liste {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-style: italic;
+
+
+}
+
+
+.titre-liste-contener {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.titre-liste {
+    font-family: PaytoneOneRegular;
+    text-transform: uppercase;
+    text-align: center;
+    height: 4.5rem;
+    overflow: auto;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    font-size: 1.2rem;
+
+}
+
+
+
+
 
 
 /* HIDDEN / SHOW */
