@@ -146,7 +146,8 @@ header {
     margin: 0.5rem 2rem 1rem 2rem;
 }
 
-.form-log {
+.form-log,
+.form-log-register {
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -154,12 +155,9 @@ header {
     width: 80%;
 }
 
-.form-log label {
+.form-log label,
+.form-log-register label {
     font-size: 0.7rem;
-}
-
-.form-log input {
-    margin-bottom: 0.2rem;
 }
 
 .form-log .checkbox {
@@ -167,10 +165,31 @@ header {
     text-align: center;
 }
 
-.container-log .btn1 {
+.form-log-register div label,
+.form-log-register div input {
     margin: auto;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 80%;
+}
+
+.form-log input {
+    margin-bottom: 0.2rem;
+}
+
+
+.register-btn {
+    margin: auto;
+    margin-top: 1.5rem;
+}
+.container-log .btn1 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+}
+
+.log-btn {
+    margin:auto;
 }
 
 .text-fin-log {
@@ -193,7 +212,6 @@ header {
 .text-fin-log a:hover {
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
 }
-
 
 
 
