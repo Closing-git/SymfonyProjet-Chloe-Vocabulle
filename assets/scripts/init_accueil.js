@@ -2,139 +2,175 @@
 function buildCards(donnees, divResultat) {
     divResultat.textContent = "";
 
+    const userIdInput = document.querySelector('#userId');
+    const userId = userIdInput ? String(userIdInput.value) : null;
+    // Utilise un chemin absolu basé sur l'origine du site pour éviter les chemins relatifs erronés
+    const imgBase = new URL('/img/', window.location.origin).toString();
+    const asset = (name) => imgBase + name;
+
     donnees.forEach(function (donnee) {
-        const divCard = document.createElement("div");
-        divCard.classList.add("card");
+        const card = document.createElement('div');
+        card.className = 'card shadow-box';
 
-        // Titre de la liste
-        const pTitre = document.createElement("p");
-        pTitre.classList.add("titre-liste");
-        pTitre.textContent = "Titre de la liste : " + donnee.titre;
-        divCard.appendChild(pTitre);
+        // En-tête langues + créateur si public
+        const entete = document.createElement('div');
+        entete.className = 'en-tete-card';
 
-        // Langues
-        const spanLangues = document.createElement("span");
-        spanLangues.classList.add("langues-liste");
-        spanLangues.textContent = "Langues : ";
-        divCard.appendChild(spanLangues);
+        const langueG = document.createElement('span');
+        langueG.className = 'langue';
+        langueG.textContent = (donnee.langues?.[0]?.nom ?? '').toUpperCase();
+        entete.appendChild(langueG);
 
-        (donnee.langues || []).forEach(function (langue, i) {
-            const spanLangue = document.createElement("span");
-            spanLangue.classList.add("langue" + i);
-            spanLangue.textContent = langue.nom;
-            divCard.appendChild(spanLangue);
-        });
-
-        // Créateur
-        const pCreateur = document.createElement("p");
-        pCreateur.classList.add("createur-liste");
-        pCreateur.textContent = "Créateur : " + (donnee.createur?.nom ?? "");
-        divCard.appendChild(pCreateur);
-
-        // Statut
-        const pStatut = document.createElement("p");
-        pStatut.classList.add("statut-liste");
-        pStatut.textContent = "Statut : " + (donnee.publicStatut ? "Public" : "Privé");
-        divCard.appendChild(pStatut);
-
-        // Note Totale
-        const spanNote = document.createElement("span");
-        spanNote.classList.add("note-liste");
-        spanNote.textContent = "Note : ";
-        divCard.appendChild(spanNote);
-
-        if (donnee.noteTotale) {
-            divCard.appendChild(document.createTextNode(donnee.noteTotale));
-        } else {
-            const divPasDeNote = document.createElement("div");
-            divPasDeNote.classList.add("pas-de-note");
-            const spanPasDeNote = document.createElement("span");
-            spanPasDeNote.textContent = "Pas encore de note";
-            divPasDeNote.appendChild(spanPasDeNote);
-            divCard.appendChild(divPasDeNote);
+        if (donnee.publicStatut) {
+            const createur = document.createElement('div');
+            createur.className = 'createur-liste';
+            const pubImg = document.createElement('img');
+            pubImg.src = asset('public-statut.png');
+            const pNom = document.createElement('p');
+            pNom.textContent = donnee.createur?.nom ?? '';
+            createur.appendChild(pubImg);
+            createur.appendChild(pNom);
+            entete.appendChild(createur);
         }
 
-        // Favori
-        const userIdInput = document.querySelector('#userId');
-        const userId = userIdInput ? String(userIdInput.value) : null;
-        const favIds = (donnee.utilisateursQuiFav || []).map(u => String(u.id));
-        const estFavori = userId ? favIds.includes(userId) : false;
+        const langueD = document.createElement('span');
+        langueD.className = 'langue';
+        langueD.textContent = (donnee.langues?.[1]?.nom ?? '').toUpperCase();
+        entete.appendChild(langueD);
 
-        const pFavori = document.createElement("p");
-        pFavori.classList.add("favori-liste");
-        pFavori.textContent = "Favori : " + (estFavori ? "OUI" : "NON");
-        divCard.appendChild(pFavori);
+        card.appendChild(entete);
 
-        //Bouton pour FAV 
-        const favBtn = document.createElement('button');
-        favBtn.className = 'fav-toggle';
-        favBtn.textContent = estFavori ? 'Retirer des favoris' : 'Ajouter aux favoris';
-        favBtn.dataset.id = String(donnee.id);
-        divCard.appendChild(favBtn);
+        // Titre + note
+        const titreWrap = document.createElement('div');
+        titreWrap.className = 'titre-liste-contener';
 
-        
+        const pTitre = document.createElement('p');
+        pTitre.className = 'titre-liste shadow';
+        pTitre.textContent = donnee.titre ?? '';
+        titreWrap.appendChild(pTitre);
+
+        const noteDiv = document.createElement('div');
+        noteDiv.className = 'note-liste';
+
+        const note = Number(donnee.noteTotale ?? 0);
+        if (Number.isFinite(note)) {
+            const full = Math.min(Math.max(note, 0), 5);
+            const empty = 5 - full;
+            for (let i = 0; i < full; i++) {
+                const img = document.createElement('img');
+                img.src = asset('star-full-icon.png');
+                noteDiv.appendChild(img);
+            }
+            for (let i = 0; i < empty; i++) {
+                const img = document.createElement('img');
+                img.src = asset('star-empty-icon.png');
+                noteDiv.appendChild(img);
+            }
+        } else {
+            const spanNo = document.createElement('span');
+            spanNo.textContent = 'Pas encore de note';
+            noteDiv.appendChild(spanNo);
+        }
+
+        titreWrap.appendChild(noteDiv);
+        card.appendChild(titreWrap);
+
+        // Favori (icône)
+        const favUsers = (donnee.utilisateursQuiFav || []).map(u => String(u.id));
+        const estFavori = userId ? favUsers.includes(userId) : false;
+        const favForm = document.createElement('form');
+        favForm.method = 'post';
+        favForm.action = `/liste/${donnee.id}/fav-toggle`;
+        const csrf = document.createElement('input');
+        csrf.type = 'hidden';
+        csrf.name = '_token';
+        csrf.value = '';
+        favForm.appendChild(csrf);
+        const favImg = document.createElement('img');
+        favImg.className = 'heart-icon';
+        favImg.title = estFavori ? 'Cliquez pour enlever des favoris' : 'Cliquez pour mettre en favori';
+        favImg.src = estFavori ? asset('heart-icon.png') : asset('heart-empty-icon.png');
+        favForm.appendChild(favImg);
+        card.appendChild(favForm);
+
         // Meilleur score
         const infoJeuUser = (donnee.infosJeux || []).find(
             (info) => String(info.utilisateur?.id) === String(userId)
         );
-        let bestScoreMostDifficult = "Pas encore de meilleur score";
+        let bestScoreMostDifficult = 'Pas encore de meilleur score';
         if (infoJeuUser?.bestScores?.[2] != null) {
             bestScoreMostDifficult = infoJeuUser.bestScores[2];
         }
+        const pScore = document.createElement('p');
+        pScore.className = 'meilleur-score';
+        if (bestScoreMostDifficult === 'Pas encore de meilleur score') {
+            pScore.textContent = 'Pas encore de score';
+        } else {
+            pScore.textContent = `Best : ${bestScoreMostDifficult} %`;
+        }
+        card.appendChild(pScore);
 
-        const pScore = document.createElement("p");
-        pScore.classList.add("meilleur-score");
-        pScore.textContent = "Meilleur Score : " + bestScoreMostDifficult;
-        divCard.appendChild(pScore);
+        // Footer: play + edit/delete + confirm_delete (hidden)
+        const footer = document.createElement('div');
+        footer.className = 'footer-card';
 
-        // Boutons
-        const playLink = document.createElement("a");
-        playLink.href = `/quizzOptions/${donnee.id}`;
-        playLink.innerHTML = `<button class="play-button">Play</button>`;
-        divCard.appendChild(playLink);
+        const playA = document.createElement('a');
+        playA.href = `/quizzOptions/${donnee.id}`;
+        const playIcon = document.createElement('div');
+        playIcon.className = 'play-icon';
+        const playImg = document.createElement('img');
+        playImg.className = 'play-img';
+        playImg.src = asset('play-icon.png');
+        playIcon.appendChild(playImg);
+        playA.appendChild(playIcon);
+        footer.appendChild(playA);
 
-        const modLink = document.createElement("a");
-        modLink.href = `/modifier/liste/${donnee.id}`;
-        modLink.innerHTML = `<button class="modifier-button">Modifier</button>`;
-        divCard.appendChild(modLink);
+        const editDel = document.createElement('div');
+        editDel.className = 'edit-and-delete';
 
-        const supprBtnWrap = document.createElement("a");
-        supprBtnWrap.innerHTML = `<button class="supprimer-button">Supprimer</button>`;
-        divCard.appendChild(supprBtnWrap);
+        const editA = document.createElement('a');
+        editA.href = `/modifier/liste/${donnee.id}`;
+        const editIcon = document.createElement('div');
+        editIcon.className = 'edit-delete-icon';
+        const editImg = document.createElement('img');
+        editImg.src = asset('edit-pen-icon.png');
+        editIcon.appendChild(editImg);
+        editA.appendChild(editIcon);
+        editDel.appendChild(editA);
 
-        // Saut de ligne !! [A RETIRER ET FAIRE EN CSS PLUS TARD] !!
-        divCard.appendChild(document.createElement("br"));
-        divCard.appendChild(document.createElement("br"));
+        const delA = document.createElement('a');
+        delA.href = `/supprimer/liste/${donnee.id}`;
+        const delIcon = document.createElement('div');
+        delIcon.className = 'edit-delete-icon';
+        const delImg = document.createElement('img');
+        delImg.src = asset('recycle-bin-icon.png');
+        delIcon.appendChild(delImg);
+        delA.appendChild(delIcon);
+        editDel.appendChild(delA);
 
-        // Bloc de confirmation de suppression
-        const containerDeleteDiv = document.createElement('div');
-        containerDeleteDiv.className = 'confirm_delete hidden';
+        footer.appendChild(editDel);
 
-        const pDeleteConfirm = document.createElement('p');
-        pDeleteConfirm.textContent = `Êtes-vous sûr-e de vouloir supprimer la liste : ${donnee.titre} ?`;
-        containerDeleteDiv.appendChild(pDeleteConfirm);
-
-        const cancelBtn = document.createElement('button');
-        cancelBtn.className = 'cancel_delete';
-        cancelBtn.type = 'button';
-        cancelBtn.textContent = 'Annuler';
-        containerDeleteDiv.appendChild(cancelBtn);
-
+        const confirmDelete = document.createElement('div');
+        confirmDelete.className = 'confirm_delete hidden';
+        const pDel = document.createElement('p');
+        pDel.textContent = `Êtes-vous sûr-e de vouloir supprimer la liste : ${donnee.titre} ?`;
+        confirmDelete.appendChild(pDel);
+        const cancel = document.createElement('button');
+        cancel.className = 'cancel_delete';
+        cancel.textContent = 'Annuler';
+        confirmDelete.appendChild(cancel);
         const linkDelete = document.createElement('a');
         linkDelete.href = `/supprimer/liste/${donnee.id}`;
+        const btnDel = document.createElement('button');
+        btnDel.className = 'supprimer-button';
+        btnDel.textContent = 'Supprimer';
+        linkDelete.appendChild(btnDel);
+        confirmDelete.appendChild(linkDelete);
+        footer.appendChild(confirmDelete);
 
-        const deleteConfirmBtn = document.createElement('button');
-        deleteConfirmBtn.className = 'supprimer-button';
-        deleteConfirmBtn.type = 'button';
-        deleteConfirmBtn.textContent = 'Supprimer';
+        card.appendChild(footer);
 
-        linkDelete.appendChild(deleteConfirmBtn);
-        containerDeleteDiv.appendChild(linkDelete);
-        divCard.appendChild(containerDeleteDiv);
-
-
-        // Ajouter la carte à la div Résultat
-        divResultat.appendChild(divCard);
+        divResultat.appendChild(card);
     });
 }
 
