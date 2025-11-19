@@ -18,30 +18,32 @@
 				</div>
 			{% endif %}
 
-			<h2 class="h2-log">CONNEXION</h2>
+			<h2 class="h2-log shadow">CONNEXION</h2>
 			<div class="form-log">
-				<label for="username">E-mail</label>
-				<input type="email" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-							<label for=" password">Mot de Passe</label>
-			<input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-			<input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+				<label class="shadow" for="username">E-mail</label>
+				<input class="shadow-box" type="email" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
+							<label class="shadow" for=" password">Mot de Passe</label>
+			<input class="shadow-box" type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+			<input class="shadow-box" type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
 
-			<div class="checkbox mb-3">
-				<input type="checkbox" name="_remember_me" id="_remember_me">
-				<label for="_remember_me">Se souvenir de moi</label>
+			<div class="checkbox">
+				<input class="shadow-box" type="checkbox" name="_remember_me" id="_remember_me">
+				<label class="shadow" for="_remember_me">Se souvenir de moi</label>
 			</div>
 
 
-			<button class="btn1" type="submit">
+			<button class="btn1 shadow-box" type="submit">
 				Se connecter
 			</button>
-			<p>Pas encore de compte ? -
+			<div class="text-fin-log">
+			<p>Pas encore de compte ? - 
 			</p>
 			<a href="{{ path('app_register') }}">
 				<p>S'enregistrer
 				</p>
 			</a>
+			</div>
 		</div>
 	</form>
 </div>{% endblock %}

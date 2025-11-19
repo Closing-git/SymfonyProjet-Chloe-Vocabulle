@@ -4,12 +4,15 @@
 {% endblock %}
 
 {% block body %}
-	<h1>S'enregistrer</h1>
+	<div class="container-log">
+		<h2 class="h2-log shadow">S'ENREGISTRER</h2>
 
-	{{ form_errors(registrationForm) }}
 
-	{{ form_start(registrationForm) }}
-	{{ form_row(registrationForm.nom, {
+
+		{{ form_errors(registrationForm) }}
+
+		{{ form_start(registrationForm) }}
+		{{ form_row(registrationForm.nom, {
             label: 'Nom d\'utilisteur :'
         })}}
         {{ form_row(registrationForm.email, {
@@ -24,12 +27,15 @@
         }) }}
 
 
-        <button type="submit" class="btn">S'enregistrer</button>
+        <button type="submit" class="btn1 shadow-box">S'enregistrer</button>
     {{ form_end(registrationForm) }}
-	<p>Déjà un compte ? -</p>
-		<a href="{{ path('app_login') }}">
-			<p>Se connecter
-			</p>
-		</a>
-	{% endblock %}
+		<div class="text-fin-log">
+			<p>Déjà un compte ? -</p>
+			<a href="{{ path('app_login') }}">
+				<p>Se connecter
+				</p>
+			</a>
+		</div>
 
+	</div>
+{% endblock %}

@@ -39,21 +39,52 @@ body {
 
 }
 
+.shadow {
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+}
+
+.shadow-box {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
 /* TITRES */
 
 h2 {
     font-family: PaytoneOneRegular;
-    font-size: 2.8rem;
+    font-size: 2rem;
 }
 
 /* BOUTONS */
 
 .btn1 {
-    
+    font-family: JaldiRegular;
+    width: fit-content;
+    font-size: 0.8rem;
+    color: #382300;
+    background-color: #FFCD42;
+    border-radius: 15px;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    box-shadow: 0 4 4 0 rgba(0, 0, 0, 0.25);
+    border: none;
+    cursor: pointer;
+    box-shadow: inset 0 4 4 0 rgba(255, 255, 255, 0.23);
+}
+
+.btn1:hover {
+    background-color: #ffd76a;
+    text-decoration: underline;
 }
 
 
 /* HEADER */
+
+header {
+    height: 20%;
+}
 
 #header-main {
     padding: 20px;
@@ -62,8 +93,8 @@ h2 {
 }
 
 #profil-circle {
-    width: 74px;
-    height: 74px;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
     background-color: #FFCD42;
     display: flex;
@@ -72,11 +103,21 @@ h2 {
     box-shadow: 0 4 4 0 rgba(0, 0, 0, 0.25);
 }
 
-#profil {
-    width: 32.27px;
-    height: 32.27px;
+#profil-circle:hover {
+    background-color: #ffd76a;
+    cursor: pointer;
+
 }
 
+#profil {
+    width: 1.2rem;
+
+}
+
+#logo {
+    width: 5rem;
+
+}
 
 
 .profil-pannel {
@@ -92,30 +133,69 @@ h2 {
 /* LOGIN */
 
 .container-log {
-    width:min-content;
-    height: 50%;
+    width: fit-content;
+    height: fit-content;
     color: #FFFFFF;
-    padding: 20px;
+    padding: 1rem;
     margin: auto;
     border-radius: 20px;
     background-image: linear-gradient(125.649deg, #124200 9%, #3F772B 100%);
 }
 
 .h2-log {
-    margin: 0.5rem 4rem;
+    margin: 0.5rem 2rem 1rem 2rem;
 }
 
 .form-log {
     margin: auto;
-    display:flex;
+    display: flex;
     flex-direction: column;
     text-align: left;
     width: 80%;
 }
 
-.form-log input {
-    margin-bottom: 0.3rem;
+.form-log label {
+    font-size: 0.7rem;
 }
+
+.form-log input {
+    margin-bottom: 0.2rem;
+}
+
+.form-log .checkbox {
+    margin-top: 1.3rem;
+    text-align: center;
+}
+
+.container-log .btn1 {
+    margin: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.text-fin-log {
+    display: flex;
+    margin: auto;
+    margin-top: 0.3rem;
+
+}
+
+.text-fin-log p {
+    margin: 0.3rem;
+    margin-right: 0.1rem;
+    font-size: 0.7rem;
+}
+
+.text-fin-log a {
+    color: #FFFFFF;
+}
+
+.text-fin-log a:hover {
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
+}
+
+
+
 
 /* CARDS */
 
