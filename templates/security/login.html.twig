@@ -4,11 +4,8 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container-log">
+	<div class="container-log shadow-box">
 		<form method="post">
-			{% if error %}
-				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-			{% endif %}
 
 			{% if app.user %}
 				<div class="mb-3">
@@ -19,6 +16,9 @@
 			{% endif %}
 
 			<h2 class="h2-log shadow">CONNEXION</h2>
+			{% if error %}
+				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
 			<div class="form-log">
 				<label class="shadow" for="username">E-mail</label>
 				<input class="shadow-box" type="email" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
