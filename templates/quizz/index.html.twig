@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+<div id="main-contener"> 
 	<a href="{{path('app_accueil')}}">
 		<button>Retour</button>
 	</a>
@@ -41,8 +42,10 @@
         window.langue2 = "{{ liste.getLangues()[1].nom|e('js') }}";
     </script>
     <script src="{{ asset('js/switch_button.js') }}" defer></script>
+	
 
 {% endblock %}
+</div>
 {% endblock %}
 
 

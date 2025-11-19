@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+<div id="main-contener"> 
 	<a href="{{path('app_accueil')}}">
 		<button>Retour</button>
 	</a>
@@ -26,4 +27,4 @@
 	<button type="button" id="btn-add-traduction">Ajouter une traduction</button>
 	<input type="submit" value="Modifier la liste de vocabulaire">
 	{{ form_end (formListe)}}
-{% endblock %}
+</div>{% endblock %}

@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+<div id="main-contener"> 
 	<a href="{{path('app_accueil')}}">
 		<button>Retour à l'accueil</button>
 	</a>
@@ -30,4 +31,4 @@
 		Valider
 	</button>
 	{{form_end(Reponseform)}}
-{% endblock %}
+</div>{% endblock %}

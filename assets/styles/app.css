@@ -1,3 +1,5 @@
+/* POLICES */
+
 @font-face {
     font-family: JaldiRegular;
     src: url("../fonts/Jaldi-Regular.ttf");
@@ -14,6 +16,8 @@
 }
 
 
+/* GLOBAL */
+
 * {
     margin: 0;
     padding: 0;
@@ -24,6 +28,32 @@ body {
     background-image: linear-gradient(180deg, rgba(126, 255, 141, 41%) 0%, rgba(102, 102, 102, 17%) 100%);
     font-family: JaldiRegular;
 }
+
+#main-contener {
+    color: #FFFFFF;
+    padding: 20px;
+    margin: auto;
+    width: 80%;
+    border-radius: 20px;
+    background-image: linear-gradient(125.649deg, #124200 9%, #3F772B 100%);
+
+}
+
+/* TITRES */
+
+h2 {
+    font-family: PaytoneOneRegular;
+    font-size: 2.8rem;
+}
+
+/* BOUTONS */
+
+.btn1 {
+    
+}
+
+
+/* HEADER */
 
 #header-main {
     padding: 20px;
@@ -58,15 +88,36 @@ body {
     margin: 10px;
 }
 
-#main-contener {
+
+/* LOGIN */
+
+.container-log {
+    width:min-content;
+    height: 50%;
     color: #FFFFFF;
     padding: 20px;
     margin: auto;
-    width: 80%;
     border-radius: 20px;
     background-image: linear-gradient(125.649deg, #124200 9%, #3F772B 100%);
-
 }
+
+.h2-log {
+    margin: 0.5rem 4rem;
+}
+
+.form-log {
+    margin: auto;
+    display:flex;
+    flex-direction: column;
+    text-align: left;
+    width: 80%;
+}
+
+.form-log input {
+    margin-bottom: 0.3rem;
+}
+
+/* CARDS */
 
 .card {
     padding: 10px;
@@ -79,11 +130,14 @@ body {
 
 }
 
+/* HIDDEN / SHOW */
+
 .hidden {
     display: none;
 }
-.show{
-    display:block;
+
+.show {
+    display: block;
 }
 
 .show-delete {

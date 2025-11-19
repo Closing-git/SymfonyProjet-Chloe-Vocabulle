@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+<div id="main-contener"> 
 
 	{{ form_start(form, {'attr': {'id': 'recherche-form',
 								'data-route': path('app_recherche') }}) }}
@@ -102,5 +103,5 @@
 		<button>Ajouter une liste</button>
 	</a>
 
-
+</div>
 {% endblock %}

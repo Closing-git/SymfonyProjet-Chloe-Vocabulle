@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+<div id="main-contener"> 
 	<a href="{{path('app_accueil')}}">
 		<button>Retour</button>
 	</a>
@@ -27,4 +28,4 @@
 
 	<input type="submit" value="Ajouter la liste">
 	{{ form_end(formListe)}}
-{% endblock %}
+</div>{% endblock %}
