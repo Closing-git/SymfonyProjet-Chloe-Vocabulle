@@ -31,7 +31,7 @@ class UtilisateurFixtures extends Fixture
             $utilisateur->setEmail("user" . $i . "@gmail.com");
             //Pour hasher le mot de passer, pour pas qu'il soit érit en clair dans la base de données
             $utilisateur->setPassword($this->hasher->hashPassword($utilisateur, "mdp"));
-            $utilisateur->setNom('nom' . $i);
+            $utilisateur->setNom('Nom' . $i);
             $utilisateur->setRoles(['ROLE_USER']);
 
             $this->addReference('user' . $i, $utilisateur);

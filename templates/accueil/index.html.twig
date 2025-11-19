@@ -4,104 +4,113 @@
 {% endblock %}
 
 {% block body %}
-<div id="main-contener"> 
-
-	{{ form_start(form, {'attr': {'id': 'recherche-form',
+	<div id="main-contener">
+		<div class="cards-contener-main shadow-box">
+			<div class="options-search">
+				<div>
+					{{ form_start(form, {'attr': {'id': 'recherche-form',
 								'data-route': path('app_recherche') }}) }}
-	{{ form_row(form.langue) }}
-	{{ form_row(form.ordre) }}
-	{{ form_row(form.statut) }}
-	{{ form_row(form.ownCreator) }}
-	{{ form_row(form.fav) }}
-	{{ form_row(form.titre) }}
-
-	{{ form_end(form) }}
-
-	<br>
-	<a href="{{path('app_ajouter_liste')}}">
-		<button>Ajouter une liste</button>
-	</a>
-	<br><br>
-	<div class='cards-contener'>
-		<button>A gauche</button>
-		{% for liste in listesVocabulaire %}
-			<div class="card">
-				<p class="titre-liste">Titre de la liste :
-					{{liste.titre}}</p>
-				<span class="langues-liste">Langues :
-				</span>
-				{% for langue in liste.getLangues() %}
-					<span class="langue">{{ langue.nom }}</span>
-				{% endfor %}
-				<p class="createur-liste">Créateur :
-					{{ liste.getCreateur().getNom() }}</p>
-				<p class="statut-liste">Statut :
-					{% if liste.publicStatut %}Public{% else %}Privé
-					{% endif %}
-				</p>
-				<span class="note-liste">Note :</span>
-				{% if liste.getNoteTotale() %}
-					{{liste.getNoteTotale()}}
-				{% else %}
-					<div class="pas-de-note">
-						<span>Pas encore de note
-						</span>
+					{{ form_row(form.langue) }}
+					{{ form_row(form.ordre) }}
+					{{ form_row(form.statut) }}
+					<div class="checkbox-input"><p>Créer par moi
+					</p>
+					{{ form_row(form.ownCreator) }}
 					</div>
-				{% endif %}
-				<form
-					method="post" action="{{ path('app_fav_toggle', { id: liste.id }) }}">
-					{# TOKEN pour se protéger #}
-					<input type="hidden" name="_token" value="{{ csrf_token('fav_toggle_' ~ liste.id) }}">
-					<button type="submit" class="fav-toggle">
-						{% if app.user in liste.getUtilisateursQuiFav() %}
-							Retirer des favoris
-						{% else %}
-							Ajouter aux favoris
-						{% endif %}
-					</button>
-				</form>
-				<p class="favori-liste">Favori :
-					{% if app.user in (liste.getUtilisateursQuiFav()) %}
-						OUI
-					{% else %}
-						NON
-					{% endif %}
-				</p>
-
-				<p class="meilleur-score">Meilleur Score :
-					{{ liste.getBestScoreMostDifficult(app.user) }}
-				</p>
-
-
-				{# Changer le path plus tard #}
-				<a href="{{path('app_quizzoptions', {id_liste:liste.id} )}}">
-					<button class="play-button">Play</button>
-				</a>
-				<a href="{{path('app_modifier_liste', {id_liste:liste.id} )}}">
-					<button class="modifier-button">Modifier</button>
-				</a>
-				<button class="supprimer-button">Supprimer</button>
-
-				<div class='confirm_delete hidden'>
-					<p>Êtes-vous sûr-e de vouloir supprimer la liste :
-						{{liste.titre}}
-						?</p>
-					<button class='cancel_delete'>Annuler</button>
-					<a href="{{path('app_supprimer_liste', {id_liste:liste.id} )}}">
-						<button class="supprimer-button">Supprimer</button>
-					</a>
+					<div class="checkbox-input"><p>Favori
+					</p>
+					{{ form_row(form.fav) }}
+					</div>
 				</div>
-
-				<br><br>
+				<div class='circle-plus-button'>
+				<a href="{{path('app_ajouter_liste')}}">
+					<img src="{{asset('img/plus-icon.png')}}">
+				</a>
+				</div>
 			</div>
-		{% endfor %}
-		<button>A droite</button>
+			<div id="recherche-titre">{{ form_row(form.titre) }}</div>
+			{{ form_end(form) }}
+			<div class="cards-contener">
+				<button>A gauche</button>
+				{% for liste in listesVocabulaire %}
+					<div class="card">
+						<p class="titre-liste">Titre de la liste :
+							{{liste.titre}}</p>
+						<span class="langues-liste">Langues :
+						</span>
+						{% for langue in liste.getLangues() %}
+							<span class="langue">{{ langue.nom }}</span>
+						{% endfor %}
+						<p class="createur-liste">Créateur :
+							{{ liste.getCreateur().getNom() }}</p>
+						<p class="statut-liste">Statut :
+							{% if liste.publicStatut %}Public{% else %}Privé
+							{% endif %}
+						</p>
+						<span class="note-liste">Note :</span>
+						{% if liste.getNoteTotale() %}
+							{{liste.getNoteTotale()}}
+						{% else %}
+							<div class="pas-de-note">
+								<span>Pas encore de note
+								</span>
+							</div>
+						{% endif %}
+						<form
+							method="post" action="{{ path('app_fav_toggle', { id: liste.id }) }}">
+							{# TOKEN pour se protéger #}
+							<input type="hidden" name="_token" value="{{ csrf_token('fav_toggle_' ~ liste.id) }}">
+							<button type="submit" class="fav-toggle">
+								{% if app.user in liste.getUtilisateursQuiFav() %}
+									Retirer des favoris
+								{% else %}
+									Ajouter aux favoris
+								{% endif %}
+							</button>
+						</form>
+						<p class="favori-liste">Favori :
+							{% if app.user in (liste.getUtilisateursQuiFav()) %}
+								OUI
+							{% else %}
+								NON
+							{% endif %}
+						</p>
+
+						<p class="meilleur-score">Meilleur Score :
+							{{ liste.getBestScoreMostDifficult(app.user) }}
+						</p>
+
+
+						{# Changer le path plus tard #}
+						<a href="{{path('app_quizzoptions', {id_liste:liste.id} )}}">
+							<button class="play-button">Play</button>
+						</a>
+						<a href="{{path('app_modifier_liste', {id_liste:liste.id} )}}">
+							<button class="modifier-button">Modifier</button>
+						</a>
+						<button class="supprimer-button">Supprimer</button>
+
+						<div class='confirm_delete hidden'>
+							<p>Êtes-vous sûr-e de vouloir supprimer la liste :
+								{{liste.titre}}
+								?</p>
+							<button class='cancel_delete'>Annuler</button>
+							<a href="{{path('app_supprimer_liste', {id_liste:liste.id} )}}">
+								<button class="supprimer-button">Supprimer</button>
+							</a>
+						</div>
+
+						<br><br>
+					</div>
+				{% endfor %}
+				<button>A droite</button>
+
+			</div>
+			<br>
+			<a href="{{path('app_ajouter_liste')}}">
+				<button>Ajouter une liste</button>
+			</a>
+		</div>
 
 	</div>
-	<br>
-	<a href="{{path('app_ajouter_liste')}}">
-		<button>Ajouter une liste</button>
-	</a>
-
-</div>
 {% endblock %}

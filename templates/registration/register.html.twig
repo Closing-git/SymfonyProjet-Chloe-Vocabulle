@@ -4,15 +4,16 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container-log shadow-box">
-		<h2 class="h2-log shadow">S'ENREGISTRER</h2>
+	<div id="main-contener">
+		<div class="container-log shadow-box">
+			<h2 class="h2-log shadow">S'ENREGISTRER</h2>
 
 
-		{{ form_errors(registrationForm) }}
+			{{ form_errors(registrationForm) }}
 
-		{{ form_start(registrationForm) }}
-		<div class="form-log-register">
-			{{ form_row(registrationForm.nom, {
+			{{ form_start(registrationForm) }}
+			<div class="form-log-register">
+				{{ form_row(registrationForm.nom, {
             label: 'Nom d\'utilisateur :',
             label_attr: {'class': 'shadow'},
             attr: {'class': 'shadow-box'}
@@ -37,14 +38,15 @@
 
         <button type="submit" class=" register-btn btn1 shadow-box ">S'enregistrer</button>
     {{ form_end(registrationForm) }}
-			<div class="text-fin-log">
-				<p>Déjà un compte ? -</p>
-				<a href="{{ path('app_login') }}">
-					<p>Se connecter
-					</p>
-				</a>
+				<div class="text-fin-log">
+					<p>Déjà un compte ? -</p>
+					<a href="{{ path('app_login') }}">
+						<p>Se connecter
+						</p>
+					</a>
+				</div>
 			</div>
-		</div>
 
+		</div>
 	</div>
 {% endblock %}
