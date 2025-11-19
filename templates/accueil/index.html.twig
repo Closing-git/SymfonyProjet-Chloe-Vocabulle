@@ -6,10 +6,10 @@
 {% block body %}
 	<div id="main-contener">
 		<div class="cards-contener-main shadow-box">
-			<div class="options-search">
-				<div>
-					{{ form_start(form, {'attr': {'id': 'recherche-form',
+			{{ form_start(form, {'attr': {'id': 'recherche-form',
 								'data-route': path('app_recherche') }}) }}
+			<div class="options-search">
+				<div class="options-search-left">
 					{{ form_row(form.langue) }}
 					{{ form_row(form.ordre) }}
 					{{ form_row(form.statut) }}
@@ -31,8 +31,9 @@
 				</div>
 			</div>
 			<div id="recherche-titre">{{ form_row(form.titre) }}</div>
+			{{ form_end(form) }}
+
 			<div class='cards-and-plus-button'>
-				{{ form_end(form) }}
 				<div class="cards-contener">
 
 					{% for liste in listesVocabulaire %}

@@ -294,21 +294,19 @@ header {
     align-items: center;
 }
 
-.options-search form {
+.options-search-left {
     display: flex;
     margin: 1rem;
 }
 
-.options-search form input,
-.options-search form select,
-.checkbox-input,
-#recherche-titre {
+.options-search input,
+.options-search select,
+.checkbox-input {
     margin-right: 0.5rem;
     background-color: #FFE089;
     border: none;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     box-shadow: inset 0px 4px 4px 0px rgba(255, 255, 255, 0.23), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
     font-family: JaldiRegular;
     font-size: 1rem;
     padding: 0.2rem;
@@ -325,8 +323,25 @@ header {
 }
 
 
-.options-search form label {
+.options-search label {
     display: none;
+}
+
+#recherche-titre {
+    margin-right: 0.5rem;
+    background-color: #FFE089;
+    border: none;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0px 4px 4px 0px rgba(255, 255, 255, 0.23), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    font-family: JaldiRegular;
+    font-size: 1rem;
+    padding: 0.2rem;
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    color: #363333;
+    cursor: pointer;
 }
 
 .circle-plus-button {
