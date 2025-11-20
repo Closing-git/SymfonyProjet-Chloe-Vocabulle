@@ -701,6 +701,114 @@ header {
 }
 
 
+/* QUIZZ QUESTIONS */
+
+.questions-contener {
+    width: 50%;
+    height: fit-content;
+    overflow: scroll;
+    border-radius: 20px;
+    color: #FFFFFF;
+    padding: 20px 30px 20px 30px;
+    background-image: linear-gradient(125.649deg, #124200 9%, #3F772B 100%);
+    display: flex;
+    flex-direction: column;
+}
+
+.circle-bouton-close {
+    cursor: pointer;
+    background-color: #FFCD42;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    margin: auto;
+    margin-bottom: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0px 4px 4px 0px rgba(255, 255, 255, 0.23), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.circle-bouton-close img {
+    width: 1rem;
+    cursor: pointer;
+}
+
+.circle-bouton-close:hover {
+    cursor: pointer;
+    background-color: #ffd76a;
+}
+
+.quizz-question-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+}
+
+.a-traduire {
+    font-size: 4.5rem;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-top: 4rem;
+}
+
+.questions-contener form label {
+    display: none;
+}
+
+.questions-contener form input {
+    background-color: #FFE089;
+    border: none;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0px 4px 4px 0px rgba(255, 255, 255, 0.23), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    font-family: JaldiRegular;
+    font-size: 2.2rem;
+    padding: 0.2rem;
+    display: flex;
+    width: 40%;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    justify-content: center;
+    color: #363333;
+    cursor: pointer;
+}
+
+.questions-contener form input:focus {
+    outline: none;
+}
+
+.boutons-questions {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+}
+
+.boutons-questions button {
+    cursor: pointer;
+    background-color: #FFCD42;
+    border: none;
+    border-radius: 10px;
+    width: fit-content;
+    height: 2.5rem;
+    padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+    display: flex;
+    font-family: PaytoneOneRegular;
+    text-transform: uppercase;
+    color:#363333;
+    margin-bottom: 2rem;
+    margin-top: 1rem ;
+    align-items: center;
+    box-shadow: inset 0px 4px 4px 0px rgba(255, 255, 255, 0.23), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.boutons-questions button:hover {
+    cursor: pointer;
+    background-color: #ffd76a;
+}
+
 /* HIDDEN / SHOW */
 
 .hidden {
