@@ -23,11 +23,11 @@ function initSwitch() {
         langue2.textContent = temp;
 
 
-        if (reponse_en.textContent == "Tu devras entrer tes réponses en {{liste.getLangues()[1].nom}}.") {
-            reponse_en.textContent = "Tu devras entrer tes réponses en " + langue1.textContent + ".";
+        if (reponse_en.textContent == "Tu devras entrer tes réponses en {{liste.getLangues()[1].nom}} (clique sur les flèches pour changer).") {
+            reponse_en.textContent = "Tu devras entrer tes réponses en " + langue1.textContent + " (clique sur les flèches pour changer).";
         }
         else {
-            reponse_en.textContent = "Tu devras entrer tes réponses en " + langue2.textContent + ".";
+            reponse_en.textContent = "Tu devras entrer tes réponses en " + langue2.textContent + " (clique sur les flèches pour changer).";
         }
 
         if (langue_cible.value === langue_cible_initiale) {

@@ -19,7 +19,7 @@ class QuizzType extends AbstractType
                     'Moyen' => 'moyen',
                     'Difficile' => 'difficile',
                 ],
-                'label'=> 'Difficulté : '
+                'label'=> 'Difficulté'
             ])
             ->add('langue_cible', HiddenType::class); 
         ;
