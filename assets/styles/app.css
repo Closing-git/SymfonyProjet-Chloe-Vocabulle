@@ -1033,10 +1033,10 @@ header {
 .modifier-liste-contener {
     width: 60%;
     height: fit-content;
-    max-height: 50%;
+    max-height: 70%;
     overflow: scroll;
     color: #FFFFFF;
-    padding: 1.5rem;
+    padding: 1.5rem 3rem;
     border-radius: 20px;
     background-image: linear-gradient(125.649deg, #124200 9%, #3F772B 100%);
     display: flex;
@@ -1044,6 +1044,148 @@ header {
     margin: auto;
 
 }
+
+.modifier-liste-contener-entete {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.modifier-liste-contener form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modifier-liste-contener form div:not(.edit-traduction-contener) {
+    display: flex;
+    flex-direction: row;
+}
+
+.modifier-liste-contener form label {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+    display: inline-block;
+    width: 8rem;
+}
+
+.modifier-liste-contener form input:not(.bouton-modifier-liste),
+.modifier-liste-contener form select {
+    background-color: #FFE089;
+    border: none;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0px 4px 4px 0px rgba(255, 255, 255, 0.23), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    font-family: JaldiRegular;
+    font-size: 1.2rem;
+    padding: 0.2rem;
+    color: #363333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    margin-right: 1rem;
+}
+
+
+
+.modifier-liste-contener form .btn-remove-traduction {
+    cursor: pointer;
+    background-color: #FFCD42;
+    border: none;
+    border-radius: 10px;
+    width: fit-content;
+    height: 2.8rem;
+    padding: 0.5rem;
+    display: flex;
+    font-family: PaytoneOneRegular;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    color: #363333;
+    display: flex;
+    align-self: flex-end;
+    margin-bottom: 0.4rem;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0px 4px 4px 0px rgba(255, 255, 255, 0.23), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+
+.modifier-liste-contener form button:hover {
+    cursor: pointer;
+    background-color: #ffd76a;
+}
+
+.modifier-liste-contener form button img {
+    width: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.edit-traduction-contener {
+    width: fit-content;
+}
+
+.traduction-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.bouton-add-traduction {
+    cursor: pointer;
+    background-color: #FFCD42;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 0.2rem;
+    display: flex;
+    font-family: PaytoneOneRegular;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #363333;
+    display: flex;
+    align-items: center;
+    margin-left: 9rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    box-shadow: inset 0px 4px 4px 0px rgba(255, 255, 255, 0.23), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.bouton-modifier-liste-contener {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+}
+
+.bouton-modifier-liste-contener input {
+    font-size: 1.5rem;
+    font-family: PaytoneOneRegular;
+    background-color: #FFCD42;
+    border-radius: 8px;
+    padding: 1rem 0.6rem;
+    border: none;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0px 4px 4px 0px rgba(255, 255, 255, 0.23), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #363333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    margin-right: 1rem;
+}
+
+.bouton-modifier-liste-contener input:hover {
+    cursor: pointer;
+    background-color: #ffd76a;
+}
+
+input[type="checkbox"] {
+    accent-color: #FFE089;
+}
+
 
 
 
@@ -1062,7 +1204,6 @@ header {
     flex-direction: column;
     margin: auto;
 }
-
 
 
 /* HIDDEN / SHOW */

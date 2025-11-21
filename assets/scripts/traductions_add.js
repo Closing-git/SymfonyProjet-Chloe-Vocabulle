@@ -21,17 +21,16 @@ function traduction_add() {
         //Prend le premier enfant du div_traduction pour y ajouter le formulaire traduction créé
         const item = div_traduction.firstElementChild || div_traduction;
         item.classList.add("traduction-item");
-        traductions.appendChild(item);
+        // Insère avant le bouton "Ajouter une traduction"
+        traductions.insertBefore(item, addBtn);
 
         // Ajoutez le bouton de suppression
         const removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'btn-remove-traduction';
-        removeBtn.textContent = 'Supprimer';
+        // Image identique aux éléments existants
+        removeBtn.innerHTML = '<img src="/img/recycle-bin-icon.png" alt="retour">';
         item.appendChild(removeBtn);
-        removeBtn.onclick = function () {
-            div_traduction.remove();
-        };
 
         //Fonction pour supprimer les trads déjà présentes (voir ci-desous)
         attachRemove(item);

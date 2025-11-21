@@ -53,7 +53,7 @@
 								<p class="titre-liste shadow">
 									{{liste.titre}}</p>
 
-								<div class='note-liste'>
+								<div title="Note globale, jouez pour noter vous-même" class='note-liste'>
 									{% if liste.getNoteTotale() %}
 										{% if liste.getNoteTotale() == 0 %}
 											{% for i in range(1, 5) %}
@@ -123,7 +123,7 @@
 
 							</form>
 
-							<p class="meilleur-score">
+							<p title="Ton meilleur score en difficile" class="meilleur-score">
 								{% if liste.getBestScoreMostDifficult(app.user) == 'Pas encore de meilleur score'%}
 									Pas encore de score
 								{% else %}

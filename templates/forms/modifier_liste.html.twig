@@ -6,28 +6,45 @@
 {% block body %}
 	<div id="main-contener">
 		<div class="modifier-liste-contener">
-			<a href="{{path('app_accueil')}}">
-				<button>Retour</button>
-			</a>
+			<div class="modifier-liste-contener-entete">
+				<h2>Modifier une liste</h2>
+				<div class="circle-plus-button">
+					<a href="{{path('app_accueil')}}">
+						<img src="{{asset('img/retour-icon.png')}}" alt="retour">
+					</a>
+				</div>
+			</div>
 			{{ form_start (formListe) }}
-			{{ form_row (formListe.titre) }}
-			{{ form_row (formListe.publicStatut) }}
-			{{ form_row (formListe.langue1) }}
-			{{ form_row (formListe.langue2) }}
+			<div>
+				{{ form_row (formListe.titre) }}
+			</div>
+			<div>
+				{{ form_row (formListe.publicStatut) }}
+			</div>
+			<div>
+				{{ form_row (formListe.langue1) }}
+			</div>
+			<div>
+				{{ form_row (formListe.langue2) }}
+			</div>
+
 			<div
-				{# formListe.traduction.vars.prototype => Permet de relier le formulaire des traductions #} {# escape('html_attr') => Permet de protéger les caractères spéciaux présent dans form.Liste.traduction.vars.prototype qui doit être du HTML (Sinon les balises se ferment) #}
-				id="traductions" data-index="{{ formListe.traduction|length }}" data-prototype="{{ form_widget(formListe.traduction.vars.prototype)|escape('html_attr') }}">
+				class="edit-traduction-contener" {# formListe.traduction.vars.prototype => Permet de relier le formulaire des traductions #} {# escape('html_attr') => Permet de protéger les caractères spéciaux présent dans form.Liste.traduction.vars.prototype qui doit être du HTML (Sinon les balises se ferment) #} id="traductions" data-index="{{ formListe.traduction|length }}" data-prototype="{{ form_widget(formListe.traduction.vars.prototype)|escape('html_attr') }}">
 				{# Afficher les traduction déjà existantes#}
 				{% for formTrad in formListe.traduction %}
 					<div class="traduction-item">
 						{{ form_row(formTrad.motLangue1) }}
 						{{ form_row(formTrad.motLangue2) }}
-						<button type="button" class="btn-remove-traduction">Supprimer</button>
+						<button type="button" class="btn-remove-traduction">
+							<img src="{{asset('img/recycle-bin-icon.png')}}" alt="retour">
+						</button>
 					</div>
 				{% endfor %}
+				<button class='bouton-add-traduction' type="button" id="btn-add-traduction">Ajouter une traduction</button>
 			</div>
-			<button type="button" id="btn-add-traduction">Ajouter une traduction</button>
-			<input type="submit" value="Modifier la liste de vocabulaire">
+			<div class='bouton-modifier-liste-contener'>
+				<input class="bouton-modifier-liste" type="submit" value="Modifier la liste de vocabulaire">
+			</div>
 			{{ form_end (formListe)}}
 		</div>
 	</div>
