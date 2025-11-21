@@ -15,6 +15,26 @@
     src: url("../fonts/PaytoneOneRegular.ttf");
 }
 
+/* ANIMATIONS */
+
+@keyframes disappear {
+    0% {
+        opacity: 1;
+        transform: rotateX(-90deg);
+    }
+
+    50% {
+        transform: rotateX(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        display: none;
+        opacity: 0;
+        transform: rotateX(90deg);
+    }
+}
+
 
 /* GLOBAL */
 
@@ -54,10 +74,23 @@ body {
     background-color: #f80000;
     color: #ffffff;
     font-size: 1rem;
+    width: 80%;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: auto;
+}
+
+.info {
+    background-color: #f8b809;
+    color: #363333;
+    width: 25%;
+    padding: 0.5rem;
+    border-radius: 5px;
+    animation-name: disappear;
+    animation-duration: 9000ms;
+    animation-fill-mode: forwards;
 }
 
 /* TITRES */
