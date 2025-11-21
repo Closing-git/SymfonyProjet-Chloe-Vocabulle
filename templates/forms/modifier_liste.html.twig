@@ -8,8 +8,8 @@
 		<div class="modifier-liste-contener">
 			<div class="modifier-liste-contener-entete">
 				<h2>Modifier une liste</h2>
-				<div class="circle-plus-button">
-					<a href="{{path('app_accueil')}}">
+				<div class="circle-plus-button supprimer-button">
+					<a href="">
 						<img src="{{asset('img/retour-icon.png')}}" alt="retour">
 					</a>
 				</div>
@@ -46,6 +46,17 @@
 				<input class="bouton-modifier-liste" type="submit" value="Modifier la liste de vocabulaire">
 			</div>
 			{{ form_end (formListe)}}
+			<div class='confirm_delete hidden shadow-box'>
+				<img src="{{asset('img/attention-icon.png')}}">
+				<p>Êtes-vous sûr-e de vouloir quitter ?</p>
+				<p>Vos modifications ne seront pas enregistrées.</p>
+				<div class='show-delete-buttons'>
+					<button class='cancel_delete shadow-box'>Annuler</button>
+					<a href="{{path('app_accueil')}}">
+						<button class="supprimer-button supprimer-button-show-delete shadow-box">Retour à l'accueil</button>
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
 {% endblock %}

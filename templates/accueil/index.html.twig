@@ -24,7 +24,7 @@
 						{{ form_row(form.fav) }}
 					</div>
 				</div>
-				<div class='circle-plus-button'>
+				<div class='circle-plus-button' title="Créer une nouvelle liste de vocabulaire">
 					<a href="{{path('app_ajouter_liste')}}">
 						<img src="{{asset('img/plus-icon.png')}}">
 					</a>
@@ -123,7 +123,7 @@
 
 							</form>
 
-							<p title="Ton meilleur score en difficile" class="meilleur-score">
+							<p title="Votre meilleur score en difficile" class="meilleur-score">
 								{% if liste.getBestScoreMostDifficult(app.user) == 'Pas encore de meilleur score'%}
 									Pas encore de score
 								{% else %}

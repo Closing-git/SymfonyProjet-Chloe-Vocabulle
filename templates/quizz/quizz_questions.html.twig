@@ -9,11 +9,11 @@
 			<div class="quizz-entete">
 				<h2>
 					{{liste.titre}}</h2>
-				<a href="">
-					<div class="circle-bouton-close supprimer-button">
+				<div class="circle-bouton-close supprimer-button">
+					<a href="">
 						<img src="{{ asset('img/close-icon.png') }}" alt="Retour">
-					</div>
-				</a>
+					</a>
+				</div>
 			</div>
 			<div class="quizz-question-info">
 				<p>
@@ -34,10 +34,10 @@
 			</div>
 			<p class='a-traduire'>{{a_traduire}}</p>
 			{# <div class='special-caracteres'>
-													{% for carac in specialCaractere %}
-														{{carac}}
-													{% endfor %}
-												</div> #}
+																{% for carac in specialCaractere %}
+																	{{carac}}
+																{% endfor %}
+															</div> #}
 			{{form_start(Reponseform)}}
 			{{form_widget(Reponseform)}}
 			<div class="boutons-questions">

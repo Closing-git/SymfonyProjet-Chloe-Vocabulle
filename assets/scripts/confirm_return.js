@@ -1,12 +1,17 @@
 function ReturnConfirm() {
-    const container = document.querySelector('.questions-contener');
-    if (!container) return;
+    //Choisis l'une ou l'autre div en fonction de la page
+    let container = document.querySelector('.questions-contener') || document.querySelector('.modifier-liste-contener');
+
+    if (!container) {
+        return;
+    }
 
     // Délégation d'événements pour gérer aussi les éléments injectés dynamiquement
     container.addEventListener('click', (e) => {
         const target = e.target;
 
         // 1) Clic sur un bouton .supprimer-button déclencheur
+
         const triggerBtn = target.closest('.supprimer-button');
         if (triggerBtn && !triggerBtn.closest('.confirm_delete')) {
             e.preventDefault(); // Empêche la navigation si le bouton est dans un <a>

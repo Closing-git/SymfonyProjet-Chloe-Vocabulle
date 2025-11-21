@@ -10,7 +10,7 @@ function initSwitch() {
 
     //Vérifier que tout est initialisé, sinon attendre quelques secondes pour relancer la fonction
     if (!langue1 || !langue2 || !reponse_en || !langue_cible) {
-        console.log('Éléments non trouvés, réessaie dans 100ms');
+        console.log('Éléments non trouvés, réessayez dans 100ms');
         setTimeout(initSwitch, 100); // Réessayer après un court délai
         return;
     }
@@ -23,11 +23,11 @@ function initSwitch() {
         langue2.textContent = temp;
 
 
-        if (reponse_en.textContent == "Tu devras entrer tes réponses en {{liste.getLangues()[1].nom}} (clique sur les flèches pour changer).") {
-            reponse_en.textContent = "Tu devras entrer tes réponses en " + langue1.textContent + " (clique sur les flèches pour changer).";
+        if (reponse_en.textContent == "Vous devrez entrer vos réponses en {{liste.getLangues()[1].nom}} (cliquez sur les flèches pour changer).") {
+            reponse_en.textContent = "Vous devrez entrer vos réponses en " + langue1.textContent + " (cliquez sur les flèches pour changer).";
         }
         else {
-            reponse_en.textContent = "Tu devras entrer tes réponses en " + langue2.textContent + " (clique sur les flèches pour changer).";
+            reponse_en.textContent = "Vous devrez entrer vos réponses en " + langue2.textContent + " (cliquez sur les flèches pour changer).";
         }
 
         if (langue_cible.value === langue_cible_initiale) {
