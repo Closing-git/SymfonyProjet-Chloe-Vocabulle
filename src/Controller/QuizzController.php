@@ -72,6 +72,14 @@ final class QuizzController extends AbstractController
             $session->set('current_question', 0);
             $session->set('score', 0);
             $session->set('scoreEnPourcentage', 0);
+            // Enregistrer la langue cible et la langue source
+            if ($liste->getLangues()[1]->getNom() == $langueCible) {
+                $langueSource = $liste->getLangues()[0]->getNom();
+            } else {
+                $langueSource = $liste->getLangues()[1]->getNom();
+            }
+            $session->set('langue_cible', $langueCible);
+            $session->set('langue_source', $langueSource);
         }
 
         $currentQuestion = $questions[$i_question] ?? null;
@@ -89,6 +97,8 @@ final class QuizzController extends AbstractController
                 $score_final = $session->get('scoreEnPourcentage');
                 $questionsApresErreur = $session->get('questionsApresErreur', []);
                 $a_traduireApresErreur = $session->get('a_traduireApresErreur', []);
+                $langueCible = $session->get('langue_cible');
+                $langueSource = $session->get('langue_source');
                 //Supprimer les infos de la session
                 $session->remove('erreurs');
                 $session->remove('bonnesReponses');
@@ -152,9 +162,9 @@ final class QuizzController extends AbstractController
                     'bonnesReponses' => $bonnesReponses,
                     'questionsApresErreur' => $questionsApresErreur,
                     'a_traduireApresErreur' => $a_traduireApresErreur,
-                    // userNote ? => userNote existe ou pas ? 
-                    // Si oui => userNote->getMontantNote() sinon null
-                    'userNote' => $userNote
+                    'userNote' => $userNote,
+                    'langueCible' => $langueCible,
+                    'langueSource' => $langueSource
                 ]);
             }
 

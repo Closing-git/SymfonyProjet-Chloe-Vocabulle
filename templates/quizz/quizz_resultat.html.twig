@@ -4,54 +4,135 @@
 {% endblock %}
 
 {% block body %}
-<div id="main-contener"> 
-	<a href="{{path('app_accueil')}}">
-		<button>X</button>
-	</a>
-	<p>Score :{{score_final}}
-		%
-																en difficulté :
-		{{p_difficulte}}</p>
-	<p>Titre de la liste :
-		{{liste.titre}}</p>
+	<div id="main-contener">
+		<div class="quizz-resultat-contener">
+			<div class="quizz-resultat-entete">
+				<h2>
+					{{liste.titre}}</h2>
+				<div class='quizz-resultat-entete-difficulte-close'>
+					<div class="quizz-resultat-entete-difficulte">
+						<p>{{p_difficulte}}</p>
+						<h4>Score :
+							{{score_final}}
+							%
+						</h4>
+					</div>
+					<div class="circle-bouton-close">
+						<a href="{{path('app_accueil')}}">
+							<img src="{{asset('img/close-icon.png')}}" alt="close">
+						</a>
+					</div>
+				</div>
 
-	{% if erreurs is empty %}
-		<p>Bravo ! Vous n'avez fait aucune erreur</p>
-	{% else %}
-		<h2>Tes erreurs</h2>
-		{% for erreur in erreurs %}
-			<span>
-				La question :
-				{{a_traduireApresErreur[loop.index0]}}
-				La bonne réponse :
-				{{bonnesReponses[loop.index0]}}</span>
-			Votre réponse :
-			{{erreur}}
-			<br>
-		{% endfor %}
-	{% endif %}
+			</div>
+			<div class="quizz-resultat-contenu">
+				{% if erreurs is empty %}
+					<h3>Bravo ! Vous n'avez fait aucune erreur</h3>
+				{% else %}
 
-	{% if userNote is empty %}
-		<p>Notez cette liste :
-		</p>
-		<span>1 2 3 4 5</span>
-	{% else %}
-		<p>Note :
-		</p>
-		<span>{{userNote}}</span>
-	{% endif %}
-	<p>Favori :
-	</p>
-	<span>oui</span>
+					<h3>Tes erreurs</h3>
+					<div class="quizz-resultat-contenu-erreurs">
+						<div class="quizz-resultat-contenu-erreurs-questions">
+							<h5>{{ langueSource }}</h5>
+							<div>
+								{% for erreur in erreurs %}
+									<p>{{ a_traduireApresErreur[loop.index0] }}</p>
+								{% endfor %}
+							</div>
+						</div>
+						<div class="quizz-resultat-contenu-erreurs-reponses">
+							<h5>{{ langueCible }}</h5>
+							<div>
+								{% for erreur in erreurs %}
+									<p>{{ bonnesReponses[loop.index0] }}</p>
+								{% endfor %}
+							</div>
+						</div>
+						<div class="quizz-resultat-contenu-erreurs-votre-reponse">
+							<h5>Ta réponse</h5>
+							<div>
+								{% for erreur in erreurs %}
+									{% if erreur is empty %}
+										<p>Pas de réponse</p>
+									{% else %}
+										<p>{{ erreur }}</p>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>
 
+				{% endif %}
+				<div class="quizz-resultat-note">
+					{% if userNote is empty %}
+						<p>Notez cette liste :
+						</p>
+						{% for i in range(1, 5) %}
+							<div class="star-empty-contener"></div>
+						{% endfor %}
+					{% else %}
+						{% if userNote == 1%}
+							<div class="star-full-contener"></div>
+							{% for i in range(2, 5) %}
+								<div class="star-empty-contener"></div>
+							{% endfor %}
+						{% endif %}
+						{% if userNote == 2%}
+							<div class="star-full-contener"></div>
+							<div class="star-full-contener"></div>
+							{% for i in range(3, 5) %}
+								<div class="star-empty-contener"></div>
+							{% endfor %}
+						{% endif %}
+						{% if userNote == 3%}
+							<div class="star-full-contener"></div>
+							<div class="star-full-contener"></div>
+							<div class="star-full-contener"></div>
+							{% for i in range(4, 5) %}
+								<div class="star-empty-contener"></div>
+							{% endfor %}
+						{% endif %}
+						{% if userNote == 4%}
+							<div class="star-full-contener"></div>
+							<div class="star-full-contener"></div>
+							<div class="star-full-contener"></div>
+							<div class="star-full-contener"></div>
+							{% for i in range(5, 5) %}
+								<div class="star-empty-contener"></div>
+							{% endfor %}
+						{% endif %}
+						{% if userNote == 5%}
+							{% for i in range(1, 5) %}
+								<div class="star-full-contener"></div>
+							{% endfor %}
+						{% endif %}
+					{% endif %}
+				</div>
+				<div class="quizz-resultat-favori">
+					<p>Mettre en favori :
+					</p>
+					<div class='heart-contener'></div>
+				</div>
+				<div class="quizz-resultat-boutons">
+					<div class="boutons-questions-erreurs">
+						<a href="">
+							<button>Refaire seulement les erreurs</button>
+						</a>
+					</div>
+					<div class="boutons-questions">
 
-	<a href="">
-		<button>Refaire seulement les erreurs</button>
-	</a>
-	<a href="{{path('app_quizzoptions', {id_liste:liste.id} )}}">
-		<button>Retour aux options</button>
-	</a>
-	<a href="{{path('app_accueil')}}">
-		<button>Retour aux listes</button>
-	</a>
-</div>{% endblock %}
+						<a href="{{path('app_quizzoptions', {id_liste:liste.id} )}}">
+							<button>Retour aux
+															options</button>
+						</a>
+
+						<a href="{{path('app_accueil')}}">
+							<button>Retour aux
+															listes</button>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
