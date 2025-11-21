@@ -5,29 +5,44 @@
 
 {% block body %}
 	<div id="main-contener">
-		<div class="ajouter-liste-contener">
-			<a href="{{path('app_accueil')}}">
-				<button>Retour</button>
-			</a>
-			<h2>Ajouter une liste</h2>
+		<div class="modifier-liste-contener">
+			<div class="modifier-liste-contener-entete">
+				<h2>Ajouter une liste</h2>
+				<div class="circle-plus-button">
+					<a href="{{path('app_accueil')}}">
+						<img src="{{asset('img/retour-icon.png')}}" alt="retour">
+					</a>
+				</div>
+			</div>
 			{{ form_start(formListe, {'attr': {'data-turbo': 'false'}})}}
-			{{ form_row (formListe.titre) }}
-			{{ form_row (formListe.publicStatut) }}
-			{{ form_row (formListe.langue1) }}
-			{{ form_row (formListe.langue2) }}
-			<div id="traductions" {# Length permet de donner un index différent à chaque trad #} data-index="{{ formListe.traduction|length }}" {# formListe.traduction.vars.prototype => Permet de relier le formulaire des traductions #} {# escape('html_attr') => Permet de protéger les caractères spéciaux présent dans form.Liste.traduction.vars.prototype qui doit être du HTML (Sinon les balises se ferment) #} data-prototype="{{ form_widget(formListe.traduction.vars.prototype)|escape('html_attr') }}">
+			<div>
+				{{ form_row (formListe.titre) }}
+			</div>
+			<div>
+				{{ form_row (formListe.publicStatut) }}
+			</div>
+			<div>
+				{{ form_row (formListe.langue1) }}
+			</div>
+			<div>
+				{{ form_row (formListe.langue2) }}
+			</div>
+			<div class="edit-traduction-contener" id="traductions" {# Length permet de donner un index différent à chaque trad #} data-index="{{ formListe.traduction|length }}" {# formListe.traduction.vars.prototype => Permet de relier le formulaire des traductions #} {# escape('html_attr') => Permet de protéger les caractères spéciaux présent dans form.Liste.traduction.vars.prototype qui doit être du HTML (Sinon les balises se ferment) #} data-prototype="{{ form_widget(formListe.traduction.vars.prototype)|escape('html_attr') }}">
 				{% for traductionField in formListe.traduction %}
 					<div class="traduction-item">
 						{{ form_row(traductionField.motLangue1) }}
 						{{ form_row(traductionField.motLangue2) }}
-						<button type="button" class="btn-remove-traduction">Supprimer</button>
+						<button type="button" class="btn-remove-traduction">
+							<img src="{{asset('img/recycle-bin-icon.png')}}" alt="retour">
+						</button>
 					</div>
 				{% endfor %}
+				<button type="button" class='bouton-add-traduction' id="btn-add-traduction">Ajouter une traduction</button>
 			</div>
 
-			<button type="button" id="btn-add-traduction">Ajouter une traduction</button>
-
-			<input type="submit" value="Ajouter la liste">
+			<div class='bouton-modifier-liste-contener'>
+				<input type="submit" class="bouton-modifier-liste" value="Ajouter la liste">
+			</div>
 			{{ form_end(formListe)}}
 		</div>
 	</div>
