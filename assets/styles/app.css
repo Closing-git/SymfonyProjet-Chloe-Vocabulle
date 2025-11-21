@@ -1193,6 +1193,8 @@ input[type="checkbox"] {
 
 /* HIDDEN / SHOW */
 
+
+
 .hidden {
     display: none;
 }
@@ -1202,6 +1204,9 @@ input[type="checkbox"] {
 }
 
 .show-delete {
+    display: block;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     top: 50%;
     /* Déplace le coin supérieur gauche à 50% du haut */
@@ -1209,9 +1214,64 @@ input[type="checkbox"] {
     /* Déplace le coin supérieur gauche à 50% de la gauche */
     transform: translate(-50%, -50%);
     /* Décale le div de la moitié de sa propre taille */
-    width: 200px;
-    height: 100px;
-    background-color: rgb(243, 8, 8);
+    width: 20%;
+    border-radius: 20px;
+    height: fit-content;
+    background-color: rgb(255, 255, 255);
+    color: black;
     text-align: center;
 
+}
+
+.show-delete img {
+    width: 4rem;
+    margin: 1rem;
+}
+
+.show-delete p {
+    text-decoration: none;
+    font-family: JaldiRegular;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    font-size: 1.2rem;
+    line-height: 1rem;
+    width: 60%;
+    margin-bottom: 2rem;
+}
+
+.show-delete-buttons {
+    display: flex;
+    justify-content: space-around;
+    width: 60%;
+    margin: auto;
+    margin-bottom: 2rem;
+}
+
+.show-delete-buttons button {
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.cancel_delete,
+.supprimer-button-show-delete {
+    width: fit-content;
+    padding: 0.5rem 1rem;
+}
+
+.supprimer-button-show-delete {
+    color: #ffffff;
+    background-color: #EE2828;
+}
+
+.supprimer-button-show-delete:hover {
+    background-color: #e91818;
+
+}
+
+.show-delete-buttons button:hover {
+    cursor: pointer;
 }

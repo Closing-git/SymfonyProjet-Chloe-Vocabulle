@@ -148,37 +148,41 @@
 											<img src="{{asset('img/edit-pen-icon.png')}}">
 										</div>
 									</a>
-									<a href="{{path('app_supprimer_liste', {id_liste:liste.id} )}}">
-										<div class="edit-delete-icon">
+									<a href="">
+										<div class="edit-delete-icon supprimer-button">
 											<img src="{{asset('img/recycle-bin-icon.png')}}">
 										</div>
-									</div>
+									</a>
+								</div>
 
 
-									<div class='confirm_delete hidden'>
-										<p>Êtes-vous sûr-e de vouloir supprimer la liste :
-											{{liste.titre}}
-											?</p>
-										<button class='cancel_delete'>Annuler</button>
+								<div class='confirm_delete hidden shadow-box'>
+									<img src="{{asset('img/attention-icon.png')}}">
+									<p>Êtes-vous sûr-e de vouloir supprimer la liste :
+										"{{liste.titre}}"
+										?</p>
+									<div class='show-delete-buttons'>
+										<button class='cancel_delete shadow-box'>Annuler</button>
 										<a href="{{path('app_supprimer_liste', {id_liste:liste.id} )}}">
-											<button class="supprimer-button">Supprimer</button>
+											<button class="supprimer-button supprimer-button-show-delete shadow-box">Supprimer</button>
 										</a>
 									</div>
 								</div>
 							</div>
-						{% endfor %}
-					</div>
-					<div>
-						<a href="{{path('app_ajouter_liste')}}">
-							<div class="circle-plus-button button-plus-bottom">
-								<img src="{{asset('img/plus-icon.png')}}">
-							</div>
-						</a>
-					</div>
+						</div>
+					{% endfor %}
 				</div>
-
-
+				<div>
+					<a href="{{path('app_ajouter_liste')}}">
+						<div class="circle-plus-button button-plus-bottom">
+							<img src="{{asset('img/plus-icon.png')}}">
+						</div>
+					</a>
+				</div>
 			</div>
 
+
 		</div>
-	{% endblock %}
+
+	</div>
+{% endblock %}
