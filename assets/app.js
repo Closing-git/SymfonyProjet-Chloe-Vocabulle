@@ -11,6 +11,6 @@ import './scripts/init_accueil.js';
 import './scripts/user_UI.js';
 import './scripts/traductions_add.js';
 import './scripts/switch_button.js';
-
+import './scripts/confirm_return.js';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
