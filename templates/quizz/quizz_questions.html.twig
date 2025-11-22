@@ -33,7 +33,7 @@
 				{% endif %}
 			</div>
 			<p class='a-traduire'>{{a_traduire}}</p>
-			{{form_start(Reponseform, {'attr': {'data-turbo': 'false'}})}}
+			{{form_start(Reponseform, {'attr': {'data-turbo': 'false', 'id': 'reponse-form'}})}}
 			{{form_widget(Reponseform)}}
 			<div class='carac-speciaux-contener'>
 				{% for carac in caracteresSpeciaux %}
@@ -43,14 +43,34 @@
 				{% endfor %}
 			</div>
 			<div class="boutons-questions">
-				<button type="submit">
-					Passer
-				</button>
-				<button type="submit">
+				<button type="submit" name="action" value="valider">
 					Valider
+				</button>
+				<button type="submit" name="action" value="passer" class="btn-passer">
+					Passer
 				</button>
 				{{form_end(Reponseform)}}
 			</div>
+			<script>
+				(function () {
+const form = document.getElementById('reponse-form');
+if (! form) 
+return;
+
+
+const passerBtn = form.querySelector('button.btn-passer');
+if (! passerBtn) 
+return;
+
+
+passerBtn.addEventListener('click', function () {
+const input = form.querySelector('input[type="text"], input[type="search"], textarea');
+if (input) {
+input.value = '';
+}
+});
+})();
+			</script>
 			<div class='confirm_delete hidden shadow-box'>
 				<img src="{{asset('img/attention-icon.png')}}">
 				<p>Êtes-vous sûr-e de vouloir quitter ?</p>

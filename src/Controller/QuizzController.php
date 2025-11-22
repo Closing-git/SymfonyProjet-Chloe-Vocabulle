@@ -204,50 +204,53 @@ final class QuizzController extends AbstractController
                     $presque = False;
                     $session->set('presqueInit', False);
                 } else {
-
-                    # Quel est le mot le plus long et le mot le plus court
-                    if (strlen($reponse) > strlen($bonneReponse)) {
-                        $shorter_word = $bonneReponse;
-                        $longer_word = $reponse;
-                    } else {
-                        $shorter_word = $reponse;
-                        $longer_word = $bonneReponse;
-                    }
-                    # Calculer la différence de nombre de lettre entre les deux mots
-                    $diff_len = strlen($longer_word) - strlen($shorter_word);
-                    $nb_placed_letters = 0;
-                    # Calculer le nombre de lettres bien placées(en fonction du plus petit mot)
-                    for ($i = 0; $i < strlen($shorter_word); $i++) {
-                        if (strtolower($shorter_word[$i]) == strtolower($longer_word[$i])) {
-                            $nb_placed_letters++;
+                    //Gérer si l'utilisateur passe ou n'entre rien (else plus bas)
+                    if ($reponse != "") {
+                        # Quel est le mot le plus long et le mot le plus court
+                        if (strlen($reponse) > strlen($bonneReponse)) {
+                            $shorter_word = $bonneReponse;
+                            $longer_word = $reponse;
+                        } else {
+                            $shorter_word = $reponse;
+                            $longer_word = $bonneReponse;
                         }
-                    }
-
-                    #Caculer le pourcentage de lettres justes avec le nb de lettres en communs ET les lettres en trop ou pas assez
-                    $percentage_placed_letters = (($nb_placed_letters - $diff_len) / (strlen($shorter_word))) * 100;
-
-
-                    #Caclculer le nombre de lettres en commun
-                    $nb_common_letters = 0;
-
-                    for ($i = 0, $n = strlen($shorter_word); $i < $n; $i++) {
-                        $letter = $longer_word[$i];
-                        if (strpos(strtolower($shorter_word), $letter) !== false) {
-                            $nb_common_letters++;
+                        # Calculer la différence de nombre de lettre entre les deux mots
+                        $diff_len = strlen($longer_word) - strlen($shorter_word);
+                        $nb_placed_letters = 0;
+                        # Calculer le nombre de lettres bien placées(en fonction du plus petit mot)
+                        for ($i = 0; $i < strlen($shorter_word); $i++) {
+                            if (strtolower($shorter_word[$i]) == strtolower($longer_word[$i])) {
+                                $nb_placed_letters++;
+                            }
                         }
-                    }
 
-                    #Calculer le pourcentage de lettres en commun
-                    $percentage_common_letters = ($nb_common_letters / strlen($shorter_word)) * 100;
+                        #Caculer le pourcentage de lettres justes avec le nb de lettres en communs ET les lettres en trop ou pas assez
+                        $percentage_placed_letters = (($nb_placed_letters - $diff_len) / (strlen($shorter_word))) * 100;
 
-                    if ($percentage_placed_letters >= 70 || $percentage_common_letters >= 80 || ($percentage_common_letters > 65 & $percentage_placed_letters > 65)) {
-                        $presque = True;
-                        $session->set('presqueInit', True);
+
+                        #Caclculer le nombre de lettres en commun
+                        $nb_common_letters = 0;
+
+                        for ($i = 0, $n = strlen($shorter_word); $i < $n; $i++) {
+                            $letter = $longer_word[$i];
+                            if (strpos(strtolower($shorter_word), $letter) !== false) {
+                                $nb_common_letters++;
+                            }
+                        }
+
+                        #Calculer le pourcentage de lettres en commun
+                        $percentage_common_letters = ($nb_common_letters / strlen($shorter_word)) * 100;
+
+                        if ($percentage_placed_letters >= 70 || $percentage_common_letters >= 80 || ($percentage_common_letters > 65 & $percentage_placed_letters > 65)) {
+                            $presque = True;
+                            $session->set('presqueInit', True);
+                        } else {
+                            $presque = False;
+                        }
                     } else {
                         $presque = False;
                     }
                 }
-
 
                 //Vérification bonne ou mauvaise réponse 
                 //Si la maj est importante, tous les caractères doivent être respectés
