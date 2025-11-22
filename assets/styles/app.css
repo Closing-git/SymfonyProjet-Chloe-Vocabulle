@@ -829,7 +829,7 @@ header {
     border-radius: 8px;
     width: 2rem;
     height: 2rem;
-    color:#363333;
+    color: #363333;
     font-family: PaytoneOneRegular;
     display: flex;
     justify-content: center;
@@ -871,6 +871,66 @@ header {
 .boutons-questions button:hover {
     cursor: pointer;
     background-color: #ffd76a;
+}
+
+/* QUIZZ CORRIGE */
+
+.reponse-et-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-corrige {
+    font-size: 2.5rem;
+    display: flex;
+    text-align: center;
+    width: 2.5rem;
+    padding-left: 3rem;
+
+    align-items: center;
+}
+
+.reponse-et-icon input {
+    background-color: #FFE089;
+    border: none;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0px 4px 4px 0px rgba(255, 255, 255, 0.23), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    font-family: JaldiRegular;
+    font-size: 2.2rem;
+    padding: 0.2rem;
+    margin-left: 5.5rem;
+    display: flex;
+    width: 40%;
+    align-items: center;
+    text-align: center;
+}
+
+.correct {
+    color: #1DAC00;
+}
+
+.incorrect {
+    color: #FF0000;
+}
+
+.boutons-questions a {
+    text-decoration: none;
+}
+
+.bonne-reponse {
+    font-size: 2.5rem;
+    margin-top: 3rem;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    line-height: 3rem;
+}
+
+.bonne-reponse-p {
+    font-weight: 900;
+    font-size: 3rem;
 }
 
 

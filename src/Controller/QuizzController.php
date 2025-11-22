@@ -47,7 +47,7 @@ final class QuizzController extends AbstractController
         $liste = $em->getRepository(ListeVocabulaire::class)->find($id_liste);
         $langueCible = $request->query->get('langue_cible');
         $difficulte = $request->query->get('difficulte');
-        
+
 
         //Récupérer les mots et les mélanger
         $traductions = $liste->getTraduction()->toArray();
@@ -56,10 +56,10 @@ final class QuizzController extends AbstractController
 
         if ($liste->getLangues()[1]->getNom() == $langueCible) {
             $majStatut = $liste->getLangues()[1]->isMajImportante();
-            $caracteres= $liste->getLangues()[1]->getCaracteresSpeciaux();
+            $caracteres = $liste->getLangues()[1]->getCaracteresSpeciaux();
         } else {
             $majStatut = $liste->getLangues()[0]->isMajImportante();
-            $caracteres= $liste->getLangues()[0]->getCaracteresSpeciaux();
+            $caracteres = $liste->getLangues()[0]->getCaracteresSpeciaux();
         }
 
         //Créer la session et l'initialiser
@@ -145,13 +145,11 @@ final class QuizzController extends AbstractController
                 ]);
 
                 if ($note) {
-                    $userNote=$note->getMontantNote();}
+                    $userNote = $note->getMontantNote();
+                } else {
+                    $userNote = null;
+                }
 
-                    else{
-                        $userNote=null;
-
-                    }
-                
                 $infosJeu->setBestScores($bestScores);
                 $em->flush();
 
@@ -193,8 +191,13 @@ final class QuizzController extends AbstractController
             }
 
 
+
+
+
             if ($Reponseform->isSubmitted() && $Reponseform->isValid()) {
+                // dd($Reponseform->isSubmitted(), $Reponseform->isValid(), $request->getMethod(), $difficulte);
                 $reponse = $Reponseform->get('reponse')->getData();
+
                 //Vérification bonne ou mauvaise réponse 
 
                 //Si la maj est importante, tous les caractères doivent être respectés
@@ -204,6 +207,7 @@ final class QuizzController extends AbstractController
                         $scoreEnPourcentage = round(($score / count($questions)) * 100);
                         $session->set('score', $score);
                         $session->set('scoreEnPourcentage', $scoreEnPourcentage);
+                        $corrige = 'Correct';
                     } else {
                         //Récupérer les erreurs déjà existantes (si unset, créer un tableau vide)
                         $erreurs = $session->get('erreurs', []);
@@ -220,6 +224,7 @@ final class QuizzController extends AbstractController
                         $session->set('bonnesReponses', $bonnesReponses);
                         $session->set('questionsApresErreur', $questionsApresErreur);
                         $session->set('a_traduireApresErreur', $a_traduireApresErreur);
+                        $corrige = 'Incorrect';
                     }
                 }
                 //Sinon on met tout en minuscule et on compare
@@ -229,6 +234,7 @@ final class QuizzController extends AbstractController
                         $scoreEnPourcentage = round(($score / count($questions)) * 100);
                         $session->set('score', $score);
                         $session->set('scoreEnPourcentage', $scoreEnPourcentage);
+                        $corrige = 'Correct';
                     } else {
                         //Récupérer les erreurs déjà existantes (si unset, créer un tableau vide)
                         $erreurs = $session->get('erreurs', []);
@@ -245,17 +251,40 @@ final class QuizzController extends AbstractController
                         $session->set('bonnesReponses', $bonnesReponses);
                         $session->set('questionsApresErreur', $questionsApresErreur);
                         $session->set('a_traduireApresErreur', $a_traduireApresErreur);
+                        $corrige = 'Incorrect';
                     }
                 }
                 $i_question++;
                 $session->set('current_question', $i_question);
 
-                return $this->redirectToRoute('app_quizz', [
-                    'id_liste' => $id_liste,
+                // Corrigé de chaque question
+                return $this->render('quizz/quizz_corriges.html.twig', [
+                    'question' => $currentQuestion,
+                    'corrige' => $corrige,
+                    'liste' => $liste,
                     'langue_cible' => $langueCible,
                     'difficulte' => $difficulte,
-                    'caracteresSpeciaux' => $caracteres
+                    'i_question' => $i_question,
+                    'scoreEnPourcentage' => $scoreEnPourcentage,
+                    'a_traduire' => $a_traduire,
+                    'p_difficulte' => $p_difficulte,
+                    'majStatut' => $majStatut,
+                    'id_liste' => $id_liste,
+                    'caracteresSpeciaux' => $caracteres,
+                    'bonneReponse' => $bonneReponse,
+                    'reponse' => $reponse,
+                    'a_traduire' => $a_traduire,
+
                 ]);
+
+
+
+                // return $this->redirectToRoute('app_quizz', [
+                //     'id_liste' => $id_liste,
+                //     'langue_cible' => $langueCible,
+                //     'difficulte' => $difficulte,
+                //     'caracteresSpeciaux' => $caracteres
+                // ]);
             }
 
 
@@ -264,13 +293,15 @@ final class QuizzController extends AbstractController
                 'question' => $currentQuestion,
                 'i_question' => $i_question,
                 'scoreEnPourcentage' => $scoreEnPourcentage,
+                'difficulte' => $difficulte,
                 'a_traduire' => $a_traduire,
                 'p_difficulte' => $p_difficulte,
                 'liste' => $liste,
                 'langue_cible' => $langueCible,
                 'majStatut' => $majStatut,
                 'id_liste' => $id_liste,
-                'caracteresSpeciaux' => $caracteres
+                'caracteresSpeciaux' => $caracteres,
+
             ]);
         } else {
             $Reponseform = $this->createForm(ReponseType::class);
@@ -279,7 +310,7 @@ final class QuizzController extends AbstractController
         }
 
 
-        $vars = ["Reponseform" => $Reponseform, "scoreEnPourcentage" => $scoreEnPourcentage, "p_difficulte" => $p_difficulte, "liste" => $liste, "langue_cible" => $langueCible, "majStatut" => $majStatut, "i_question" => $i_question];
+        $vars = ["Reponseform" => $Reponseform, "scoreEnPourcentage" => $scoreEnPourcentage, "p_difficulte" => $p_difficulte, "liste" => $liste, "langue_cible" => $langueCible, "majStatut" => $majStatut, "i_question" => $i_question, "difficulte" => $difficulte];
         return $this->render('quizz/quizz_questions.html.twig', $vars);
     }
 }

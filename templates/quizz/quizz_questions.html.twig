@@ -33,13 +33,13 @@
 				{% endif %}
 			</div>
 			<p class='a-traduire'>{{a_traduire}}</p>
-			{{form_start(Reponseform)}}
+			{{form_start(Reponseform, {'attr': {'data-turbo': 'false'}})}}
 			{{form_widget(Reponseform)}}
 			<div class='carac-speciaux-contener'>
 				{% for carac in caracteresSpeciaux %}
-				<p class="carac-speciaux">
-					{{carac}}
-				</p>
+					<p class="carac-speciaux">
+						{{carac}}
+					</p>
 				{% endfor %}
 			</div>
 			<div class="boutons-questions">
