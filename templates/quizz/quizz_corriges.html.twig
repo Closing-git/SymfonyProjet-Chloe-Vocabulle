@@ -57,24 +57,58 @@
 
 			<div class="boutons-questions">
 				<a href="{{path('app_quizz', {'id_liste': id_liste, 'difficulte': difficulte, 'langue_cible': langue_cible} )}}">
-					<button>
+					<button id='bouton-suivant'>
 						Suivant
 					</button>
 				</a>
-			</div>
 
-		</div>
+				<script defer>
+					(function () {
+function init() {
+const boutonSuivant = document.getElementById('bouton-suivant');
+if (! boutonSuivant) {
+return;
+}
 
-		<div class='confirm_delete hidden shadow-box'>
-			<img src="{{asset('img/attention-icon.png')}}">
-			<p>Êtes-vous sûr-e de vouloir quitter ?</p>
-			<p>Votre score ne sera pas enregistré.</p>
-			<div class='show-delete-buttons'>
-				<button class='cancel_delete shadow-box'>Annuler</button>
-				<a href="{{path('app_accueil')}}">
-					<button class="supprimer-button supprimer-button-show-delete shadow-box">Retour à l'accueil</button>
-				</a>
+const onKeydown = function (e) {
+if (e.key !== 'Enter') 
+return;
+
+const active = document.activeElement;
+//Récupère le tag s'il y a bien un element active
+const tag = active && active.tagName ? active.tagName.toUpperCase() : '';
+// Ne pas intercepter Enter quand on est en train de saisir dans un champ (exemple dans quizz questions)
+if (tag === 'INPUT' || tag === 'TEXTAREA') 
+return;
+//Sinon on clique sur boutonSuivant
+boutonSuivant.click();
+};
+
+//Lancer la fonction quand on keydown
+window.addEventListener('keydown', onKeydown);
+
+
+// Arrêter le listener pour les pages suivantes (sinon ça bug sur quizz_questions)
+document.addEventListener('turbo:before-render', function () {
+window.removeEventListener('keydown', onKeydown);
+}, {once: true});
+window.addEventListener('pagehide', function () {
+window.removeEventListener('keydown', onKeydown);
+}, {once: true});
+}
+
+if (document.readyState === 'loading') {
+document.addEventListener('DOMContentLoaded', init, {once: true});
+} else {
+init();
+}
+})();
+				</script>
 			</div>
 		</div>
 	</div>
-</div>{% endblock %}
+</div></div></div><div class='confirm_delete hidden shadow-box'><img src="{{asset('img/attention-icon.png')}}"><p>Êtes-vous sûr-e de vouloir quitter ?</p><p>Votre score ne sera pas enregistré.</p><div class='show-delete-buttons'>
+<button class='cancel_delete shadow-box'>Annuler</button>
+<a href="{{path('app_accueil')}}">
+	<button class="supprimer-button supprimer-button-show-delete shadow-box">Retour à l'accueil</button>
+</a></div></div></div></div>{% endblock %}

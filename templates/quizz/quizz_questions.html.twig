@@ -43,25 +43,24 @@
 				{% endfor %}
 			</div>
 			<div class="boutons-questions">
-				<button type="submit" name="action" value="valider">
+				<button type="submit" name='action' value="valider">
 					Valider
 				</button>
-				<button type="submit" name="action" value="passer" class="btn-passer">
+				<button type="submit" name='action' value="passer" class="btn-passer">
 					Passer
 				</button>
 				{{form_end(Reponseform)}}
 			</div>
 			<script>
+			//Pour effacer le contenu du champ de saisie quand on clique sur "Passer"
 				(function () {
 const form = document.getElementById('reponse-form');
 if (! form) 
 return;
 
-
 const passerBtn = form.querySelector('button.btn-passer');
 if (! passerBtn) 
 return;
-
 
 passerBtn.addEventListener('click', function () {
 const input = form.querySelector('input[type="text"], input[type="search"], textarea');
