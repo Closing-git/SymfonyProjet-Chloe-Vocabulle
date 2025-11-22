@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quizz
+{% endblock %}
+
+{% block body %}
+	<div id="main-contener">
+		<div class="questions-contener">
+			<div class="quizz-entete">
+				<h2>
+					{{liste.titre}}</h2>
+				<div class="circle-bouton-close supprimer-button">
+					<a href="">
+						<img src="{{ asset('img/close-icon.png') }}" alt="Retour">
+					</a>
+				</div>
+			</div>
+			<div class="quizz-question-info">
+				<p>
+					{{i_question + 1}}
+					/
+					{{liste.traduction.count()}}
+					mots</p>
+				<p>Difficulté :
+					{{p_difficulte}}</p>
+				<p>Score :
+					{{scoreEnPourcentage}}
+					%</p>
+				<p>Langue cible :
+					{{langue_cible}}</p>
+				{% if majStatut == true %}
+					<p>(les majuscules sont importantes)</p>
+				{% endif %}
+			</div>
+			<p class='a-traduire'>{{a_traduire}}</p>
+			{{form_start(Reponseform, {'attr': {'data-turbo': 'false'}})}}
+
+			<div class='reponse-et-icon-presque'>
+
+				{{ form_row (Reponseform.reponse, {'attr' : {class : 'input-presque', value : '', placeholder : reponse}}) }}
+				<img src="{{ asset('img/presque-icon.png') }}" alt="Presque" class='icon-corrige'></img>
+			</div>
+			<div class='carac-speciaux-contener'>
+				{% for carac in caracteresSpeciaux %}
+					<p class="carac-speciaux">
+						{{carac}}
+					</p>
+				{% endfor %}
+			</div>
+
+			<div class="bonne-reponse">
+				<p>Presque !</p>
+				<p>Vous avez le droit à un autre essai !</p>
+			</div>
+			<div class="boutons-questions">
+				<button type="submit">
+					Passer
+				</button>
+				<button type="submit">
+					Valider
+				</button>
+				{{form_end(Reponseform)}}
+			</div>
+			<div class='confirm_delete hidden shadow-box'>
+				<img src="{{asset('img/attention-icon.png')}}">
+				<p>Êtes-vous sûr-e de vouloir quitter ?</p>
+				<p>Votre score ne sera pas enregistré.</p>
+				<div class='show-delete-buttons'>
+					<button class='cancel_delete shadow-box'>Annuler</button>
+					<a href="{{path('app_accueil')}}">
+						<button class="supprimer-button supprimer-button-show-delete shadow-box">Retour à l'accueil</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

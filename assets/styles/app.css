@@ -906,6 +906,32 @@ header {
     text-align: center;
 }
 
+.reponse-et-icon-presque div input {
+    background-color: #FFE089;
+    border: none;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0px 4px 4px 0px rgba(255, 255, 255, 0.23), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    font-family: JaldiRegular;
+    font-size: 2.2rem;
+    padding: 0.2rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-right:5.5rem
+}
+
+.reponse-et-icon-presque {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-presque {
+    width: 2rem;
+    padding-left: 3rem;
+}
+
 .correct {
     color: #1DAC00;
 }
