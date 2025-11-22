@@ -816,6 +816,32 @@ header {
     outline: none;
 }
 
+.carac-speciaux-contener {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.carac-speciaux-contener p {
+    margin-right: 0.5rem;
+    background-color: #FFCD42;
+    border-radius: 8px;
+    width: 2rem;
+    height: 2rem;
+    color:#363333;
+    font-family: PaytoneOneRegular;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0px 4px 4px 0px rgba(255, 255, 255, 0.23), 0px 4px 4px 0px rgba(0, 0, 0, 0.25)a;
+}
+
+.carac-speciaux-contener p:hover {
+    cursor: pointer;
+    background-color: #ffd76a;
+}
+
 .boutons-questions {
     display: flex;
     justify-content: space-evenly;

@@ -47,6 +47,7 @@ final class QuizzController extends AbstractController
         $liste = $em->getRepository(ListeVocabulaire::class)->find($id_liste);
         $langueCible = $request->query->get('langue_cible');
         $difficulte = $request->query->get('difficulte');
+        
 
         //Récupérer les mots et les mélanger
         $traductions = $liste->getTraduction()->toArray();
@@ -55,8 +56,10 @@ final class QuizzController extends AbstractController
 
         if ($liste->getLangues()[1]->getNom() == $langueCible) {
             $majStatut = $liste->getLangues()[1]->isMajImportante();
+            $caracteres= $liste->getLangues()[1]->getCaracteresSpeciaux();
         } else {
             $majStatut = $liste->getLangues()[0]->isMajImportante();
+            $caracteres= $liste->getLangues()[0]->getCaracteresSpeciaux();
         }
 
         //Créer la session et l'initialiser
@@ -164,7 +167,8 @@ final class QuizzController extends AbstractController
                     'a_traduireApresErreur' => $a_traduireApresErreur,
                     'userNote' => $userNote,
                     'langueCible' => $langueCible,
-                    'langueSource' => $langueSource
+                    'langueSource' => $langueSource,
+                    'caracteresSpeciaux' => $caracteres
                 ]);
             }
 
@@ -250,6 +254,7 @@ final class QuizzController extends AbstractController
                     'id_liste' => $id_liste,
                     'langue_cible' => $langueCible,
                     'difficulte' => $difficulte,
+                    'caracteresSpeciaux' => $caracteres
                 ]);
             }
 
@@ -265,6 +270,7 @@ final class QuizzController extends AbstractController
                 'langue_cible' => $langueCible,
                 'majStatut' => $majStatut,
                 'id_liste' => $id_liste,
+                'caracteresSpeciaux' => $caracteres
             ]);
         } else {
             $Reponseform = $this->createForm(ReponseType::class);
