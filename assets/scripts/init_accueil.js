@@ -9,6 +9,12 @@ function buildCards(donnees, divResultat) {
     const asset = (name) => imgBase + name;
 
     donnees.forEach(function (donnee) {
+        // Vérifie si la liste est publique ou si l'utilisateur est le créateur
+        const isCreator = userId && donnee.createur && String(donnee.createur.id) === String(userId);
+        if (!donnee.publicStatut && !isCreator) {
+            return; // Ne pas afficher les listes privées des autres utilisateurs
+        }
+
         const card = document.createElement('div');
         card.className = 'card shadow-box';
 
@@ -51,6 +57,7 @@ function buildCards(donnees, divResultat) {
 
         const noteDiv = document.createElement('div');
         noteDiv.className = 'note-liste';
+        noteDiv.title = 'Note globale, jouez pour noter vous-même';
 
         const note = Number(donnee.noteTotale ?? 0);
         if (Number.isFinite(note)) {
@@ -103,6 +110,7 @@ function buildCards(donnees, divResultat) {
         }
         const pScore = document.createElement('p');
         pScore.className = 'meilleur-score';
+        pScore.title = 'Votre meilleur score en difficile';
         if (bestScoreMostDifficult === 'Pas encore de meilleur score') {
             pScore.textContent = 'Pas encore de score';
         } else {
@@ -114,6 +122,7 @@ function buildCards(donnees, divResultat) {
         const footer = document.createElement('div');
         footer.className = 'footer-card';
 
+        // Bouton Play
         const playA = document.createElement('a');
         playA.href = `/quizzOptions/${donnee.id}`;
         const playIcon = document.createElement('div');
@@ -125,51 +134,71 @@ function buildCards(donnees, divResultat) {
         playA.appendChild(playIcon);
         footer.appendChild(playA);
 
+        // Boutons d'édition et suppression (uniquement pour le créateur)
         const editDel = document.createElement('div');
         editDel.className = 'edit-and-delete';
+        
+        if (isCreator) {
+            // Bouton d'édition
+            const editA = document.createElement('a');
+            editA.href = `/modifier/liste/${donnee.id}`;
+            const editIcon = document.createElement('div');
+            editIcon.className = 'edit-delete-icon';
+            const editImg = document.createElement('img');
+            editImg.src = asset('edit-pen-icon.png');
+            editIcon.appendChild(editImg);
+            editA.appendChild(editIcon);
+            editDel.appendChild(editA);
 
-        const editA = document.createElement('a');
-        editA.href = `/modifier/liste/${donnee.id}`;
-        const editIcon = document.createElement('div');
-        editIcon.className = 'edit-delete-icon';
-        const editImg = document.createElement('img');
-        editImg.src = asset('edit-pen-icon.png');
-        editIcon.appendChild(editImg);
-        editA.appendChild(editIcon);
-        editDel.appendChild(editA);
-
-        const delA = document.createElement('a');
-        delA.href = `/supprimer/liste/${donnee.id}`;
-        const delIcon = document.createElement('div');
-        delIcon.className = 'edit-delete-icon';
-        const delImg = document.createElement('img');
-        delImg.src = asset('recycle-bin-icon.png');
-        delIcon.appendChild(delImg);
-        delA.appendChild(delIcon);
-        editDel.appendChild(delA);
+            // Bouton de suppression
+            const delA = document.createElement('a');
+            delA.href = '';
+            delA.classList.add('supprimer-button');
+            const delIcon = document.createElement('div');
+            delIcon.className = 'edit-delete-icon';
+            const delImg = document.createElement('img');
+            delImg.src = asset('recycle-bin-icon.png');
+            delIcon.appendChild(delImg);
+            delA.appendChild(delIcon);
+            editDel.appendChild(delA);
+        }
 
         footer.appendChild(editDel);
 
+        // Confirmation de suppression (cachée par défaut)
         const confirmDelete = document.createElement('div');
         confirmDelete.className = 'confirm_delete hidden';
+        
+        const attentionImg = document.createElement('img');
+        attentionImg.src = asset('attention-icon.png');
+        confirmDelete.appendChild(attentionImg);
+        
         const pDel = document.createElement('p');
-        pDel.textContent = `Êtes-vous sûr-e de vouloir supprimer la liste : ${donnee.titre} ?`;
+        pDel.textContent = `Êtes-vous sûr-e de vouloir supprimer la liste : "${donnee.titre}" ?`;
         confirmDelete.appendChild(pDel);
+        
+        const delButtons = document.createElement('div');
+        delButtons.className = 'show-delete-buttons';
+        
         const cancel = document.createElement('button');
-        cancel.className = 'cancel_delete';
+        cancel.className = 'cancel_delete shadow-box';
         cancel.textContent = 'Annuler';
-        confirmDelete.appendChild(cancel);
+        delButtons.appendChild(cancel);
+        
         const linkDelete = document.createElement('a');
         linkDelete.href = `/supprimer/liste/${donnee.id}`;
         const btnDel = document.createElement('button');
-        btnDel.className = 'supprimer-button';
+        btnDel.className = 'supprimer-button supprimer-button-show-delete shadow-box';
         btnDel.textContent = 'Supprimer';
         linkDelete.appendChild(btnDel);
-        confirmDelete.appendChild(linkDelete);
+        delButtons.appendChild(linkDelete);
+        
+        confirmDelete.appendChild(delButtons);
         footer.appendChild(confirmDelete);
 
         card.appendChild(footer);
 
+        // Ajout de la carte au conteneur
         divResultat.appendChild(card);
     });
 }
