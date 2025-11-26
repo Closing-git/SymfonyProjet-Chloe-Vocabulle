@@ -111,8 +111,17 @@
 				<div class="quizz-resultat-favori">
 					<p>Mettre en favori :
 					</p>
-					<div class='heart-contener'></div>
+					{% if app.user.favListes.contains(liste.id) %}
+						<div class='heart-contener' data-id="{{ liste.id }}" >
+
+						</div>
+					{% else %}
+						<div class='heart-contener' data-id="{{ liste.id }}" >
+
+						</div>
+					{% endif %}
 				</div>
+
 				<div class="quizz-resultat-boutons">
 					<div class="boutons-questions-erreurs">
 						<a href="{{path('app_quizz_refaire_erreurs', {id_liste:liste.id} )}}">
@@ -123,16 +132,16 @@
 
 						<a href="{{path('app_quizzoptions', {id_liste:liste.id} )}}">
 							<button>Retour aux
-																							options</button>
+																																																																																																																								options</button>
 						</a>
 
 						<a href="{{path('app_accueil')}}">
 							<button>Retour aux
-																							listes</button>
+																																																																																																																								listes</button>
 						</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-{% endblock %}
+</div></div></div></div></div></div></div>{% endblock %}
