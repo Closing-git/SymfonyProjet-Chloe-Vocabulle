@@ -37,139 +37,144 @@
 				<div class="cards-contener">
 
 					{% for liste in listesVocabulaire %}
-						<div class="card shadow-box">
-							<div class='en-tete-card'>
+						{% if (liste.getCreateur() == app.user) or (liste.isPublicStatut()) %}
 
-								<span class="langue">{{ liste.getLangues()[0].nom }}</span>
-								{% if liste.publicStatut %}
-									<div class="createur-liste">
-										<img src="{{asset('img/public-statut.png')}}">
-										<p>{{ liste.getCreateur().getNom() }}</p>
-									</div>
-								{% endif %}
-								<span class="langue">{{ liste.getLangues()[1].nom }}</span>
-							</div>
-							<div class="titre-liste-contener">
-								<p class="titre-liste shadow">
-									{{liste.titre}}</p>
+							<div class="card shadow-box">
+								<div class='en-tete-card'>
 
-								<div title="Note globale, jouez pour noter vous-même" class='note-liste'>
-									{% if liste.getNoteTotale() %}
-										{% if liste.getNoteTotale() == 0 %}
-											{% for i in range(1, 5) %}
-												<img src="{{asset('img/star-empty-icon.png')}}">
-											{% endfor %}
+									<span class="langue">{{ liste.getLangues()[0].nom }}</span>
+									{% if liste.publicStatut %}
+										<div class="createur-liste">
+											<img src="{{asset('img/public-statut.png')}}">
+											<p>{{ liste.getCreateur().getNom() }}</p>
+										</div>
+									{% endif %}
+									<span class="langue">{{ liste.getLangues()[1].nom }}</span>
+								</div>
+								<div class="titre-liste-contener">
+									<p class="titre-liste shadow">
+										{{liste.titre}}</p>
 
-										{% elseif liste.getNoteTotale() == 1 %}
+									<div title="Note globale, jouez pour noter vous-même" class='note-liste'>
+										{% if liste.getNoteTotale() %}
+											{% if liste.getNoteTotale() == 0 %}
+												{% for i in range(1, 5) %}
+													<img src="{{asset('img/star-empty-icon.png')}}">
+												{% endfor %}
 
-											<img src="{{asset('img/star-full-icon.png')}}">
+											{% elseif liste.getNoteTotale() == 1 %}
 
-
-											{% for i in range(1, 4) %}
-												<img src="{{asset('img/star-empty-icon.png')}}">
-											{% endfor %}
-
-										{% elseif liste.getNoteTotale() == 2 %}
-											{% for i in range(1, 2) %}
 												<img src="{{asset('img/star-full-icon.png')}}">
-											{% endfor %}
 
-											{% for i in range(1, 3) %}
+
+												{% for i in range(1, 4) %}
+													<img src="{{asset('img/star-empty-icon.png')}}">
+												{% endfor %}
+
+											{% elseif liste.getNoteTotale() == 2 %}
+												{% for i in range(1, 2) %}
+													<img src="{{asset('img/star-full-icon.png')}}">
+												{% endfor %}
+
+												{% for i in range(1, 3) %}
+													<img src="{{asset('img/star-empty-icon.png')}}">
+												{% endfor %}
+
+											{% elseif liste.getNoteTotale() == 3 %}
+												{% for i in range(1, 3) %}
+													<img src="{{asset('img/star-full-icon.png')}}">
+												{% endfor %}
+
+												{% for i in range(1, 2) %}
+													<img src="{{asset('img/star-empty-icon.png')}}">
+												{% endfor %}
+
+											{% elseif liste.getNoteTotale() == 4 %}
+												{% for i in range(1, 4) %}
+													<img src="{{asset('img/star-full-icon.png')}}">
+												{% endfor %}
+
 												<img src="{{asset('img/star-empty-icon.png')}}">
-											{% endfor %}
 
-										{% elseif liste.getNoteTotale() == 3 %}
-											{% for i in range(1, 3) %}
-												<img src="{{asset('img/star-full-icon.png')}}">
-											{% endfor %}
+											{% elseif liste.getNoteTotale() == 5 %}
+												{% for i in range(1, 5) %}
+													<img src="{{asset('img/star-full-icon.png')}}">
+												{% endfor %}
 
-											{% for i in range(1, 2) %}
-												<img src="{{asset('img/star-empty-icon.png')}}">
-											{% endfor %}
+											{% endif %}
 
-										{% elseif liste.getNoteTotale() == 4 %}
-											{% for i in range(1, 4) %}
-												<img src="{{asset('img/star-full-icon.png')}}">
-											{% endfor %}
+										{% else %}
 
-											<img src="{{asset('img/star-empty-icon.png')}}">
-
-										{% elseif liste.getNoteTotale() == 5 %}
-											{% for i in range(1, 5) %}
-												<img src="{{asset('img/star-full-icon.png')}}">
-											{% endfor %}
+											<span>Pas encore de note
+											</span>
 
 										{% endif %}
+									</div>
+								</div>
 
+								<form
+									method="post" action="{{ path('app_fav_toggle', { id: liste.id }) }}">
+									{# TOKEN pour se protéger #}
+									<input type="hidden" name="_token" value="{{ csrf_token('fav_toggle_' ~ liste.id) }}">
+
+									{% if app.user in liste.getUtilisateursQuiFav() %}
+										<img class="heart-icon" title="Cliquez pour enlever des favoris" src="{{asset('img/heart-icon.png')}}">
 									{% else %}
-
-										<span>Pas encore de note
-										</span>
-
+										<img class="heart-icon" title="Cliquez pour mettre en favori" src="{{asset('img/heart-empty-icon.png')}}">
 									{% endif %}
-								</div>
-							</div>
 
-							<form
-								method="post" action="{{ path('app_fav_toggle', { id: liste.id }) }}">
-								{# TOKEN pour se protéger #}
-								<input type="hidden" name="_token" value="{{ csrf_token('fav_toggle_' ~ liste.id) }}">
+								</form>
 
-								{% if app.user in liste.getUtilisateursQuiFav() %}
-									<img class="heart-icon" title="Cliquez pour enlever des favoris" src="{{asset('img/heart-icon.png')}}">
-								{% else %}
-									<img class="heart-icon" title="Cliquez pour mettre en favori" src="{{asset('img/heart-empty-icon.png')}}">
-								{% endif %}
+								<p title="Votre meilleur score en difficile" class="meilleur-score">
+									{% if liste.getBestScoreMostDifficult(app.user) == 'Pas encore de meilleur score'%}
+										Pas encore de score
+									{% else %}
+										Best :
+										{{ liste.getBestScoreMostDifficult(app.user) }}
+										%
+									{% endif %}
+								</p>
 
-							</form>
+								<div
+									class="footer-card">
+									{# Changer le path plus tard #}
+									<a href="{{path('app_quizzoptions', {id_liste:liste.id} )}}">
+										<div class="play-icon">
+											<img class="play-img" src="{{asset('img/play-icon.png')}}">
+										</div>
+									</a>
 
-							<p title="Votre meilleur score en difficile" class="meilleur-score">
-								{% if liste.getBestScoreMostDifficult(app.user) == 'Pas encore de meilleur score'%}
-									Pas encore de score
-								{% else %}
-									Best :
-									{{ liste.getBestScoreMostDifficult(app.user) }}
-									%
-								{% endif %}
-							</p>
-
-							<div
-								class="footer-card">
-								{# Changer le path plus tard #}
-								<a href="{{path('app_quizzoptions', {id_liste:liste.id} )}}">
-									<div class="play-icon">
-										<img class="play-img" src="{{asset('img/play-icon.png')}}">
+									<div class='edit-and-delete'>
+										{% if liste.createur == app.user %}
+											<a href="{{path('app_modifier_liste', {id_liste:liste.id} )}}">
+												<div class="edit-delete-icon">
+													<img src="{{asset('img/edit-pen-icon.png')}}">
+												</div>
+											</a>
+											<a href="">
+												<div class="edit-delete-icon supprimer-button">
+													<img src="{{asset('img/recycle-bin-icon.png')}}">
+												</div>
+											</a>
+										{% endif %}
 									</div>
-								</a>
 
-								<div class='edit-and-delete'>
-									<a href="{{path('app_modifier_liste', {id_liste:liste.id} )}}">
-										<div class="edit-delete-icon">
-											<img src="{{asset('img/edit-pen-icon.png')}}">
+
+									<div class='confirm_delete hidden shadow-box'>
+										<img src="{{asset('img/attention-icon.png')}}">
+										<p>Êtes-vous sûr-e de vouloir supprimer la liste :
+																																																																																											"{{liste.titre}}"
+																																																																																											?</p>
+										<div class='show-delete-buttons'>
+											<button class='cancel_delete shadow-box'>Annuler</button>
+											<a href="{{path('app_supprimer_liste', {id_liste:liste.id} )}}">
+												<button class="supprimer-button supprimer-button-show-delete shadow-box">Supprimer</button>
+											</a>
 										</div>
-									</a>
-									<a href="">
-										<div class="edit-delete-icon supprimer-button">
-											<img src="{{asset('img/recycle-bin-icon.png')}}">
-										</div>
-									</a>
-								</div>
-
-
-								<div class='confirm_delete hidden shadow-box'>
-									<img src="{{asset('img/attention-icon.png')}}">
-									<p>Êtes-vous sûr-e de vouloir supprimer la liste :
-										"{{liste.titre}}"
-										?</p>
-									<div class='show-delete-buttons'>
-										<button class='cancel_delete shadow-box'>Annuler</button>
-										<a href="{{path('app_supprimer_liste', {id_liste:liste.id} )}}">
-											<button class="supprimer-button supprimer-button-show-delete shadow-box">Supprimer</button>
-										</a>
 									</div>
 								</div>
 							</div>
-						</div>
+						{% endif %}
 					{% endfor %}
 				</div>
 				<div>

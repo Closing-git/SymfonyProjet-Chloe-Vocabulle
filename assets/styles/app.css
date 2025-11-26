@@ -560,6 +560,7 @@ header {
     margin: auto;
     justify-content: center;
     align-items: center;
+    height: 2rem;
 }
 
 .edit-delete-icon {
@@ -918,7 +919,7 @@ header {
     display: flex;
     align-items: center;
     text-align: center;
-    margin-right:5.5rem
+    margin-right: 5.5rem
 }
 
 .reponse-et-icon-presque {
