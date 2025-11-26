@@ -115,7 +115,7 @@
 				</div>
 				<div class="quizz-resultat-boutons">
 					<div class="boutons-questions-erreurs">
-						<a href="">
+						<a href="{{path('app_quizz_refaire_erreurs', {id_liste:liste.id} )}}">
 							<button>Refaire seulement les erreurs</button>
 						</a>
 					</div>
@@ -123,12 +123,12 @@
 
 						<a href="{{path('app_quizzoptions', {id_liste:liste.id} )}}">
 							<button>Retour aux
-															options</button>
+																							options</button>
 						</a>
 
 						<a href="{{path('app_accueil')}}">
 							<button>Retour aux
-															listes</button>
+																							listes</button>
 						</a>
 					</div>
 				</div>

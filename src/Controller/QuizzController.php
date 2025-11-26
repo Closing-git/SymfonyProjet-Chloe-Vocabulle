@@ -9,6 +9,7 @@ use App\Form\ReponseType;
 use App\Form\ReponseMoyenType;
 use Doctrine\ORM\EntityManager;
 use App\Entity\ListeVocabulaire;
+use App\Entity\Traduction;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -69,12 +70,14 @@ final class QuizzController extends AbstractController
         $score = $session->get('score', 0);
         $scoreEnPourcentage = $session->get('scoreEnPourcentage', 0);
 
+
         if ($questions == []) {
             $questions = $traductions;
             $session->set('questions', $questions);
             $session->set('current_question', 0);
             $session->set('score', 0);
             $session->set('scoreEnPourcentage', 0);
+            $session->set('difficulte', $difficulte);
             // Enregistrer la langue cible et la langue source
             if ($liste->getLangues()[1]->getNom() == $langueCible) {
                 $langueSource = $liste->getLangues()[0]->getNom();
@@ -86,6 +89,7 @@ final class QuizzController extends AbstractController
         }
 
         $currentQuestion = $questions[$i_question] ?? null;
+        $nb_questions = count($questions);
 
 
         //Quizz en fonction de chaque difficulté :
@@ -102,10 +106,11 @@ final class QuizzController extends AbstractController
                 $a_traduireApresErreur = $session->get('a_traduireApresErreur', []);
                 $langueCible = $session->get('langue_cible');
                 $langueSource = $session->get('langue_source');
+
+
                 //Supprimer les infos de la session
                 $session->remove('erreurs');
                 $session->remove('bonnesReponses');
-                $session->remove('questionsApresErreur');
                 $session->remove('questions');
                 $session->remove('current_question');
                 $session->remove('score');
@@ -185,6 +190,7 @@ final class QuizzController extends AbstractController
             } else {
                 $p_difficulte = "Moyen";
                 $premiereLettre = $bonneReponse[0];
+
                 //Création du form avec définition des options (première lettre en attribut)
                 $Reponseform = $this->createForm(ReponseMoyenType::class, null, ['premiere_lettre' => $premiereLettre]);
                 $Reponseform->handleRequest($request);
@@ -280,6 +286,7 @@ final class QuizzController extends AbstractController
                             'bonneReponse' => $bonneReponse,
                             'reponse' => $reponse,
                             'a_traduire' => $a_traduire,
+                            'nb_questions' => $nb_questions
 
                         ]);
                     } else {
@@ -326,6 +333,8 @@ final class QuizzController extends AbstractController
                             'bonneReponse' => $bonneReponse,
                             'reponse' => $reponse,
                             'a_traduire' => $a_traduire,
+                            'nb_questions' => $nb_questions
+
 
                         ]);
                     } else {
@@ -367,17 +376,9 @@ final class QuizzController extends AbstractController
                     'bonneReponse' => $bonneReponse,
                     'reponse' => $reponse,
                     'a_traduire' => $a_traduire,
+                    'nb_questions' => $nb_questions
 
                 ]);
-
-
-
-                // return $this->redirectToRoute('app_quizz', [
-                //     'id_liste' => $id_liste,
-                //     'langue_cible' => $langueCible,
-                //     'difficulte' => $difficulte,
-                //     'caracteresSpeciaux' => $caracteres
-                // ]);
             }
 
 
@@ -394,6 +395,7 @@ final class QuizzController extends AbstractController
                 'majStatut' => $majStatut,
                 'id_liste' => $id_liste,
                 'caracteresSpeciaux' => $caracteres,
+                'nb_questions' => $nb_questions
 
             ]);
         } else {
@@ -405,5 +407,37 @@ final class QuizzController extends AbstractController
 
         $vars = ["Reponseform" => $Reponseform, "scoreEnPourcentage" => $scoreEnPourcentage, "p_difficulte" => $p_difficulte, "liste" => $liste, "langue_cible" => $langueCible, "majStatut" => $majStatut, "i_question" => $i_question, "difficulte" => $difficulte];
         return $this->render('quizz/quizz_questions.html.twig', $vars);
+    }
+
+
+    #[Route('/quizz/refaire-erreurs/{id_liste}', name: 'app_quizz_refaire_erreurs')]
+    public function quizzRefaireErreurs(Request $request, EntityManagerInterface $em, int $id_liste): Response
+    {
+        $session = $request->getSession();
+        $questionsApresErreur = $session->get('questionsApresErreur');
+
+        //Remettre à zéro et set les nouvelles questions
+        $session->set('questions', $questionsApresErreur);
+        $session->set('current_question', 0);
+        $session->set('score', 0);
+        $session->set('scoreEnPourcentage', 0);
+        $session->set('erreurs', []);
+        $session->set('bonneReponses', []);
+        $session->set('a_traduireApresErreur', []);
+
+        //Vider les questionsApresErreur pour ne pas les (re)stocker
+        $session->set('questionsApresErreur', []);
+
+        //Récupérer les options du quizz pour les envoyer à app_quizz
+        $difficulte = $session->get('difficulte');
+        $langueCible = $session->get('langue_cible');
+        $vars = [
+            'id_liste' => $id_liste,
+            'difficulte' => $difficulte,
+            'langue_cible' => $langueCible,
+        ];
+
+
+        return $this->redirectToRoute('app_quizz', $vars);
     }
 }
