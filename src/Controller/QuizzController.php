@@ -56,11 +56,11 @@ final class QuizzController extends AbstractController
 
 
         if ($liste->getLangues()[1]->getNom() == $langueCible) {
-            $majStatut = $liste->getLangues()[1]->isMajImportante();
-            $caracteres = $liste->getLangues()[1]->getCaracteresSpeciaux();
-        } else {
             $majStatut = $liste->getLangues()[0]->isMajImportante();
             $caracteres = $liste->getLangues()[0]->getCaracteresSpeciaux();
+        } else {
+            $majStatut = $liste->getLangues()[1]->isMajImportante();
+            $caracteres = $liste->getLangues()[1]->getCaracteresSpeciaux();
         }
 
         //Créer la session et l'initialiser
