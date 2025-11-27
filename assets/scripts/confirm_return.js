@@ -1,7 +1,8 @@
 function ReturnConfirm() {
-    //Choisis l'une ou l'autre div en fonction de la page
-    let container = document.querySelector('.questions-contener') || document.querySelector('.modifier-liste-contener');
 
+    //Choisis l'une ou l'autre div en fonction de la page (page questions ou questions_corriges ou page modifier)
+    let container = document.querySelector('.questions-contener') || document.querySelector('.modifier-liste-contener');
+    //Si y'a pas de container correspondant, ne fait rien
     if (!container) {
         return;
     }
@@ -10,58 +11,53 @@ function ReturnConfirm() {
         if (container.dataset.uiInit === '1') return;
         container.dataset.uiInit = '1';
     }
+
     let logo = document.querySelector('#logo');
 
-    // Délégation d'événements pour gérer aussi les éléments injectés dynamiquement
+    // Gestion du clic sur le logo
     logo.addEventListener('click', (e) => {
-        // 1) Clic sur le logo = déclencheur
+        e.preventDefault(); // Empêche la navigation si le logo vu que logo est dans un <a>
 
-        const triggerBtn = logo;
-        if (triggerBtn && !triggerBtn.closest('.confirm_delete')) {
-            e.preventDefault(); // Empêche la navigation si le bouton est dans un <a>
+        const confirmBlock = container.querySelector('.confirm_delete');
+        if (!confirmBlock) return;
 
-            const confirmBlock = container.querySelector('.confirm_delete');
-            console.log(confirmBlock)
-
-            if (!confirmBlock) return;
+        // Passe de hidden à show et vice versa
+        if (confirmBlock.classList.contains('hidden')) {
             confirmBlock.classList.remove('hidden');
             confirmBlock.classList.add('show-delete');
-            return; // ne pas poursuivre
-        }
-
-        // 2) Clic sur "Annuler" dans le bloc de confirmation
-        const cancelBtn = target.closest('.cancel_delete');
-        if (cancelBtn) {
-            e.preventDefault();
-            const confirmBlock = cancelBtn.closest('.confirm_delete');
-            if (!confirmBlock) return;
+        } else {
             confirmBlock.classList.remove('show-delete');
             confirmBlock.classList.add('hidden');
-            return;
         }
+    });
 
-        // 3) Clic en dehors du bloc ouvert -> fermer
-        const anyOpen = container.querySelector('.confirm_delete.show-delete');
+
+    // Gestion du clic n'importe où sur le document pour quitter la modale
+    document.addEventListener('click', (e) => {
+        const target = e.target;
+        //Récupère la modale ouverte
+        const anyOpen = document.querySelector('.confirm_delete.show-delete');
+
+        // Si une modale est ouverte et que le clic est en dehors
         if (anyOpen) {
-            const clickedInside = anyOpen.contains(target);
-            const clickedTrigger = !!target.closest('.supprimer-button');
-            if (!clickedInside && !clickedTrigger) {
+            const clickedInsideModal = anyOpen.contains(target);
+            const clickedOnTrigger = target.closest('.supprimer-button') || target.closest('#logo');
+
+            //Si on ne clique pas dans le modal ni sur le bouton (logo ou close), alors ferme
+            if (!clickedInsideModal && !clickedOnTrigger) {
                 anyOpen.classList.remove('show-delete');
                 anyOpen.classList.add('hidden');
-
+                return;
             }
         }
-    })
 
+        // Si le clic est sur le conteneur, on continue 
+        if (!container.contains(target)) return;
 
-    container.addEventListener('click', (e) => {
-        const target = e.target;
-
-        // 1) Clic sur un bouton .supprimer-button déclencheur
-
+        // 1) Clic sur un bouton .supprimer-button 
         const triggerBtn = target.closest('.supprimer-button');
         if (triggerBtn && !triggerBtn.closest('.confirm_delete')) {
-            e.preventDefault(); // Empêche la navigation si le bouton est dans un <a>
+            e.preventDefault(); // Empêche le comportement par défaut
 
             const confirmBlock = container.querySelector('.confirm_delete');
             console.log(confirmBlock)
@@ -84,13 +80,14 @@ function ReturnConfirm() {
         }
 
         // 3) Clic en dehors du bloc ouvert -> fermer
-        const anyOpen = container.querySelector('.confirm_delete.show-delete');
-        if (anyOpen) {
-            const clickedInside = anyOpen.contains(target);
-            const clickedTrigger = !!target.closest('.supprimer-button');
-            if (!clickedInside && !clickedTrigger) {
-                anyOpen.classList.remove('show-delete');
-                anyOpen.classList.add('hidden');
+        const openModal = container.querySelector('.confirm_delete.show-delete');
+        if (openModal) {
+            const clickedInside = openModal.contains(target);
+            const clickedOnTrigger = target.closest('.supprimer-button') || target.closest('#logo');
+
+            if (!clickedInside && !clickedOnTrigger) {
+                openModal.classList.remove('show-delete');
+                openModal.classList.add('hidden');
             }
         }
     });
