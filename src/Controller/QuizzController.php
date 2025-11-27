@@ -56,11 +56,11 @@ final class QuizzController extends AbstractController
 
 
         if ($liste->getLangues()[1]->getNom() == $langueCible) {
-            $majStatut = $liste->getLangues()[0]->isMajImportante();
-            $caracteres = $liste->getLangues()[0]->getCaracteresSpeciaux();
-        } else {
             $majStatut = $liste->getLangues()[1]->isMajImportante();
             $caracteres = $liste->getLangues()[1]->getCaracteresSpeciaux();
+        } else {
+            $majStatut = $liste->getLangues()[0]->isMajImportante();
+            $caracteres = $liste->getLangues()[0]->getCaracteresSpeciaux();
         }
 
         //Créer la session et l'initialiser
@@ -177,11 +177,11 @@ final class QuizzController extends AbstractController
 
             //En fonction de la langue cible, afficher le bon mot à traduire et récupérer la bonne réponse
             if ($liste->getLangues()[1]->getNom() == $langueCible) {
-                $a_traduire = $currentQuestion->getMotLangue2();
-                $bonneReponse = $currentQuestion->getMotLangue1();
-            } else {
                 $a_traduire = $currentQuestion->getMotLangue1();
                 $bonneReponse = $currentQuestion->getMotLangue2();
+            } else {
+                $a_traduire = $currentQuestion->getMotLangue2();
+                $bonneReponse = $currentQuestion->getMotLangue1();
             }
             if ($difficulte == "difficile") {
                 $p_difficulte = "Difficile";

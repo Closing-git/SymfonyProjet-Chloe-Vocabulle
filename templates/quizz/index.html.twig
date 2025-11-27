@@ -42,7 +42,7 @@
 	{{ form_start(formQuizz)}}
 	{{ form_row (formQuizz.difficulte) }}
 	{# Champ caché pour la langue cible #}
-	<input type="hidden" id="langue_cible" name="langue_cible" value="{{ liste.getLangues()[1].nom }}">
+	<input type="hidden" id="langue_cible" name="langue_cible" value="{{ liste.getLangues()[0].nom }}">
 
 	<button type="submit">
 	<img src="{{ asset('img/play-icon.png') }}" alt="Play">
