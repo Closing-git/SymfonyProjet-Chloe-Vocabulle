@@ -8,6 +8,7 @@ function initSwitch() {
     const reponse_en = document.getElementById('reponse_en');
     const langue_cible = document.getElementById('langue_cible');
 
+
     //Vérifier que tout est initialisé, sinon attendre quelques secondes pour relancer la fonction
     if (!langue1 || !langue2 || !reponse_en || !langue_cible) {
         console.log('Éléments non trouvés, réessayez dans 100ms');

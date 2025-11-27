@@ -8,8 +8,8 @@ function ReturnConfirm() {
     }
     else {
         // Évite double attachement (DOMContentLoaded + turbo:load)
-        if (container.dataset.uiInit === '1') return;
-        container.dataset.uiInit = '1';
+        if (container.dataset.uiInitReturn === '1') return;
+        container.dataset.uiInitReturn = '1';
     }
 
     let logo = document.querySelector('#logo');
@@ -60,7 +60,6 @@ function ReturnConfirm() {
             e.preventDefault(); // Empêche le comportement par défaut
 
             const confirmBlock = container.querySelector('.confirm_delete');
-            console.log(confirmBlock)
 
             if (!confirmBlock) return;
             confirmBlock.classList.remove('hidden');

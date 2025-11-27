@@ -5,11 +5,11 @@ function caracSpeciauxType() {
         return;
     }
 
-    if (container.dataset.uiInit === '1') {
-        container.dataset.uiInit = '0';
+    if (container.dataset.uiInitCarac === '1') {
+        container.dataset.uiInitCarac = '0';
         return;
     }
-    container.dataset.uiInit = '1';
+    container.dataset.uiInitCarac = '1';
 
     document.addEventListener('click', (e) => {
         const target = e.target;
@@ -17,10 +17,18 @@ function caracSpeciauxType() {
 
         if (!triggerBtn) return;
 
-        const input = container.querySelector('input[type="text"], input:not([type])');
-        if (!input) {
+        // Cibler l'input dans le formulaire
+        const form = container.querySelector('form');
+        if (!form) {
             return;
         }
+
+        const input = form.querySelector('input[type="text"], input:not([type])');
+        if (!input) {
+
+            return;
+        }
+        
 
         input.value += triggerBtn.textContent.trim();
         input.focus();
@@ -28,6 +36,6 @@ function caracSpeciauxType() {
 }
 
 // Gestion du chargement initial et des navigations Turbo
-document.addEventListener('turbo:render', caracSpeciauxType);
+
 document.addEventListener('turbo:load', caracSpeciauxType);
 document.addEventListener('DOMContentLoaded', caracSpeciauxType);
