@@ -123,11 +123,13 @@
 				</div>
 
 				<div class="quizz-resultat-boutons">
+					{% if questionsApresErreur %}
 					<div class="boutons-questions-erreurs">
 						<a href="{{path('app_quizz_refaire_erreurs', {id_liste:liste.id} )}}">
 							<button>Refaire seulement les erreurs</button>
 						</a>
 					</div>
+					{% endif %}
 					<div class="boutons-questions">
 
 						<a href="{{path('app_quizzoptions', {id_liste:liste.id} )}}">

@@ -27,14 +27,14 @@
 	</div>
 
 <div class="quizz-info-langues">
-	<p id="langue1">{{liste.getLangues()[0].nom}}</p>
+	<p id="langue1">{{liste.getLangues()[1].nom}}</p>
 	<img src="{{ asset('img/switch-icon.png') }}" alt="Switch" id="switch_button">
-	<p id="langue2">{{liste.getLangues()[1].nom}}</p>
+	<p id="langue2">{{liste.getLangues()[0].nom}}</p>
 </div>
 <div class="quizz-info-reponse-maj">
 	<p id="reponse_en">Vous devrez entrer vos réponses en
-		{{liste.getLangues()[1].nom}} (cliquez sur les flèches pour changer).</p>
-	{% if liste.getLangues()[1].majImportante == true %}
+		{{liste.getLangues()[0].nom}} (cliquez sur les flèches pour changer).</p>
+	{% if liste.getLangues()[0].majImportante == true %}
 		<p>Attention, les majuscules sont importantes dans vos réponses.</p>
 	{% endif %}
 </div>
