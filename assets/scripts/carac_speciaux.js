@@ -1,29 +1,33 @@
 function caracSpeciauxType() {
     const container = document.querySelector('.questions-contener');
-    if (!container) return;
 
+    if (!container) {
+        return;
+    }
 
-    // Évite double attachement (DOMContentLoaded + turbo:load)
-    if (container.dataset.uiInit === '1') return;
+    if (container.dataset.uiInit === '1') {
+        container.dataset.uiInit = '0';
+        return;
+    }
     container.dataset.uiInit = '1';
 
-    // Délégation d'événements pour gérer aussi les éléments injectés dynamiquement
-    container.addEventListener('click', (e) => {
+    document.addEventListener('click', (e) => {
         const target = e.target;
         const triggerBtn = target.closest('.carac-speciaux');
-        if (triggerBtn) {
-            const input = triggerBtn.closest('.questions-contener').querySelector('input');
-            input.value += triggerBtn.textContent.trim();
-            input.focus();
 
+        if (!triggerBtn) return;
+
+        const input = container.querySelector('input[type="text"], input:not([type])');
+        if (!input) {
+            return;
         }
+
+        input.value += triggerBtn.textContent.trim();
+        input.focus();
     });
 }
 
-//Turbo:load => Pour quand on vient de login (parce que symfony utilise turbo qui ne charge que le body et pas toute la page)
+// Gestion du chargement initial et des navigations Turbo
+document.addEventListener('turbo:render', caracSpeciauxType);
 document.addEventListener('turbo:load', caracSpeciauxType);
-document.addEventListener('DOMContentLoaded', () => {
-    caracSpeciauxType();
-});
-
-
+document.addEventListener('DOMContentLoaded', caracSpeciauxType);

@@ -15,7 +15,6 @@ function toggleFav() {
 
 //Récupère l'id de la liste via le html
         let listeId = heartContainer.dataset.id;
-        console.log(listeId);
         heartContainer.addEventListener('click', function () {
             try {
                 console.log("Tentative d'ajout aux favoris pour la liste ID:", listeId);
