@@ -5,8 +5,55 @@ function ReturnConfirm() {
     if (!container) {
         return;
     }
+    else {
+        // Évite double attachement (DOMContentLoaded + turbo:load)
+        if (container.dataset.uiInit === '1') return;
+        container.dataset.uiInit = '1';
+    }
+    let logo = document.querySelector('#logo');
 
     // Délégation d'événements pour gérer aussi les éléments injectés dynamiquement
+    logo.addEventListener('click', (e) => {
+        // 1) Clic sur le logo = déclencheur
+
+        const triggerBtn = logo;
+        if (triggerBtn && !triggerBtn.closest('.confirm_delete')) {
+            e.preventDefault(); // Empêche la navigation si le bouton est dans un <a>
+
+            const confirmBlock = container.querySelector('.confirm_delete');
+            console.log(confirmBlock)
+
+            if (!confirmBlock) return;
+            confirmBlock.classList.remove('hidden');
+            confirmBlock.classList.add('show-delete');
+            return; // ne pas poursuivre
+        }
+
+        // 2) Clic sur "Annuler" dans le bloc de confirmation
+        const cancelBtn = target.closest('.cancel_delete');
+        if (cancelBtn) {
+            e.preventDefault();
+            const confirmBlock = cancelBtn.closest('.confirm_delete');
+            if (!confirmBlock) return;
+            confirmBlock.classList.remove('show-delete');
+            confirmBlock.classList.add('hidden');
+            return;
+        }
+
+        // 3) Clic en dehors du bloc ouvert -> fermer
+        const anyOpen = container.querySelector('.confirm_delete.show-delete');
+        if (anyOpen) {
+            const clickedInside = anyOpen.contains(target);
+            const clickedTrigger = !!target.closest('.supprimer-button');
+            if (!clickedInside && !clickedTrigger) {
+                anyOpen.classList.remove('show-delete');
+                anyOpen.classList.add('hidden');
+
+            }
+        }
+    })
+
+
     container.addEventListener('click', (e) => {
         const target = e.target;
 

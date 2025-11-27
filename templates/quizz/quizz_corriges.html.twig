@@ -74,17 +74,22 @@ const onKeydown = function (e) {
 if (e.key !== 'Enter') 
 return;
 
+
+
 const active = document.activeElement;
-//Récupère le tag s'il y a bien un element active
+// Récupère le tag s'il y a bien un element active
 const tag = active && active.tagName ? active.tagName.toUpperCase() : '';
 // Ne pas intercepter Enter quand on est en train de saisir dans un champ (exemple dans quizz questions)
 if (tag === 'INPUT' || tag === 'TEXTAREA') 
 return;
-//Sinon on clique sur boutonSuivant
+
+
+
+// Sinon on clique sur boutonSuivant
 boutonSuivant.click();
 };
 
-//Lancer la fonction quand on keydown
+// Lancer la fonction quand on keydown
 window.addEventListener('keydown', onKeydown);
 
 
@@ -105,10 +110,18 @@ init();
 })();
 				</script>
 			</div>
+			<div class='confirm_delete hidden shadow-box'>
+				<img src="{{asset('img/attention-icon.png')}}">
+				<p>Êtes-vous sûr-e de vouloir quitter ?</p>
+				<p>Votre score ne sera pas enregistré.</p>
+				<div class='show-delete-buttons'>
+					<button class='cancel_delete shadow-box'>Annuler</button>
+					<a href="{{path('app_accueil')}}">
+						<button class="supprimer-button supprimer-button-show-delete shadow-box">Retour à l'accueil</button>
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
-</div></div></div><div class='confirm_delete hidden shadow-box'><img src="{{asset('img/attention-icon.png')}}"><p>Êtes-vous sûr-e de vouloir quitter ?</p><p>Votre score ne sera pas enregistré.</p><div class='show-delete-buttons'>
-<button class='cancel_delete shadow-box'>Annuler</button>
-<a href="{{path('app_accueil')}}">
-	<button class="supprimer-button supprimer-button-show-delete shadow-box">Retour à l'accueil</button>
-</a></div></div></div></div>{% endblock %}
+
+{% endblock %}
