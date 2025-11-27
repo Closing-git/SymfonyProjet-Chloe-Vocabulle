@@ -4,64 +4,73 @@
 {% endblock %}
 
 {% block body %}
-<div id="main-contener"> 
-<div class="quizz-container">
-	<div class="quizz-entete">
-	<h2 class="shadow">{{liste.titre}}</h2>
-	<a href="{{path('app_accueil')}}">
-	<div class="circle-bouton-retour">
-		<img src="{{ asset('img/retour-icon.png') }}" alt="Retour">
-	</div>
-	</a>
-	</div>
-	<div class="quizz-info">
-	<p>{{liste.traduction.count()}} mots</p>
-		{% if liste.getBestScoreMostDifficult(app.user) == "Pas encore de meilleur score" %}
-		<p>Pas encore de score</p>
-		{% else %}
-		<p>Meilleur score :
-		{{liste.getBestScoreMostDifficult(app.user)}} % </p>
-		{% endif %}
-	<p>Créé par :
-		{{liste.createur.nom}}</p>
-	</div>
+	<div id="main-contener">
+		<div class="quizz-container">
+			<div class="quizz-entete">
+				<h2 class="shadow">{{liste.titre}}</h2>
+				<a href="{{path('app_accueil')}}">
+					<div class="circle-bouton-retour">
+						<img src="{{ asset('img/retour-icon.png') }}" alt="Retour">
+					</div>
+				</a>
+			</div>
+			<div class="quizz-info">
+				<p>{{liste.traduction.count()}}
+					mots</p>
+				{% if liste.getBestScoreMostDifficult(app.user) == "Pas encore de meilleur score" %}
+					<p>Pas encore de score</p>
+				{% else %}
+					<p>Meilleur score :
+						{{liste.getBestScoreMostDifficult(app.user)}}
+						%
+					</p>
+				{% endif %}
+				<p>Créé par :
+					{{liste.createur.nom}}</p>
+			</div>
 
-<div class="quizz-info-langues">
-	<p id="langue1">{{liste.getLangues()[1].nom}}</p>
-	<img src="{{ asset('img/switch-icon.png') }}" alt="Switch" id="switch_button">
-	<p id="langue2">{{liste.getLangues()[0].nom}}</p>
-</div>
-<div class="quizz-info-reponse-maj">
-	<p id="reponse_en">Vous devrez entrer vos réponses en
-		{{liste.getLangues()[0].nom}} (cliquez sur les flèches pour changer).</p>
-	{% if liste.getLangues()[0].majImportante == true %}
-		<p>Attention, les majuscules sont importantes dans vos réponses.</p>
-	{% endif %}
-</div>
-<div class="quizz-info-difficulte">
-	{{ form_start(formQuizz)}}
-	{{ form_row (formQuizz.difficulte) }}
-	{# Champ caché pour la langue cible #}
-	<input type="hidden" id="langue_cible" name="langue_cible" value="{{ liste.getLangues()[0].nom }}">
+			<div class="quizz-info-langues">
+				<p id="langue1">{{liste.getLangues()[1].nom}}</p>
+				<img src="{{ asset('img/switch-icon.png') }}" alt="Switch" id="switch_button">
+				<p id="langue2">{{liste.getLangues()[0].nom}}</p>
+			</div>
+			<div class="quizz-info-reponse-maj">
+				<p id="reponse_en">Vous devrez entrer vos réponses en
+					{{liste.getLangues()[0].nom}}
+					(cliquez sur les flèches pour changer).</p>
+				{% if liste.getLangues()[0].majImportante == true %}
+					<p>Attention, les majuscules sont importantes en
+						{{liste.getLangues()[0].nom}}.</p>
+				{% endif %}
+				{% if liste.getLangues()[1].majImportante == true %}
+					<p>Attention, les majuscules sont importantes en
+						{{liste.getLangues()[1].nom}}.</p>
+				{% endif %}
 
-	<button type="submit">
-	<img src="{{ asset('img/play-icon.png') }}" alt="Play">
-	</button>
+			</div>
+			<div class="quizz-info-difficulte">
+				{{ form_start(formQuizz)}}
+				{{ form_row (formQuizz.difficulte) }}
+				{# Champ caché pour la langue cible #}
+				<input type="hidden" id="langue_cible" name="langue_cible" value="{{ liste.getLangues()[0].nom }}">
 
-	{{ form_end(formQuizz)}}
-{% block javascripts %}
-    {{ parent() }} {# Conserve les scripts du template parent #}
-    <script>
-        // Définir les variables globales
-		// |e('js') permet d'échapper les caractères spéciaux et donc d'éviter les erreurs dans mon code JS (de plus, c'est plus sécurisé)
-        window.langue1 = "{{ liste.getLangues()[0].nom|e('js') }}";
-        window.langue2 = "{{ liste.getLangues()[1].nom|e('js') }}";
-    </script>
-    <script src="{{ asset('js/switch_button.js') }}" defer></script>
-	
-{% endblock %}
-</div>
-</div>
-{% endblock %}
+				<button type="submit">
+					<img src="{{ asset('img/play-icon.png') }}" alt="Play">
+				</button>
 
+				{{ form_end(formQuizz)}}
+				{% block javascripts %}
+					{{ parent() }}
+					{# Conserve les scripts du template parent #}
+					<script>
+						// Définir les variables globales
+// |e('js') permet d'échapper les caractères spéciaux et donc d'éviter les erreurs dans mon code JS (de plus, c'est plus sécurisé)
+window.langue1 = "{{ liste.getLangues()[0].nom|e('js') }}";
+window.langue2 = "{{ liste.getLangues()[1].nom|e('js') }}";
+					</script>
+					<script src="{{ asset('js/switch_button.js') }}" defer></script>
 
+				{% endblock %}
+			</div>
+		</div>
+	{% endblock %}
