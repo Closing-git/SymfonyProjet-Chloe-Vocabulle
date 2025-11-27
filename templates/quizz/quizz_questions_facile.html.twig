@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quizz
+{% endblock %}
+
+{% block body %}
+	<div id="main-contener">
+		<div class="questions-contener">
+			<div class="quizz-entete">
+				<h2>
+					{{liste.titre}}</h2>
+				<div class="circle-bouton-close supprimer-button">
+					<a href="">
+						<img src="{{ asset('img/close-icon.png') }}" alt="Retour">
+					</a>
+				</div>
+			</div>
+			<div class="quizz-question-info">
+				<p>
+					{{i_question + 1}}
+					/
+					{{nb_questions}}
+					mots</p>
+				<p>Difficulté :
+					{{p_difficulte}}</p>
+				<p>Score :
+					{{scoreEnPourcentage}}
+					%</p>
+				<p>Langue cible :
+					{{langue_cible}}</p>
+				{% if majStatut == true %}
+					<p>(les majuscules sont importantes)</p>
+				{% endif %}
+			</div>
+			<p class='a-traduire'>{{a_traduire}}</p>
+			<div class="qcm-div">
+			{% for trad in reponseQCM %}
+				<p>{{trad}}</p>
+			{% endfor %}
+			</div>
+			<div class="boutons-questions">
+				<button type="submit" name='action' value="valider">
+					Valider
+				</button>
+				<button type="submit" name='action' value="passer" class="btn-passer">
+					Passer
+				</button>
+			</div>
+			<script>
+				// Pour effacer le contenu du champ de saisie quand on clique sur "Passer"
+(function () {
+const form = document.getElementById('reponse-form');
+if (! form) 
+return;
+
+
+const passerBtn = form.querySelector('button.btn-passer');
+if (! passerBtn) 
+return;
+
+
+passerBtn.addEventListener('click', function () {
+const input = form.querySelector('input[type="text"], input[type="search"], textarea');
+if (input) {
+input.value = '';
+}
+});
+})();
+			</script>
+			<div class='confirm_delete hidden shadow-box'>
+				<img src="{{asset('img/attention-icon.png')}}">
+				<p>Êtes-vous sûr-e de vouloir quitter ?</p>
+				<p>Votre score ne sera pas enregistré.</p>
+				<div class='show-delete-buttons'>
+					<button class='cancel_delete shadow-box'>Annuler</button>
+					<a href="{{path('app_accueil')}}">
+						<button class="supprimer-button supprimer-button-show-delete shadow-box">Retour à l'accueil</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

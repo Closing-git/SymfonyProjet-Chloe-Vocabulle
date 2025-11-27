@@ -398,10 +398,49 @@ final class QuizzController extends AbstractController
                 'nb_questions' => $nb_questions
 
             ]);
-        } else {
+        }
+        // FACILE
+        else {
             $Reponseform = $this->createForm(ReponseType::class);
             $Reponseform->handleRequest($request);
             $p_difficulte = "Facile";
+
+
+            if ($liste->getLangues()[1]->getNom() == $langueCible) {
+                $a_traduire = $currentQuestion->getMotLangue1();
+                $bonneReponse = $currentQuestion->getMotLangue2();
+            } else {
+                $a_traduire = $currentQuestion->getMotLangue2();
+                $bonneReponse = $currentQuestion->getMotLangue1();
+            }
+
+            //Récupérer des trad au hasard
+            $reponsesQCM = [];
+            $trads = $em->getRepository($liste->getTraductions());
+            for ($i = 0; $i < 4; $i++) {
+                $trad = $trads->getRandom();
+                $reponseQCM[] = $trad;
+            }
+
+
+
+            $vars = [
+                'Reponseform' => $Reponseform->createView(),
+                'question' => $currentQuestion,
+                'i_question' => $i_question,
+                'scoreEnPourcentage' => $scoreEnPourcentage,
+                'difficulte' => $difficulte,
+                'a_traduire' => $a_traduire,
+                'p_difficulte' => $p_difficulte,
+                'liste' => $liste,
+                'langue_cible' => $langueCible,
+                'majStatut' => $majStatut,
+                'id_liste' => $id_liste,
+                'caracteresSpeciaux' => $caracteres,
+                'nb_questions' => $nb_questions,
+                'reponseQCM'=> $reponseQCM,
+            ];
+            return $this->render('quizz/quizz_questions_facile.html.twig', $vars);
         }
 
 
