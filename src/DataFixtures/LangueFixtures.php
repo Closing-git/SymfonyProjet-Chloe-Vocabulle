@@ -59,7 +59,16 @@ class LangueFixtures extends Fixture
         $this->addReference('DE', $DE);
         $manager->persist($DE);
 
-        
+        //ES - ESPAGNOL
+
+        $ES = new Langue();
+        $ES->setNom("ES");
+        $ES->setMajImportante(false);
+
+        $arrayCaracSpeciaux = ['á', 'é', 'í', 'ñ', 'ó', 'ú', 'ü'];
+        $ES->setCaracteresSpeciaux($arrayCaracSpeciaux);
+        $this->addReference('ES', $ES);
+        $manager->persist($ES);
 
 
 

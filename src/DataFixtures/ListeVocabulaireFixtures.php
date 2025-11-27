@@ -36,11 +36,26 @@ class ListeVocabulaireFixtures extends Fixture implements DependentFixtureInterf
             $liste->setCreateur($this->getReference('user' . (rand(0, 4)), Utilisateur::class));
             //Met la liste en favori pour entre 0 à 3 utilisateurs
             for ($i2 = 0; $i2 < rand(0, 3); $i2++) {
-                $liste->addUtilisateursQuiFav($this->getReference('user' . rand(0, 4), Utilisateur::class)
+                $liste->addUtilisateursQuiFav(
+                    $this->getReference('user' . rand(0, 4), Utilisateur::class)
                 );
             }
             $manager->persist($liste);
         }
+
+        // Une liste de base pour tester :
+        $listeFRDE = new ListeVocabulaire();
+        $listeFRDE->setTitre("Pronoms");
+        $listeFRDE->setDateDerniereModif($faker->dateTimeBetween('-1 year', 'now'));
+        $listeFRDE->setPublicStatut(True);
+        $this->addReference('listeFRDE', $listeFRDE);
+        $listeFRDE->addLangue($this->getReference("FR", Langue::class));
+        $listeFRDE->addLangue($this->getReference("DE", Langue::class));
+        $listeFRDE->setCreateur($this->getReference('user' . (rand(0, 4)), Utilisateur::class));
+        $manager->persist($listeFRDE);
+
+
+
 
         $manager->flush();
     }
