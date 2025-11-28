@@ -383,6 +383,7 @@ header {
     background-color: #FFCD42;
     color: #363333;
     border-radius: 50%;
+    min-width: 4rem;
     width: 4rem;
     height: 4rem;
     display: flex;

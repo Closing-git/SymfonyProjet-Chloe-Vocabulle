@@ -28,19 +28,37 @@ class TraductionFixtures extends Fixture implements DependentFixtureInterface
         $mot1DE = 'ich';
         $mot2FR = 'tu';
         $mot2DE = 'du';
+        $mot3FR = 'il';
+        $mot3DE = 'er';
+        $mot4FR = 'elle';
+        $mot4DE = 'sie';
+
 
         $traductionFRDE = new Traduction();
         $traductionFRDE->setMotLangue1($mot1FR);
         $traductionFRDE->setMotLangue2($mot1DE);
         $traductionFRDE->setListeVocabulaire($this->getReference("listeFRDE", ListeVocabulaire::class));
-        $manager->persist($traductionFRDE);
-
+        
         $traductionFRDE2 = new Traduction();
         $traductionFRDE2->setMotLangue1($mot2FR);
         $traductionFRDE2->setMotLangue2($mot2DE);
         $traductionFRDE2->setListeVocabulaire($this->getReference("listeFRDE", ListeVocabulaire::class));
-
+        
+        $traductionFRDE3 = new Traduction();
+        $traductionFRDE3->setMotLangue1($mot3FR);
+        $traductionFRDE3->setMotLangue2($mot3DE);
+        $traductionFRDE3->setListeVocabulaire($this->getReference("listeFRDE", ListeVocabulaire::class));
+        
+        $traductionFRDE4 = new Traduction();
+        $traductionFRDE4->setMotLangue1($mot4FR);
+        $traductionFRDE4->setMotLangue2($mot4DE);
+        $traductionFRDE4->setListeVocabulaire($this->getReference("listeFRDE", ListeVocabulaire::class));
+        
+        $manager->persist($traductionFRDE);
         $manager->persist($traductionFRDE2);
+        $manager->persist($traductionFRDE3);
+        $manager->persist($traductionFRDE4);
+
 
         $manager->flush();
     }
