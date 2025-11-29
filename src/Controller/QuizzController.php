@@ -92,88 +92,89 @@ final class QuizzController extends AbstractController
         $nb_questions = count($questions);
 
 
-        //Quizz en fonction de chaque difficulté :
-        //DIFFICILE
-        if ($difficulte == "difficile" || $difficulte == "moyen") {
-
-            //Quand le quizz est fini (toutes les questions répondues)
-            if ($i_question >= count($questions)) {
-                //Supprimer les données de la session, mais stocker le score final et les erreurs + bonnes réponses
-                $erreurs = $session->get('erreurs', []);
-                $bonnesReponses = $session->get('bonnesReponses', []);
-                $score_final = $session->get('scoreEnPourcentage');
-                $questionsApresErreur = $session->get('questionsApresErreur', []);
-                $a_traduireApresErreur = $session->get('a_traduireApresErreur', []);
-                $langueCible = $session->get('langue_cible');
-                $langueSource = $session->get('langue_source');
+        //Quand le quizz est fini (toutes les questions répondues)
+        if ($i_question >= count($questions)) {
+            //Supprimer les données de la session, mais stocker le score final et les erreurs + bonnes réponses
+            $erreurs = $session->get('erreurs', []);
+            $bonnesReponses = $session->get('bonnesReponses', []);
+            $score_final = $session->get('scoreEnPourcentage');
+            $questionsApresErreur = $session->get('questionsApresErreur', []);
+            $a_traduireApresErreur = $session->get('a_traduireApresErreur', []);
+            $langueCible = $session->get('langue_cible');
+            $langueSource = $session->get('langue_source');
 
 
-                //Supprimer les infos de la session
-                $session->remove('erreurs');
-                $session->remove('bonnesReponses');
-                $session->remove('questions');
-                $session->remove('current_question');
-                $session->remove('score');
-                $session->remove('scoreEnPourcentage');
-                $session->remove('a_traduireApresErreur');
+            //Supprimer les infos de la session
+            $session->remove('erreurs');
+            $session->remove('bonnesReponses');
+            $session->remove('questions');
+            $session->remove('current_question');
+            $session->remove('score');
+            $session->remove('scoreEnPourcentage');
+            $session->remove('a_traduireApresErreur');
 
-                $infosJeu = $em->getRepository(InfosJeu::class)->findOneBy(['listeVocabulaire' => $liste, 'utilisateur' => $this->getUser()]);
+            $infosJeu = $em->getRepository(InfosJeu::class)->findOneBy(['listeVocabulaire' => $liste, 'utilisateur' => $this->getUser()]);
 
-                // Si aucunes infosJeu, créer un objet InfosJeu
-                if (!$infosJeu) {
-                    $infosJeu = new InfosJeu();
-                    $infosJeu->setListeVocabulaire($liste);
-                    $infosJeu->setUtilisateur($this->getUser());
-                    $infosJeu->setBestScores([0, 0, 0]); // Initialiser avec des scores à 0
-                    $em->persist($infosJeu);
-                }
-                $infosJeu->setDateDernierJeu(new \DateTime());
-
-                //Gérer meilleurs scores
-                $bestScores = $infosJeu->getBestScores();
-                if ($difficulte == "difficile") {
-                    $previousBestScore = $bestScores[2];
-                    $p_difficulte = "Difficile";
-                    if ($score_final > $previousBestScore) {
-                        $bestScores[2] = $score_final;
-                    }
-                } else {
-                    $p_difficulte = "Moyen";
-                    $previousBestScore = $bestScores[1];
-                    if ($score_final > $previousBestScore) {
-                        $bestScores[1] = $score_final;
-                    }
-                }
-                $note = $em->getRepository(Note::class)->findOneBy([
-                    'utilisateur' => $this->getUser(),
-                    'listeVocabulaire' => $liste
-                ]);
-
-                if ($note) {
-                    $userNote = $note->getMontantNote();
-                } else {
-                    $userNote = null;
-                }
-
-                $infosJeu->setBestScores($bestScores);
-                $em->flush();
-
-
-                return $this->render('quizz/quizz_resultat.html.twig', [
-                    'score_final' => $score_final,
-                    'id_liste' => $id_liste,
-                    'liste' => $liste,
-                    'p_difficulte' => $p_difficulte,
-                    'erreurs' => $erreurs,
-                    'bonnesReponses' => $bonnesReponses,
-                    'questionsApresErreur' => $questionsApresErreur,
-                    'a_traduireApresErreur' => $a_traduireApresErreur,
-                    'userNote' => $userNote,
-                    'langueCible' => $langueCible,
-                    'langueSource' => $langueSource,
-                    'caracteresSpeciaux' => $caracteres
-                ]);
+            // Si aucunes infosJeu, créer un objet InfosJeu
+            if (!$infosJeu) {
+                $infosJeu = new InfosJeu();
+                $infosJeu->setListeVocabulaire($liste);
+                $infosJeu->setUtilisateur($this->getUser());
+                $infosJeu->setBestScores([0, 0, 0]); // Initialiser avec des scores à 0
+                $em->persist($infosJeu);
             }
+            $infosJeu->setDateDernierJeu(new \DateTime());
+
+            //Gérer meilleurs scores
+            $bestScores = $infosJeu->getBestScores();
+            if ($difficulte == "difficile") {
+                $previousBestScore = $bestScores[2];
+                $p_difficulte = "Difficile";
+                if ($score_final > $previousBestScore) {
+                    $bestScores[2] = $score_final;
+                }
+            } else {
+                $p_difficulte = "Moyen";
+                $previousBestScore = $bestScores[1];
+                if ($score_final > $previousBestScore) {
+                    $bestScores[1] = $score_final;
+                }
+            }
+            $note = $em->getRepository(Note::class)->findOneBy([
+                'utilisateur' => $this->getUser(),
+                'listeVocabulaire' => $liste
+            ]);
+
+            if ($note) {
+                $userNote = $note->getMontantNote();
+            } else {
+                $userNote = null;
+            }
+
+            $infosJeu->setBestScores($bestScores);
+            $em->flush();
+
+
+            return $this->render('quizz/quizz_resultat.html.twig', [
+                'score_final' => $score_final,
+                'id_liste' => $id_liste,
+                'liste' => $liste,
+                'p_difficulte' => $p_difficulte,
+                'erreurs' => $erreurs,
+                'bonnesReponses' => $bonnesReponses,
+                'questionsApresErreur' => $questionsApresErreur,
+                'a_traduireApresErreur' => $a_traduireApresErreur,
+                'userNote' => $userNote,
+                'langueCible' => $langueCible,
+                'langueSource' => $langueSource,
+                'caracteresSpeciaux' => $caracteres
+            ]);
+        }
+
+
+        //Quizz en fonction de chaque difficulté :
+        //DIFFICILE OU MOYEN
+        if ($difficulte == "difficile" || $difficulte == "moyen") {
 
             //En fonction de la langue cible, afficher le bon mot à traduire et récupérer la bonne réponse
             if ($liste->getLangues()[1]->getNom() == $langueCible) {
@@ -187,7 +188,9 @@ final class QuizzController extends AbstractController
                 $p_difficulte = "Difficile";
                 $Reponseform = $this->createForm(ReponseType::class);
                 $Reponseform->handleRequest($request);
-            } else {
+            }
+            //Si moyen rempli avec la première lettre
+            else {
                 $p_difficulte = "Moyen";
                 $premiereLettre = $bonneReponse[0];
 
@@ -197,9 +200,7 @@ final class QuizzController extends AbstractController
             }
 
 
-
-
-            // Envoie de la réponse
+            // Envoi de la réponse
             if ($Reponseform->isSubmitted() && $Reponseform->isValid()) {
                 $reponse = $Reponseform->get('reponse')->getData();
 
@@ -399,10 +400,9 @@ final class QuizzController extends AbstractController
 
             ]);
         }
+
         // FACILE
         else {
-            $Reponseform = $this->createForm(ReponseType::class);
-            $Reponseform->handleRequest($request);
             $p_difficulte = "Facile";
 
 
@@ -416,16 +416,98 @@ final class QuizzController extends AbstractController
 
             //Récupérer des trad au hasard
             $reponsesQCM = [];
-            $trads = $em->getRepository($liste->getTraductions());
-            for ($i = 0; $i < 4; $i++) {
-                $trad = $trads->getRandom();
-                $reponseQCM[] = $trad;
+            $trads = $em->getRepository(ListeVocabulaire::class)->find($liste);
+            $trads = $trads->getTraduction();
+
+
+            // Obtenir des réponses aléatoires pour le QCM en fonction de la langue cible
+            for ($i = 0; $i < 3; $i++) {
+                if ($langueCible == $liste->getLangues()[1]->getNom()) {
+                    $trad = $trads[rand(0, (count($trads) - 1))]->getMotLangue2();
+                    while (in_array($trad, $reponsesQCM) || $trad == $bonneReponse) {
+                        $trad = $trads[rand(0, (count($trads) - 1))]->getMotLangue2();
+                    }
+                } else {
+                    $trad = $trads[rand(0, (count($trads) - 1))]->getMotLangue1();
+                    while (in_array($trad, $reponsesQCM) || $trad == $bonneReponse) {
+                        $trad = $trads[rand(0, (count($trads) - 1))]->getMotLangue1();
+                    }
+                }
+                $reponsesQCM[] = $trad;
+            }
+            $reponsesQCM[] = $bonneReponse;
+            shuffle($reponsesQCM);
+
+
+            //Envoi de la réponse 
+            if ($request->isMethod('POST')) {
+                $action = $request->request->get('action');
+
+                //Appui sur valider
+                if ($action === 'valider') {
+                    $reponse = $request->request->get('reponse');
+                }
+                //Appui sur passer
+                else {
+                    $reponse = "Pas de réponse";
+                }
+
+                //Si Bonne réponse
+                if ($reponse == $bonneReponse) {
+                    $score++;
+                    $scoreEnPourcentage = round(($score / count($questions)) * 100);
+                    $session->set('score', $score);
+                    $session->set('scoreEnPourcentage', $scoreEnPourcentage);
+                    $corrige = "Correct";
+                }
+                //Si Mauvaise réponse
+                else {
+                    $erreurs = $session->get('erreurs', []);
+                    $bonnesReponses = $session->get('bonnesReponses', []);
+                    $questionsApresErreur = $session->get('questionsApresErreur', []);
+                    $a_traduireApresErreur = $session->get('a_traduireApresErreur', []);
+
+                    $erreurs[] = $reponse;
+                    $bonnesReponses[] = $bonneReponse;
+                    $questionsApresErreur[] = $currentQuestion;
+                    $a_traduireApresErreur[] = $a_traduire;
+                    $corrige = "Inorrect";
+
+
+                    $session->set('erreurs', $erreurs);
+                    $session->set('bonnesReponses', $bonnesReponses);
+                    $session->set('questionsApresErreur', $questionsApresErreur);
+                    $session->set('a_traduireApresErreur', $a_traduireApresErreur);
+                }
+
+                // Mise à jour de la question suivante
+                $i_question++;
+                $session->set('current_question', $i_question);
+
+                // Corrigé de chaque question
+                return $this->render('quizz/quizz_corriges.html.twig', [
+                    'question' => $currentQuestion,
+                    'corrige' => $corrige,
+                    'liste' => $liste,
+                    'langue_cible' => $langueCible,
+                    'difficulte' => $difficulte,
+                    'i_question' => $i_question,
+                    'scoreEnPourcentage' => $scoreEnPourcentage,
+                    'a_traduire' => $a_traduire,
+                    'p_difficulte' => $p_difficulte,
+                    'majStatut' => $majStatut,
+                    'id_liste' => $id_liste,
+                    'caracteresSpeciaux' => $caracteres,
+                    'bonneReponse' => $bonneReponse,
+                    'reponse' => $reponse,
+                    'a_traduire' => $a_traduire,
+                    'nb_questions' => $nb_questions
+
+                ]);
             }
 
 
-
             $vars = [
-                'Reponseform' => $Reponseform->createView(),
                 'question' => $currentQuestion,
                 'i_question' => $i_question,
                 'scoreEnPourcentage' => $scoreEnPourcentage,
@@ -438,8 +520,9 @@ final class QuizzController extends AbstractController
                 'id_liste' => $id_liste,
                 'caracteresSpeciaux' => $caracteres,
                 'nb_questions' => $nb_questions,
-                'reponseQCM'=> $reponseQCM,
+                'reponsesQCM' => $reponsesQCM,
             ];
+
             return $this->render('quizz/quizz_questions_facile.html.twig', $vars);
         }
 

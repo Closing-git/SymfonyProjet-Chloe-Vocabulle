@@ -14,5 +14,6 @@ import './scripts/switch_button.js';
 import './scripts/confirm_return.js';
 import './scripts/carac_speciaux.js';
 import './scripts/toggle_fav.js';
+import './scripts/input_facile.js';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');

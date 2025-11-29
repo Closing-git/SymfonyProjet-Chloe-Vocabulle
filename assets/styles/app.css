@@ -875,6 +875,13 @@ header {
     cursor: pointer;
     background-color: #ffd76a;
 }
+/* 
+QUIZZ QUESTIONS FACILE QCM */
+
+.focus {
+    background-color: #e91818;
+}
+
 
 /* QUIZZ CORRIGE */
 

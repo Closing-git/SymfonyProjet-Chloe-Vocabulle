@@ -33,19 +33,25 @@
 				{% endif %}
 			</div>
 			<p class='a-traduire'>{{a_traduire}}</p>
-			<div class="qcm-div">
-			{% for trad in reponseQCM %}
-				<p>{{trad}}</p>
-			{% endfor %}
-			</div>
-			<div class="boutons-questions">
-				<button type="submit" name='action' value="valider">
-					Valider
-				</button>
-				<button type="submit" name='action' value="passer" class="btn-passer">
-					Passer
-				</button>
-			</div>
+			<form id="quizzFacileForm" action="{{path('app_quizz', {'id_liste': id_liste, 'difficulte': difficulte, 'langue_cible': langue_cible})}}" method="post" data-turbo="false">
+				<div class="qcm-div">
+					{% for trad in reponsesQCM %}
+						<button type="button" name='reponse_bouton' value="{{trad}}">
+							{{trad}}
+						</button>
+					{% endfor %}
+					{# Pour pouvoir stocker la réponse et l'envoyer vers le controller (avec js) #}
+					<input type="hidden" name="reponse" id="reponse">
+				</div>
+				<div class="boutons-questions">
+					<button type="submit" name='action' value="valider">
+						Valider
+					</button>
+					<button type="submit" name='action' value="passer" class="btn-passer">
+						Passer
+					</button>
+				</div>
+			</form>
 			<script>
 				// Pour effacer le contenu du champ de saisie quand on clique sur "Passer"
 (function () {
@@ -54,9 +60,11 @@ if (! form)
 return;
 
 
+
 const passerBtn = form.querySelector('button.btn-passer');
 if (! passerBtn) 
 return;
+
 
 
 passerBtn.addEventListener('click', function () {
