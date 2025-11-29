@@ -43,7 +43,7 @@ class ListeVocabulaireFixtures extends Fixture implements DependentFixtureInterf
             $manager->persist($liste);
         }
 
-        // Une liste de base pour tester :
+        // LISTE FR/DE Pronoms :
         $listeFRDE = new ListeVocabulaire();
         $listeFRDE->setTitre("Pronoms");
         $listeFRDE->setDateDerniereModif($faker->dateTimeBetween('-1 year', 'now'));
@@ -54,6 +54,16 @@ class ListeVocabulaireFixtures extends Fixture implements DependentFixtureInterf
         $listeFRDE->setCreateur($this->getReference('user' . (rand(0, 4)), Utilisateur::class));
         $manager->persist($listeFRDE);
 
+        // LISTE ENG/FR verbes de parole :
+        $listeENGFR = new ListeVocabulaire();
+        $listeENGFR->setTitre("Verbes de parole");
+        $listeENGFR->setDateDerniereModif($faker->dateTimeBetween('-1 year', 'now'));
+        $listeENGFR->setPublicStatut(True);
+        $this->addReference('listeENGFR', $listeENGFR);
+        $listeENGFR->addLangue($this->getReference("FR", Langue::class));
+        $listeENGFR->addLangue($this->getReference("ENG", Langue::class));
+        $listeENGFR->setCreateur($this->getReference('user' . (rand(0, 4)), Utilisateur::class));
+        $manager->persist($listeENGFR);
 
 
 
