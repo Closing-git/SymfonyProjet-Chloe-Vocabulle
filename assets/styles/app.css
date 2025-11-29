@@ -743,7 +743,7 @@ header {
 
 .questions-contener {
     width: 50%;
-    height: fit-content;
+    max-height: 80%;
     overflow: scroll;
     border-radius: 20px;
     color: #FFFFFF;
@@ -1011,6 +1011,7 @@ QUIZZ QUESTIONS FACILE QCM */
 .quizz-resultat-contener {
     width: 50%;
     height: fit-content;
+    max-height: 80%;
     overflow: scroll;
     border-radius: 20px;
     color: #FFFFFF;
@@ -1041,10 +1042,18 @@ QUIZZ QUESTIONS FACILE QCM */
 }
 
 
-.quizz-resultat-entete-difficulte-close {
+.quizz-resultat-entete-difficulte-close,
+.score-pas-sauvegarde {
     display: flex;
     justify-content: center;
 
+}
+
+.score-pas-sauvegarde {
+    text-align: center;
+    margin: auto;
+    font-size: 1rem;
+    margin-bottom: 2rem;
 }
 
 .quizz-resultat-entete-difficulte {
@@ -1065,11 +1074,14 @@ QUIZZ QUESTIONS FACILE QCM */
     height: 1.5rem;
 }
 
+
+
 .quizz-resultat-contenu {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
 }
 
 .quizz-resultat-contenu h3 {
