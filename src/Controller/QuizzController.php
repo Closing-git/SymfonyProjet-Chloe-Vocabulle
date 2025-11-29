@@ -22,7 +22,10 @@ final class QuizzController extends AbstractController
     public function quizzOptions(Request $request, EntityManagerInterface $em, int $id_liste): Response
     {
         $liste = $em->getRepository(ListeVocabulaire::class)->find($id_liste);
-        $formQuizz = $this->createForm(QuizzType::class);
+        //Calculer le nombre de traductions présentes dans la liste et l'envoyer vers le formulaire
+        //Pour gérer les cas où il y a moins de 4 traductions et que donc le QCM n'est pas possible
+        $nb_trad_liste = $liste->getTraduction()->count();
+        $formQuizz = $this->createForm(QuizzType::class, null, ['nb_trad_liste' => $nb_trad_liste]);
         $formQuizz->handleRequest($request);
 
         if ($formQuizz->isSubmitted() && $formQuizz->isValid()) {
