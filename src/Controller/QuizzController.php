@@ -102,6 +102,7 @@ final class QuizzController extends AbstractController
             $a_traduireApresErreur = $session->get('a_traduireApresErreur', []);
             $langueCible = $session->get('langue_cible');
             $langueSource = $session->get('langue_source');
+            $refaireStatut = $session->get('refaireStatut');
 
 
             //Supprimer les infos de la session
@@ -112,6 +113,7 @@ final class QuizzController extends AbstractController
             $session->remove('score');
             $session->remove('scoreEnPourcentage');
             $session->remove('a_traduireApresErreur');
+            $session->remove('refaireStatut');
 
             $infosJeu = $em->getRepository(InfosJeu::class)->findOneBy(['listeVocabulaire' => $liste, 'utilisateur' => $this->getUser()]);
 
@@ -151,8 +153,11 @@ final class QuizzController extends AbstractController
                 $userNote = null;
             }
 
-            $infosJeu->setBestScores($bestScores);
-            $em->flush();
+            //Si on a fait Refaire seulement les erreurs, le score ne sera pas retenu
+            if (!$refaireStatut) {
+                $infosJeu->setBestScores($bestScores);
+                $em->flush();
+            }
 
 
             return $this->render('quizz/quizz_resultat.html.twig', [
@@ -167,7 +172,8 @@ final class QuizzController extends AbstractController
                 'userNote' => $userNote,
                 'langueCible' => $langueCible,
                 'langueSource' => $langueSource,
-                'caracteresSpeciaux' => $caracteres
+                'caracteresSpeciaux' => $caracteres,
+                'refaireStatut' => $refaireStatut
             ]);
         }
 
@@ -449,7 +455,7 @@ final class QuizzController extends AbstractController
                 }
                 //Appui sur passer
                 else {
-                    $reponse = "Pas de réponse";
+                    $reponse = "";
                 }
 
                 //Si Bonne réponse
@@ -471,7 +477,7 @@ final class QuizzController extends AbstractController
                     $bonnesReponses[] = $bonneReponse;
                     $questionsApresErreur[] = $currentQuestion;
                     $a_traduireApresErreur[] = $a_traduire;
-                    $corrige = "Inorrect";
+                    $corrige = "Incorrect";
 
 
                     $session->set('erreurs', $erreurs);
@@ -546,6 +552,7 @@ final class QuizzController extends AbstractController
         $session->set('erreurs', []);
         $session->set('bonneReponses', []);
         $session->set('a_traduireApresErreur', []);
+        $session->set('refaireStatut', true);
 
         //Vider les questionsApresErreur pour ne pas les (re)stocker
         $session->set('questionsApresErreur', []);

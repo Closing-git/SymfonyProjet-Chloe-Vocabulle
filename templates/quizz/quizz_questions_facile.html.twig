@@ -36,7 +36,7 @@
 			<form id="quizzFacileForm" action="{{path('app_quizz', {'id_liste': id_liste, 'difficulte': difficulte, 'langue_cible': langue_cible})}}" method="post" data-turbo="false">
 				<div class="qcm-div">
 					{% for trad in reponsesQCM %}
-						<button type="button" name='reponse_bouton' value="{{trad}}">
+						<button title='Cliquez pour sélectionner cette réponse' type="button" name='reponse_bouton' value="{{trad}}">
 							{{trad}}
 						</button>
 					{% endfor %}

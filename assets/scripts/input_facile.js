@@ -3,7 +3,6 @@ function input_facile() {
         const boutonsReponse = document.querySelectorAll('button[name="reponse_bouton"]');
         const reponseUtilisateur = document.getElementById('reponse');
         if (!form || !boutonsReponse || !reponseUtilisateur) {
-            console.log("Form non trouvé");
             return
         }
         else {

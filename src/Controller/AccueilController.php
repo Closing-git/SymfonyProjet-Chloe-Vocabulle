@@ -31,7 +31,9 @@ final class AccueilController extends AbstractController
         $session->remove('questionsApresErreur');
         $session->remove('a_traduireApresErreur');
         $session->remove('presqueInit');
-        
+        $session->remove('refaireStatut');
+
+
         $form = $this->createForm(SearchFiltersListesVocabulaireType::class);
         $form->handleRequest($req);
         $listesVocabulaire = $manager->getRepository(ListeVocabulaire::class)->findAll();

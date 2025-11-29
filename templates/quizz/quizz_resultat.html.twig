@@ -25,6 +25,12 @@
 				</div>
 
 			</div>
+			<div>
+				{% if refaireStatut %}
+					<p>Ce score ne sera pas sauvegardé, car vous avez cliqué sur "Refaire seulement les erreurs". Seul le score réalisé sur la liste est sauvegardé.
+					</p>
+				{% endif %}
+			</div>
 			<div class="quizz-resultat-contenu">
 				{% if erreurs is empty %}
 					<h3>Bravo ! Vous n'avez fait aucune erreur</h3>
@@ -112,34 +118,30 @@
 					<p>Mettre en favori :
 					</p>
 					{% if app.user.favListes.contains(liste.id) %}
-						<div class='heart-contener' data-id="{{ liste.id }}" >
-
-						</div>
+						<div class='heart-contener' data-id="{{ liste.id }}"></div>
 					{% else %}
-						<div class='heart-contener' data-id="{{ liste.id }}" >
-
-						</div>
+						<div class='heart-contener' data-id="{{ liste.id }}"></div>
 					{% endif %}
 				</div>
 
 				<div class="quizz-resultat-boutons">
 					{% if questionsApresErreur %}
-					<div class="boutons-questions-erreurs">
-						<a href="{{path('app_quizz_refaire_erreurs', {id_liste:liste.id} )}}">
-							<button>Refaire seulement les erreurs</button>
-						</a>
-					</div>
+						<div class="boutons-questions-erreurs">
+							<a href="{{path('app_quizz_refaire_erreurs', {id_liste:liste.id} )}}">
+								<button>Refaire seulement les erreurs</button>
+							</a>
+						</div>
 					{% endif %}
 					<div class="boutons-questions">
 
 						<a href="{{path('app_quizzoptions', {id_liste:liste.id} )}}">
 							<button>Retour aux
-																																																																																																																								options</button>
+																																																																																																																																options</button>
 						</a>
 
 						<a href="{{path('app_accueil')}}">
 							<button>Retour aux
-																																																																																																																								listes</button>
+																																																																																																																																listes</button>
 						</a>
 					</div>
 				</div>
